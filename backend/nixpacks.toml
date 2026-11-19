@@ -1,0 +1,18 @@
+# Nixpacks: build sem usar secrets (VERIFY_TOKEN, FACEBOOK_APP_SECRET, etc.
+# são só em runtime; não declarar em [phases.*].secrets)
+
+[phases.setup]
+# ffmpeg do sistema: ffmpeg-static quebra em vários ambientes (Alpine/musl) e
+# o envio de áudio/PTT do WhatsApp depende de conversão OGG/Opus confiável.
+nixPkgs = ["nodejs_20", "ffmpeg"]
+
+[phases.install]
+# Inclui typescript (dependency) para db:migrate via ts-node em runtime.
+cmds = ["npm ci --include=dev"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+# typescript precisa estar instalado: migrations .ts usam ts-node/register.
+cmd = "NODE_ENV=production npm run db:migrate:status && NODE_ENV=production npm run db:migrate && NODE_ENV=production node dist/server.js"

@@ -1,0 +1,215 @@
+/* ResponsiveTable: tabela no desktop, cards no celular. Escopo restrito a .vb-rtable. */
+
+.vb-rtable [data-vb-more-cell] {
+  display: none;
+}
+
+/* Cabeçalho padronizado (sentence case, discreto) mesmo onde a página define caixa alta. */
+.vb-rtable > thead .MuiTableCell-head {
+  text-transform: none !important;
+  letter-spacing: -0.005em !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 599.95px) {
+  .MuiTableContainer-root:has(> .vb-rtable--cards),
+  .MuiPaper-root:has(> .vb-rtable--cards) {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  table.vb-rtable--cards.MuiTable-root {
+    display: block;
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: auto !important;
+    border-collapse: separate;
+  }
+
+  .vb-rtable--cards > thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .vb-rtable--cards > tbody,
+  .vb-rtable--cards > tfoot {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Último card rola acima dos botões flutuantes da página (criar, Brain.AI). */
+  main .vb-rtable--cards > tbody {
+    padding-bottom: 72px;
+  }
+
+  .vb-rtable--cards > tbody > tr {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--vb-ui-border, rgba(15, 23, 42, 0.08));
+    background: var(--vb-list-surface, #fff);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    height: auto !important;
+  }
+
+  .vb-rtable--cards > tbody > tr.Mui-selected,
+  .vb-rtable--cards > tbody > tr[aria-selected="true"] {
+    border-color: var(--vb-list-selected-border, rgba(37, 99, 235, 0.45));
+    box-shadow: 0 0 0 1px var(--vb-list-selected-border, rgba(37, 99, 235, 0.45));
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th) {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: 8px;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 5px 0 !important;
+    border: none !important;
+    text-align: left !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.35;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    order: 2;
+  }
+
+  /* Itens da célula ficam lado a lado à direita do rótulo e podem encolher. */
+  .vb-rtable--cards > tbody > tr > :is(td, th) > * {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    justify-content: flex-start !important;
+    margin-left: 0 !important;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-label]::before {
+    content: attr(data-label);
+    flex: 0 0 38%;
+    max-width: 140px;
+    color: var(--vb-list-muted, #71717a);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="primary"] {
+    order: 1;
+    font-size: 0.9375rem !important;
+    font-weight: 600;
+    padding: 0 40px 6px 0 !important;
+    color: var(--vb-list-text, inherit);
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="empty"] {
+    display: none;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="check"] {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: block;
+    padding: 0 !important;
+    width: auto !important;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="actions"] {
+    order: 99;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    padding-top: 8px !important;
+    border-top: 1px solid var(--vb-ui-divider, rgba(15, 23, 42, 0.06)) !important;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="actions"] > * {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end !important;
+    gap: 4px;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="actions"] .MuiIconButton-root {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="span"] {
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-cell="span"] > * {
+    flex: 1 1 auto;
+    justify-content: center !important;
+  }
+
+  .vb-rtable--cards > tbody > tr:has(> :is(td, th)[data-vb-cell="span"]:only-child) {
+    border-style: dashed;
+    box-shadow: none;
+  }
+
+  .vb-rtable--cards > tbody > tr[data-vb-collapsible]:not([data-vb-open]) > [data-vb-extra] {
+    display: none;
+  }
+
+  .vb-rtable--cards > tbody > tr > :is(td, th)[data-vb-more-cell] {
+    order: 98;
+    display: block;
+    padding: 4px 0 0 !important;
+  }
+
+  .vb-rtable--cards [data-vb-more] {
+    appearance: none;
+    border: none;
+    background: none;
+    padding: 6px 0;
+    min-height: 32px;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--vb-list-accent, #2563eb);
+    cursor: pointer;
+  }
+
+  .vb-rtable--cards [data-vb-more]:focus-visible {
+    outline: 2px solid var(--vb-list-accent, #2563eb);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .vb-rtable--cards > tbody > tr[data-vb-skeleton] > :is(td, th) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vb-rtable--cards > tbody > tr[data-vb-skeleton] > :is(td, th) > * {
+    display: block !important;
+  }
+
+  .vb-rtable--cards > tfoot > tr {
+    display: flex;
+    justify-content: center;
+  }
+}

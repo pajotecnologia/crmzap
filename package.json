@@ -1,0 +1,21 @@
+{
+  "name": "crm-source",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "description": "Scripts para instalar e executar frontend e backend localmente",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "dev:frontend": "cd frontend && npm run start",
+    "dev:backend": "cd backend && npm run dev",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:setup": "cd backend && npm run db:setup",
+    "brain:terminal": "node tools/brain-local-terminal/server.js",
+    "install:all": "npm install --prefix backend --no-fund --no-audit && npm install --prefix frontend --no-fund --no-audit",
+    "setup": "npm run install:all"
+  },
+  "overrides": {
+    "clsx": "1.2.1"
+  }
+}

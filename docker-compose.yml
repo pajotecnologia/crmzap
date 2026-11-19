@@ -1,0 +1,84 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-vbsolution}
+      POSTGRES_USER: ${POSTGRES_USER:-vbsolution}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vbsolution_db_pass_change_me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vbsolution} -d ${POSTGRES_DB:-vbsolution}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      BACKEND_URL: ${BACKEND_URL:-http://localhost:3000}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5090}
+      PUBLIC_BACKEND_URL: ${BACKEND_URL:-http://localhost:3000}
+      # Conexao PostgreSQL interna
+      DB_DIALECT: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER:-vbsolution}
+      DB_PASS: ${POSTGRES_PASSWORD:-vbsolution_db_pass_change_me}
+      DB_NAME: ${POSTGRES_DB:-vbsolution}
+      DB_SSL: "false"
+      # Conexao Redis interna (Filas Bull e Sessoes WhatsApp)
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_URI: redis://redis:6379
+      REDIS_URI_ACK: redis://redis:6379
+      # Segredos de Autenticacao
+      JWT_SECRET: ${JWT_SECRET:-vbsolution_jwt_secret_random_key_change_me}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-vbsolution_jwt_refresh_secret_random_key_change_me}
+    volumes:
+      - backend_public:/app/public
+    ports:
+      - "3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_URL: ${BACKEND_URL:-http://localhost:3000}
+        REACT_APP_LOCAL_MODE: "false"
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80"
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_public:

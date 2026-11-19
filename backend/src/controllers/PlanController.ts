@@ -1,0 +1,202 @@
+import { verify } from "jsonwebtoken";
+import authConfig from "../config/auth";
+import * as Yup from "yup";
+import { Request, Response } from "express";
+// import { getIO } from "../libs/socket";
+import AppError from "../errors/AppError";
+import Plan from "../models/Plan";
+
+import ListPlansService from "../services/PlanService/ListPlansService";
+import CreatePlanService from "../services/PlanService/CreatePlanService";
+import UpdatePlanService from "../services/PlanService/UpdatePlanService";
+import ShowPlanService from "../services/PlanService/ShowPlanService";
+import FindAllPlanService from "../services/PlanService/FindAllPlanService";
+import DeletePlanService from "../services/PlanService/DeletePlanService";
+import User from "../models/User";
+import Company from "../models/Company";
+
+interface TokenPayload {
+  id: string;
+  username: string;
+  profile: string;
+  companyId: number;
+  iat: number;
+  exp: number;
+}
+
+type IndexQuery = {
+  searchParam: string;
+  pageNumber: string;
+  listPublic: string;
+  paidOnly?: string;
+};
+
+type StorePlanData = {
+  name: string;
+  users: number | 0;
+  connections: number | 0;
+  queues: number | 0;
+  amount: string | "0";
+  useWhatsapp?: boolean;
+  useFacebook?: boolean;
+  useInstagram?: boolean;
+  useCampaigns?: boolean;
+  useSchedules?: boolean;
+  useInternalChat?: boolean;
+  useExternalApi?: boolean;
+  useKanban?: boolean;
+  useOpenAi?: boolean;
+  useIntegrations?: boolean;
+  isPublic?: boolean;
+  useWhatsappOfficial?: boolean;
+};
+
+type UpdatePlanData = {
+  name: string;
+  id?: number | string;
+  users?: number;
+  connections?: number;
+  queues?: number;
+  amount?: string;
+  useWhatsapp?: boolean;
+  useFacebook?: boolean;
+  useInstagram?: boolean;
+  useCampaigns?: boolean;
+  useSchedules?: boolean;
+  useInternalChat?: boolean;
+  useExternalApi?: boolean;
+  useKanban?: boolean;
+  useOpenAi?: boolean;
+  useIntegrations?: boolean;
+  isPublic?: boolean;
+  useWhatsappOfficial?: boolean;
+};
+
+export const index = async (req: Request, res: Response): Promise<Response> => {
+  const { searchParam, pageNumber, listPublic } = req.query as IndexQuery;
+
+  const authHeader = req.headers.authorization;
+  const [, token] = authHeader.split(" ");
+  const decoded = verify(token, authConfig.secret);
+  const { id: requestUserId, profile, companyId } = decoded as TokenPayload;
+  const requestUser = await User.findByPk(requestUserId);
+  const company = await Company.findByPk(companyId);
+  const PlanCompany = company.planId;
+  const plans = await Plan.findByPk(PlanCompany);
+  const plansName = plans.name;
+
+  if (requestUser.super === true) {
+    const { plans, count, hasMore } = await ListPlansService({
+      searchParam,
+      pageNumber
+    });
+
+    return res.json({ plans, count, hasMore });
+
+  } else {
+    const { plans, count, hasMore } = await ListPlansService({
+      searchParam: plansName,
+      pageNumber,
+      listPublic
+    });
+    return res.json({ plans, count, hasMore });
+
+  }
+
+};
+
+export const list = async (req: Request, res: Response): Promise<Response> => {
+  const { listPublic, paidOnly } = req.query as IndexQuery;
+  const onlyPaid = paidOnly === "true" || paidOnly === "1";
+
+  const plans: Plan[] = await FindAllPlanService(listPublic, onlyPaid);
+
+  if (res.headersSent) {
+    return res as any;
+  }
+  return res.status(200).json(plans);
+};
+
+export const store = async (req: Request, res: Response): Promise<Response> => {
+  const newPlan: StorePlanData = req.body;
+
+  const schema = Yup.object().shape({
+    name: Yup.string().required()
+  });
+
+  try {
+    await schema.validate(newPlan);
+  } catch (err) {
+    throw new AppError(err.message);
+  }
+
+  const plan = await CreatePlanService(newPlan);
+
+  // const io = getIO();
+  // io.of(companyId.toString())
+  // .emit("plan", {
+  //   action: "create",
+  //   plan
+  // });
+
+  return res.status(200).json(plan);
+};
+
+export const show = async (req: Request, res: Response): Promise<Response> => {
+  const { id } = req.params;
+
+  const authHeader = req.headers.authorization;
+  const [, token] = authHeader.split(" ");
+  const decoded = verify(token, authConfig.secret);
+  const { id: requestUserId, profile, companyId } = decoded as TokenPayload;
+  const requestUser = await User.findByPk(requestUserId);
+  const company = await Company.findByPk(companyId);
+  const PlanCompany = company.planId;
+
+  if (requestUser.super === true) {
+    const plan = await ShowPlanService(id);
+    return res.status(200).json(plan);
+  } else if (id !== PlanCompany.toString()) {
+    return res.status(400).json({ error: "Você não possui permissão para acessar este recurso!" });
+  } else if (id === PlanCompany.toString()) {
+    const plan = await ShowPlanService(id);
+    return res.status(200).json(plan);
+  }
+
+};
+
+export const update = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const planData: UpdatePlanData = { ...req.body, id: req.params.id };
+
+  const schema = Yup.object().shape({
+    name: Yup.string().trim().min(2, "ERR_PLAN_INVALID_NAME")
+  });
+
+  try {
+    await schema.validate(planData);
+  } catch (err) {
+    throw new AppError(err.message);
+  }
+
+  const plan = await UpdatePlanService(planData);
+
+  return res.status(200).json(plan);
+};
+
+export const remove = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { id } = req.params;
+
+  const companiesUsingPlan = await Company.count({ where: { planId: id } });
+  if (companiesUsingPlan > 0) {
+    throw new AppError("ERR_PLAN_IN_USE", 400);
+  }
+
+  await DeletePlanService(id);
+  return res.status(200).json({ message: "Plan deleted" });
+};

@@ -1,0 +1,11 @@
+{
+  "name": "vercel-email-worker",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.2.29",
+    "nodemailer": "^6.9.16"
+  }
+}

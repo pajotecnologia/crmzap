@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/send-mail", "dest": "/api/send-mail.js" },
+    { "src": "/api/verify-smtp", "dest": "/api/verify-smtp.js" },
+    { "src": "/api/health", "dest": "/api/health.js" },
+    { "src": "/", "dest": "/api/index.js" }
+  ]
+}
