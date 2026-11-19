@@ -26,8 +26,14 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/src/database/migrations ./src/database/migrations
 COPY --from=builder /app/src/database/seeds ./src/database/seeds
+COPY --from=builder /app/src/models ./src/models
 COPY --from=builder /app/config ./config
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/.sequelizerc ./.sequelizerc
+
+# Garante que o ts-node execute migrations e seeds com CommonJS sem erro de moduleResolution
+ENV TS_NODE_TRANSPILE_ONLY=true
+ENV TS_NODE_COMPILER_OPTIONS='{"module":"commonjs","moduleResolution":"node"}'
 
 EXPOSE 3000
 
