@@ -32,6 +32,10 @@ FROM nginx:alpine
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Script do docker-entrypoint para gerar env-config.js em runtime
+RUN printf '#!/bin/sh\ncat <<EOF > /usr/share/nginx/html/env-config.js\nwindow.ENV = {\n  REACT_APP_BACKEND_URL: "${REACT_APP_BACKEND_URL:-${BACKEND_URL:-}}",\n  REACT_APP_LOCAL_MODE: "${REACT_APP_LOCAL_MODE:-false}"\n};\nEOF\n' > /docker-entrypoint.d/40-generate-env.sh && \
+    chmod +x /docker-entrypoint.d/40-generate-env.sh
+
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -32,6 +32,19 @@ function normalizeBackendUrl(input) {
 
 export function getBackendUrl() {
     const raw = (getConfig("REACT_APP_BACKEND_URL") || "").trim();
+    if (typeof window !== "undefined" && window.location && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+        if (!raw || raw.includes("localhost") || raw.includes("127.0.0.1")) {
+            const host = window.location.hostname;
+            const proto = window.location.protocol;
+            if (host.startsWith("zap.")) {
+                return `${proto}//apizap.${host.replace(/^zap\./, "")}`;
+            }
+            if (host.startsWith("app.")) {
+                return `${proto}//api.${host.replace(/^app\./, "")}`;
+            }
+            return `${proto}//api.${host}`;
+        }
+    }
     if (!raw) {
         return DEFAULT_BACKEND_URL;
     }

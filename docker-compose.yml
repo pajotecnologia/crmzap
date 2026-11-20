@@ -72,6 +72,9 @@ services:
       args:
         REACT_APP_BACKEND_URL: ${BACKEND_URL:-http://localhost:3000}
         REACT_APP_LOCAL_MODE: "false"
+    environment:
+      REACT_APP_BACKEND_URL: ${BACKEND_URL:-}
+      REACT_APP_LOCAL_MODE: "false"
     restart: always
     depends_on:
       - backend

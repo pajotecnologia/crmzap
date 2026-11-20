@@ -21,15 +21,9 @@ const toastError = (err) => {
     !status || status >= 500 || err?.message === "Network Error" || err?.code === "ECONNABORTED";
 
   if (isNetworkOrServer) {
-    // Silencia erros de infraestrutura (ex.: DB/servidor indisponível) para não poluir a UI
-    // Mantém log para diagnóstico em dev (sem referenciar process diretamente)
-    const isDevEnv =
-      (typeof process !== "undefined" &&
-        process.env &&
-        process.env.NODE_ENV !== "production");
-    if (isDevEnv) {
-      // eslint-disable-next-line no-console
-      console.warn("[toastError] Silenciado erro de servidor/rede:", err);
+    if (!status || err?.message === "Network Error") {
+      const url = err?.config?.baseURL || "servidor";
+      toast.error(`Falha de conexão com a API (${url}). Verifique se o endereço da API está acessível.`);
     }
     return;
   }
