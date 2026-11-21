@@ -281,7 +281,7 @@ const SettingsCustom = () => {
   };
 
   /** Usar sempre `user` do AuthContext — `currentUser` podia ficar {} se o primeiro fetch rodasse antes do login hidratar. */
-  const isPlatformAdmin = () => isPlatformAdminEmail(user?.email);
+  const isPlatformAdmin = () => Boolean(user?.super) || isPlatformAdminEmail(user?.email);
 
   /** Identidade visual: helper único (allowlist, empresa 1, flag manual, WL, etc.). */
   const canIdentityVisualTab = () =>

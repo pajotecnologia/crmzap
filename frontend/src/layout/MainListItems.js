@@ -36,6 +36,7 @@ import {
 
 import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
 import { AuthContext } from "../context/Auth/AuthContext";
+import { isPlatformAdminEmail } from "../constants/fullOrgSettingsAdmin";
 import { isFreeTrialUser } from "../helpers/trialIntegrationFilter";
 import { isInternalAutomationUser } from "../hooks/useNavPermissions";
 import { useActiveMenu } from "../context/ActiveMenuContext";
@@ -631,7 +632,7 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
             collapsed={collapsed}
           />
           <Collapse in={openMoreSubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
-            <ListItemLink to="/leads-convertidos" primary={translateUi("Empresas")} icon={<AppIcon icon={Building2} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/leads-convertidos" primary={translateUi("Empresas (CRM)")} icon={<AppIcon icon={Building2} />} collapsed={collapsed} submenu />
             <ListItemLink
               to="/inventory"
               primary={translateUi("Inventário")}
@@ -710,6 +711,15 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
           )}
 
           <div className={classes.groupGap} aria-hidden />
+
+          {(user?.super || isPlatformAdminEmail(user?.email)) && (
+            <ListItemLink
+              to="/companies"
+              primary={translateUi("Empresas")}
+              icon={<AppIcon icon={Building2} />}
+              collapsed={collapsed}
+            />
+          )}
 
           <ListItemLink to="/settings" primary={translateUi("Configurações")} icon={<AppIcon icon={Settings} />} collapsed={collapsed} />
         </>

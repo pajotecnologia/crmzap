@@ -13,7 +13,11 @@ export function isFullOrgSettingsAdmin(user) {
 
 export function isPlatformAdminEmail(email) {
   const e = String(email || "").trim().toLowerCase();
-  return e === "admin@admin" || e === "admin@admin.com";
+  return (
+    e === "admin@admin" ||
+    e === "admin@admin.com" ||
+    e === "admin@local.dev"
+  );
 }
 
 /** Conta admin que gerencia planos (aba Configurações → Planos). Manter igual a backend/src/helpers/isPlansAdmin.ts. */
