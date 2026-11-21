@@ -138,7 +138,7 @@ export const WHATSAPP_WEB_CONNECTION_STEPS = [
   },
   {
     title: "Mensagens e fluxos",
-    desc: "Configure saudação, fora do horário, NPS e fluxos automáticos nos passos seguintes.",
+    desc: "No Passo 3 (Fluxos & Extras), configure mensagens de saudação, fora de horário, NPS e selecione os fluxos criados em Automações (Boas-vindas ou Padrão).",
     icon: WhatsApp,
     color: "#128C7E",
     links: [],

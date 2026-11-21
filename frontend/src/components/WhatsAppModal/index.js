@@ -1242,6 +1242,27 @@ const WhatsAppModal = ({
                 classes={classes}
                 NPSEnabled={NPSEnabled}
                 showFlow={user.showFlow === "enabled"}
+                onSelectStep={(targetStep) => {
+                  if (targetStep === wizardStep) return;
+                  if (targetStep < wizardStep) {
+                    setWizardStep(targetStep);
+                    return;
+                  }
+                  if (targetStep === STEP.QUEUES) {
+                    if (validateWizardStep(STEP.BASIC, values)) {
+                      setWizardStep(STEP.QUEUES);
+                    }
+                    return;
+                  }
+                  if (targetStep === STEP.NPS) {
+                    if (!validateWizardStep(STEP.BASIC, values)) return;
+                    if (whatsAppId || createdWhatsAppId) {
+                      setWizardStep(STEP.NPS);
+                    } else {
+                      handleWizardNext(values, submitForm, isSubmitting, setFieldValue);
+                    }
+                  }
+                }}
               />
             </Box>
             <Box

@@ -530,16 +530,13 @@ const useWizardStyles = makeStyles((theme) => ({
   },
 }));
 
-const WIZARD_STEPS = [
+export const getVisibleSteps = ({ NPSEnabled, showFlow } = {}) => [
   { id: STEP.BASIC, label: i18n.t("whatsappModal.wizard.steps.basic") },
   { id: STEP.QUEUES, label: i18n.t("whatsappModal.wizard.steps.service") },
-  { id: STEP.NPS, label: i18n.t("whatsappModal.wizard.steps.extras") },
+  ...(NPSEnabled || showFlow
+    ? [{ id: STEP.NPS, label: showFlow ? "Fluxos & Extras" : i18n.t("whatsappModal.wizard.steps.extras") }]
+    : []),
 ];
-
-export const getVisibleSteps = ({ NPSEnabled, showFlow } = {}) =>
-  WIZARD_STEPS.filter(
-    (s) => s.id !== STEP.NPS || NPSEnabled || showFlow
-  );
 
 export const WizardModalHeader = ({ isOfficialChannel, channel, onClose, isEdit }) => {
   const c = useWizardStyles();
@@ -572,7 +569,7 @@ export const WizardModalHeader = ({ isOfficialChannel, channel, onClose, isEdit 
   );
 };
 
-export const WizardStepIndicator = ({ step, classes, NPSEnabled, showFlow }) => {
+export const WizardStepIndicator = ({ step, classes, NPSEnabled, showFlow, onSelectStep }) => {
   const steps = getVisibleSteps({ NPSEnabled, showFlow });
 
   return (
@@ -582,7 +579,12 @@ export const WizardStepIndicator = ({ step, classes, NPSEnabled, showFlow }) => 
         const isDone = step > s.id;
 
         return (
-          <Box key={s.id} className={classes.wizardStepItem}>
+          <Box
+            key={s.id}
+            className={classes.wizardStepItem}
+            onClick={() => onSelectStep && onSelectStep(s.id)}
+            style={{ cursor: onSelectStep ? "pointer" : "default" }}
+          >
             <Box
               className={`${classes.wizardDot} ${
                 isActive
