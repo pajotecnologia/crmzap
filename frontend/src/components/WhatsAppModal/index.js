@@ -1153,16 +1153,7 @@ const WhatsAppModal = ({
           showToast: false,
         });
         if (!savedId) return;
-        const hasExtras = NPSEnabled || user.showFlow === "enabled";
-        if (hasExtras) {
-          setWizardStep(STEP.NPS);
-        } else {
-          if (typeof onConnectionSaved === "function") {
-            onConnectionSaved(savedId);
-          }
-          toast.success(i18n.t("whatsappModal.success"));
-          handleClose();
-        }
+        setWizardStep(STEP.NPS);
       } finally {
         setWizardSaving(false);
       }
@@ -1222,7 +1213,7 @@ const WhatsAppModal = ({
             onSkip={() => handleWizardSkip(isSubmitting, submitForm)}
             onSubmit={() => !isSubmitting && submitForm()}
             NPSEnabled={NPSEnabled}
-            showFlow={user.showFlow === "enabled"}
+            showFlow={true}
           />
         );
         const body = (
@@ -1244,7 +1235,7 @@ const WhatsAppModal = ({
                 step={wizardStep}
                 classes={classes}
                 NPSEnabled={NPSEnabled}
-                showFlow={user.showFlow === "enabled"}
+                showFlow={true}
                 onSelectStep={(targetStep) => {
                   if (targetStep === wizardStep) return;
                   if (targetStep < wizardStep) {
@@ -1337,7 +1328,7 @@ const WhatsAppModal = ({
                     touched={touched}
                     errors={errors}
                     NPSEnabled={NPSEnabled}
-                    showFlow={user.showFlow === "enabled"}
+                    showFlow={true}
                     webhooks={webhooks}
                     flowIdWelcome={flowIdWelcome}
                     flowIdNotPhrase={flowIdNotPhrase}

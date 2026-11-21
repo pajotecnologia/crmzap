@@ -530,12 +530,10 @@ const useWizardStyles = makeStyles((theme) => ({
   },
 }));
 
-export const getVisibleSteps = ({ NPSEnabled, showFlow } = {}) => [
+export const getVisibleSteps = () => [
   { id: STEP.BASIC, label: i18n.t("whatsappModal.wizard.steps.basic") },
   { id: STEP.QUEUES, label: i18n.t("whatsappModal.wizard.steps.service") },
-  ...(NPSEnabled || showFlow
-    ? [{ id: STEP.NPS, label: showFlow ? "Fluxos & Extras" : i18n.t("whatsappModal.wizard.steps.extras") }]
-    : []),
+  { id: STEP.NPS, label: "Fluxos & Extras" },
 ];
 
 export const WizardModalHeader = ({ isOfficialChannel, channel, onClose, isEdit }) => {
@@ -1444,38 +1442,29 @@ export const WizardStep4 = ({
           </Grid>
         </>
       )}
-      {showFlow && (
-        <>
-          <Typography className={ws.sectionCompact}>Fluxos</Typography>
-          <FormControl variant="outlined" margin="dense" fullWidth size="small" style={{ marginBottom: 8 }}>
-            <InputLabel shrink>{opt("Boas-vindas")}</InputLabel>
-            <Select value={flowIdNotPhrase || ""} onChange={handleChangeFlowIdNotPhrase} displayEmpty fullWidth>
-              <MenuItem value="">Nenhum</MenuItem>
-              {(webhooks || []).map((w) => (
-                <MenuItem key={w.id} value={w.id}>
-                  {w.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl variant="outlined" margin="dense" fullWidth size="small">
-            <InputLabel shrink>{opt("Padrão")}</InputLabel>
-            <Select value={flowIdWelcome || ""} onChange={handleChangeFlowIdWelcome} displayEmpty fullWidth>
-              <MenuItem value="">Nenhum</MenuItem>
-              {(webhooks || []).map((w) => (
-                <MenuItem key={w.id} value={w.id}>
-                  {w.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </>
-      )}
-      {!NPSEnabled && !showFlow && (
-        <Typography variant="caption" color="textSecondary" align="center" display="block" style={{ padding: 16 }}>
-          NPS e fluxos não disponíveis no plano. Toque em concluir.
-        </Typography>
-      )}
+      <Typography className={ws.sectionCompact}>Fluxos de Automação</Typography>
+      <FormControl variant="outlined" margin="dense" fullWidth size="small" style={{ marginBottom: 8 }}>
+        <InputLabel shrink>{opt("Boas-vindas")}</InputLabel>
+        <Select value={flowIdNotPhrase || ""} onChange={handleChangeFlowIdNotPhrase} displayEmpty fullWidth>
+          <MenuItem value="">Nenhum</MenuItem>
+          {(webhooks || []).map((w) => (
+            <MenuItem key={w.id} value={w.id}>
+              {w.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl variant="outlined" margin="dense" fullWidth size="small">
+        <InputLabel shrink>{opt("Padrão")}</InputLabel>
+        <Select value={flowIdWelcome || ""} onChange={handleChangeFlowIdWelcome} displayEmpty fullWidth>
+          <MenuItem value="">Nenhum</MenuItem>
+          {(webhooks || []).map((w) => (
+            <MenuItem key={w.id} value={w.id}>
+              {w.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Box>
   );
 };
@@ -1494,9 +1483,7 @@ export const WizardFooter = ({
   embedded = false,
 }) => {
   const c = useWizardStyles();
-  const hasExtras = NPSEnabled || showFlow;
-  const isLast =
-    wizardStep === STEP.NPS || (wizardStep === STEP.QUEUES && !hasExtras);
+  const isLast = wizardStep === STEP.NPS;
   const isOptionalStep = wizardStep === STEP.NPS;
   const showBack = wizardStep > STEP.BASIC;
 
