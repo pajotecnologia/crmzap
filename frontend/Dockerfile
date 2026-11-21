@@ -4,10 +4,11 @@ FROM node:20-slim AS builder
 WORKDIR /app
 
 # Otimizacoes criticas de memoria e build
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 ENV CI="false"
 ENV DISABLE_ESLINT_PLUGIN="true"
 ENV GENERATE_SOURCEMAP="false"
+ENV INLINE_RUNTIME_CHUNK="false"
 
 # Copia dependencias e scripts de correcao antes do install
 COPY package.json package-lock.json* .npmrc ./

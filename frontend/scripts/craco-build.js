@@ -7,7 +7,9 @@ const path = require("path");
 
 process.env.CI = "false";
 process.env.DISABLE_ESLINT_PLUGIN = "true";
-process.env.NODE_OPTIONS = "--max-old-space-size=4096";
+process.env.NODE_OPTIONS = "--max-old-space-size=2048";
+process.env.GENERATE_SOURCEMAP = "false";
+process.env.INLINE_RUNTIME_CHUNK = "false";
 
 const root = path.join(__dirname, "..");
 const cracoPkg = require.resolve("@craco/craco/package.json", { paths: [root] });
