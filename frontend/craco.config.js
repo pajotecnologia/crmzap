@@ -119,17 +119,6 @@ module.exports = {
       }
       webpackConfig.module.rules = rules;
 
-      // Otimizacoes criticas de memoria para build em VPS (evita OOM)
-      if (webpackConfig.optimization) {
-        if (Array.isArray(webpackConfig.optimization.minimizer)) {
-          webpackConfig.optimization.minimizer.forEach((plugin) => {
-            if (plugin && plugin.options) {
-              plugin.options.parallel = false;
-            }
-          });
-        }
-      }
-
       applyTailwindV4Postcss(webpackConfig);
 
       return webpackConfig;
