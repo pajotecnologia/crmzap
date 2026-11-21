@@ -9,6 +9,11 @@
           if (name && name.trim()) {
             document.title = name.trim();
           }
+          var fav = localStorage.getItem("appLogoFavicon");
+          if (fav && fav.trim()) {
+            var links = document.querySelectorAll("link[rel*='icon']");
+            links.forEach(function(l) { l.href = fav; });
+          }
         } catch (e) {}
       })();
     </script>

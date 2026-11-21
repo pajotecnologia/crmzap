@@ -1765,7 +1765,7 @@ const handleSaveCampaign = async (values) => {
                                 <img src="/favicon.png" alt="" className={classes.whatsappHeaderAvatarImg} />
                               </div>
                               <div className={classes.whatsappHeaderText}>
-                                <span className={classes.whatsappHeaderTitle}>VB</span>
+                                <span className={classes.whatsappHeaderTitle}>{localStorage.getItem("appName") || "WhatsApp"}</span>
                                 <span className={classes.whatsappHeaderSubtitle}>online</span>
                               </div>
                             </div>

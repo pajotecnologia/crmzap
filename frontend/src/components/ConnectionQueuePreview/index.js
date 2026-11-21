@@ -322,8 +322,18 @@ export default function ConnectionQueuePreview({
               className={`${classes.waAvatar} ${
                 compact ? classes.waAvatarCompact : ""
               }`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#128c7e",
+                color: "#ffffff",
+                fontSize: compact ? 10 : 12,
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
             >
-              <img src="/favicon.png" alt="" className={classes.waAvatarImg} />
+              {(brand || "WA").slice(0, 2).toUpperCase()}
             </Box>
             <Box className={classes.waHeaderText}>
               <div

@@ -29,7 +29,7 @@ export function getContactInitials(name, phone) {
   }
   const digits = String(phone || "").replace(/\D/g, "");
   if (digits.length >= 2) return digits.slice(-2);
-  return "VB";
+  return "WA";
 }
 
 /** Cor estável a partir do nome/telefone (paleta sóbria, produto). */
