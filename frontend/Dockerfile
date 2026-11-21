@@ -4,7 +4,7 @@ FROM node:20-slim AS builder
 WORKDIR /app
 
 # Otimizacoes criticas de memoria e build
-ENV NODE_OPTIONS="--max-old-space-size=1536"
+ENV NODE_OPTIONS="--max-old-space-size=6144"
 ENV CI="false"
 ENV DISABLE_ESLINT_PLUGIN="true"
 ENV GENERATE_SOURCEMAP="false"

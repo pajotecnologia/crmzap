@@ -7,7 +7,7 @@ const path = require("path");
 
 process.env.CI = "false";
 process.env.DISABLE_ESLINT_PLUGIN = "true";
-process.env.NODE_OPTIONS = "--max-old-space-size=1536";
+process.env.NODE_OPTIONS = "--max-old-space-size=6144";
 process.env.GENERATE_SOURCEMAP = "false";
 process.env.INLINE_RUNTIME_CHUNK = "false";
 
@@ -15,7 +15,7 @@ const root = path.join(__dirname, "..");
 const cracoPkg = require.resolve("@craco/craco/package.json", { paths: [root] });
 const cracoBin = path.join(path.dirname(cracoPkg), "dist", "bin", "craco.js");
 
-console.log("[craco-build] Iniciando build otimizado com limitador de memoria (1536MB) e worker unico...");
+console.log("[craco-build] Iniciando build com 6GB de heap para VPS com 16GB de memoria...");
 
 const result = spawnSync(process.execPath, [cracoBin, "build"], {
   stdio: "inherit",
