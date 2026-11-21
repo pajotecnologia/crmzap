@@ -13,7 +13,7 @@ const Route = ({ component: Component, isPrivate = false, title, allowWhenAuth =
 	useEffect(() => {
 		// Título base dinâmico conforme nome configurado na Identidade Visual
 		const appNameStored = localStorage.getItem("appName");
-		const baseTitle = appNameStored && appNameStored.trim() ? appNameStored.trim() : "VBSolution";
+		const baseTitle = appNameStored && appNameStored.trim() ? appNameStored.trim() : "PjzZAp";
 		
 		if (title) {
 			document.title = `${title} - ${baseTitle}`;

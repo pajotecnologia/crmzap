@@ -1146,7 +1146,7 @@ const AppThemeRoot = ({ children }) => {
           let fT = pickVal(rows, "appLogoTickets");
           if (!fT) fT = await gp("appLogoTickets", cid);
           const name = pickVal(rows, "appName");
-          const resolvedName = name != null ? String(name) : (await gp("appName", cid)) || "VBSolution";
+          const resolvedName = name != null ? String(name) : (await gp("appName", cid)) || "PjzZAp";
 
           if (cancelled) return;
 
@@ -1233,7 +1233,7 @@ const AppThemeRoot = ({ children }) => {
           setAppLogoDark(lDark ? getBackendUrl() + "/public/" + lDark : defaultLogoDark);
           setAppLogoFavicon(lFav ? getBackendUrl() + "/public/" + lFav : defaultLogoFavicon);
           setAppLogoTickets(lTick ? getBackendUrl() + "/public/" + lTick : "");
-          setAppName(aName || "VBSolution");
+          setAppName(aName || "PjzZAp");
         });
       } catch (e) {
         console.log("Theme load error", e);

@@ -1431,7 +1431,7 @@ const LoggedInLayout = ({ children, themeToggle, hideMenu = false }) => {
           <SidebarBrand
             key={`sidebar-logo-${theme.palette.sidebarMenuIsDarkLogo}-${String(sidebarLogoSrc)}`}
             src={sidebarLogoSrc}
-            alt={theme.appName || "VBSolution"}
+            alt={theme.appName || "PjzZAp"}
             collapsed={!drawerOpen}
             onError={handleSidebarLogoError}
             action={activeHeaderToggleId === null ? <SidebarToggleButton floating /> : null}

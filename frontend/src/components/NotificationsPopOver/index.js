@@ -477,14 +477,15 @@ const NotificationsPopOver = ({
 
 	const browserNotification = () => {
 		const numbers = "⓿➊➋➌➍➎➏➐➑➒➓⓫⓬⓭⓮⓯⓰⓱⓲⓳⓴";
+		const currentAppName = theme.appName || localStorage.getItem("appName") || "PjzZAp";
 		if (badgeCount > 0) {
 			if (badgeCount < 21) {
-				document.title = numbers.substring(badgeCount, badgeCount + 1) + " - " + (theme.appName || "...");
+				document.title = numbers.substring(badgeCount, badgeCount + 1) + " - " + currentAppName;
 			} else {
-				document.title = "(" + badgeCount + ")" + (theme.appName || "...");
+				document.title = "(" + badgeCount + ")" + currentAppName;
 			}
 		} else {
-			document.title = theme.appName || "...";
+			document.title = currentAppName;
 		}
 		return (
 			<>

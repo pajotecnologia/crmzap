@@ -974,7 +974,7 @@ export default function Whitelabel(props) {
         value: appName
       });
       updateSettingsLoaded("appName", appName);
-      colorMode.setAppName(appName || "VBSolution");
+      colorMode.setAppName(appName || "PjzZAp");
       toast.success("Nome da aplicação salvo com sucesso.");
     } catch (e) {
       toast.error("Não foi possível salvar o nome da aplicação.");
@@ -2038,7 +2038,7 @@ export default function Whitelabel(props) {
                             letterSpacing: "-0.02em",
                           }}
                         >
-                          {appName || settingsLoaded.appName || colorMode.appName || "VBSolution"}
+                          {appName || settingsLoaded.appName || colorMode.appName || "PjzZAp"}
                         </Typography>
                       </div>
                     </Box>
