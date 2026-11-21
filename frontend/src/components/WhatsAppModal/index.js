@@ -1009,7 +1009,7 @@ const WhatsAppModal = ({
         }
       }
 
-      if (typeof onConnectionSaved === "function") {
+      if (closeOnSuccess && typeof onConnectionSaved === "function") {
         onConnectionSaved(savedId);
       }
       if (showToast) {
@@ -1157,6 +1157,9 @@ const WhatsAppModal = ({
         if (hasExtras) {
           setWizardStep(STEP.NPS);
         } else {
+          if (typeof onConnectionSaved === "function") {
+            onConnectionSaved(savedId);
+          }
           toast.success(i18n.t("whatsappModal.success"));
           handleClose();
         }
