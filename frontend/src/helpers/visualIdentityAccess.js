@@ -6,15 +6,26 @@ import { isFullOrgSettingsAdmin } from "../constants/fullOrgSettingsAdmin";
 export function isPlatformWhitelabelIntroAccount(user) {
   if (!user) return false;
   const e = String(user.email || "").toLowerCase();
-  if (e === "admin@admin" || e === "admin@admin.com") return true;
+  if (
+    e === "admin@admin" ||
+    e === "admin@admin.com" ||
+    e === "admin@local.dev" ||
+    user.super
+  )
+    return true;
   return Number(user.companyId) === PLATFORM_DEFAULT_COMPANY_ID;
 }
 
 /** Só estas contas editam o nome da aplicação na Identidade Visual. */
 export function isWhitelabelAppNameEditor(user) {
   if (!user) return false;
+  if (user.super) return true;
   const e = String(user.email || "").toLowerCase();
-  return e === "admin@admin" || e === "admin@admin.com";
+  return (
+    e === "admin@admin" ||
+    e === "admin@admin.com" ||
+    e === "admin@local.dev"
+  );
 }
 
 /** Cor do texto dos botões principais na Identidade Visual: empresas tenant (não organização 1). */

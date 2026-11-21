@@ -18,6 +18,7 @@ import toastError from "../../errors/toastError";
 import useSettings from "../../hooks/useSettings";
 import MinimalLanguageSelector from "../../components/MinimalLanguageSelector";
 import { OFFICIAL_LOGO as logoVB } from "../../constants/defaultLogos";
+import { getBackendUrl } from "../../config";
 import { openApi } from "../../services/api";
 import {
     openGoogleLoginPopup,
@@ -317,6 +318,7 @@ const Login = () => {
     const [googleConfigured, setGoogleConfigured] = useState(true);
     const [googleAuthError, setGoogleAuthError] = useState(null);
     const [enabledLanguages, setEnabledLanguages] = useState(["pt-BR", "en", "es", "ar"]);
+    const [customLogo, setCustomLogo] = useState(null);
 
     const getCompanyIdFromUrl = () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -408,6 +410,14 @@ const Login = () => {
             .catch(() => {
                 setGoogleConfigured(false);
             });
+
+        getPublicSetting("appLogoLight", companyId)
+            .then((logo) => {
+                if (logo) {
+                    setCustomLogo(`${getBackendUrl()}/public/${logo}`);
+                }
+            })
+            .catch(() => {});
     }, [getPublicSetting]);
 
     return (
@@ -436,7 +446,7 @@ const Login = () => {
                 <div className={classes.centerWrap}>
                     <CssBaseline />
                     <div className={classes.paper}>
-                        <img src={logoVB} alt="VBsolution" className={classes.heroLogo} />
+                        <img src={customLogo || logoVB} alt="VBsolution" className={classes.heroLogo} />
                         <Typography component="h1" className={classes.welcome}>
                             {t("login.welcome")}
                         </Typography>

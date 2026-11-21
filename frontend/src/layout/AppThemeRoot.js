@@ -1035,14 +1035,14 @@ const AppThemeRoot = ({ children }) => {
           navbarAccent,
           /** Cor de destaque em abas (ActivitiesStyleLayout) — alinhada à primária / top bar. */
           pageTabsAccent,
-          /** Logo oficial sempre prevalece sobre uploads whitelabel (exceto favicon). */
-          appLogoLight: OFFICIAL_LOGO,
-          appLogoDark: OFFICIAL_LOGO,
+          /** Logo customizada carregada do banco (Whitelabel/Settings) ou fallback oficial. */
+          appLogoLight: appLogoLight || DEFAULT_LOGO_LIGHT,
+          appLogoDark: appLogoDark || DEFAULT_LOGO_DARK,
           appLogoFavicon,
-          appLogoTickets: OFFICIAL_LOGO,
+          appLogoTickets: appLogoTickets || OFFICIAL_LOGO,
           appName,
-          calculatedLogoDark: () => OFFICIAL_LOGO,
-          calculatedLogoLight: () => OFFICIAL_LOGO,
+          calculatedLogoDark: () => appLogoDark || appLogoLight || DEFAULT_LOGO_DARK,
+          calculatedLogoLight: () => appLogoLight || appLogoDark || DEFAULT_LOGO_LIGHT,
         },
         locale
       );
