@@ -766,7 +766,14 @@ export const FlowBuilderConfig = () => {
   // Estados para interface
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState(['Básicos']);
+  const [expandedCategories, setExpandedCategories] = useState([
+    'Básicos',
+    'Conteúdo',
+    'Interação',
+    'Lógica',
+    'Sistema',
+    'Integrações'
+  ]);
 
   const classes = useStyles({ sidebarOpen });
 
@@ -818,10 +825,11 @@ export const FlowBuilderConfig = () => {
     window.setFlowVariable = setFlowVariable;
   }, []);
 
-  // Função addNode COMPLETA (mantida igual - muito longa para reproduzir aqui)
+  // Função addNode COMPLETA
   const addNode = (type, data) => {
-    const posY = nodes[nodes.length - 1].position.y;
-    const posX = nodes[nodes.length - 1].position.x + (nodes[nodes.length - 1].width || 200) + 40;
+    const lastNode = nodes && nodes.length > 0 ? nodes[nodes.length - 1] : null;
+    const posY = lastNode && lastNode.position ? lastNode.position.y : 100;
+    const posX = lastNode && lastNode.position ? lastNode.position.x + (lastNode.width || 200) + 40 : 250;
 
     if (type === "start") {
       return setNodes(old => {
@@ -1191,10 +1199,10 @@ export const FlowBuilderConfig = () => {
               return node;
             });
 
-            setNodes(preparedNodes);
+            setNodes(preparedNodes.length > 0 ? preparedNodes : initialNodes);
             setEdges(rawConnections);
           } else {
-            setNodes([]);
+            setNodes(initialNodes);
             setEdges([]);
           }
           setLoading(false);
@@ -1226,8 +1234,8 @@ export const FlowBuilderConfig = () => {
         item => item.id === storageItems.node
       )[0];
       const maioresX = nodes.map(node => node.position.x);
-      const maiorX = Math.max(...maioresX);
-      const finalY = nodes[nodes.length - 1].position.y;
+      const maiorX = maioresX.length > 0 ? Math.max(...maioresX) : 250;
+      const finalY = nodes.length > 0 ? nodes[nodes.length - 1].position.y : 100;
       const nodeNew = {
         ...nodeDuplicate,
         id: geraStringAleatoria(30),
