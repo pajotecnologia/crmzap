@@ -319,6 +319,7 @@ const Login = () => {
     const [googleAuthError, setGoogleAuthError] = useState(null);
     const [enabledLanguages, setEnabledLanguages] = useState(["pt-BR", "en", "es", "ar"]);
     const [customLogo, setCustomLogo] = useState(null);
+    const [customAppName, setCustomAppName] = useState(() => localStorage.getItem("appName") || "");
 
     const getCompanyIdFromUrl = () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -418,12 +419,20 @@ const Login = () => {
                 }
             })
             .catch(() => {});
+
+        getPublicSetting("appName", companyId)
+            .then((name) => {
+                if (name) {
+                    setCustomAppName(name);
+                }
+            })
+            .catch(() => {});
     }, [getPublicSetting]);
 
     return (
         <>
             <Helmet>
-                <title>VBSolution - Login</title>
+                <title>{customAppName ? `${customAppName} - Login` : "Login"}</title>
                 <link rel="icon" href="/favicon.png" />
             </Helmet>
 

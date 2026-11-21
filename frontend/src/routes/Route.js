@@ -11,15 +11,14 @@ const Route = ({ component: Component, isPrivate = false, title, allowWhenAuth =
 	const { setPageTitle } = useContext(PageTitleContext);
 
 	useEffect(() => {
-		// Título base sempre presente
-		const baseTitle = "VBSolution";
+		// Título base dinâmico conforme nome configurado na Identidade Visual
+		const appNameStored = localStorage.getItem("appName");
+		const baseTitle = appNameStored && appNameStored.trim() ? appNameStored.trim() : "VBSolution";
 		
 		if (title) {
-			// Se houver título da página: "Título - VBSolution"
 			document.title = `${title} - ${baseTitle}`;
 			setPageTitle(title);
 		} else {
-			// Se não houver, apenas "VBSolution"
 			document.title = baseTitle;
 			setPageTitle(baseTitle);
 		}

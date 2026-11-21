@@ -198,6 +198,7 @@ const SignUp = () => {
 
     const [backgroundLight, setBackgroundLight] = useState("");
     const [backgroundDark, setBackgroundDark] = useState("");
+    const [appName, setAppName] = useState(() => localStorage.getItem("appName") || "");
 
     let companyId = null
     const params = qs.parse(window.location.search)
@@ -252,6 +253,13 @@ const SignUp = () => {
                 console.error("Erro ao carregar imagem de fundo escura:", err);
                 setBackgroundDark("");
             });
+        getPublicSetting("appName", companyId)
+            .then((name) => {
+                if (name) {
+                    setAppName(name);
+                }
+            })
+            .catch(() => {});
     }, [history, companyId]);
 
     useEffect(() => {
@@ -411,7 +419,7 @@ const SignUp = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>VBSolution - Cadastre-se</title>
+                <title>{appName ? `${appName} - Cadastre-se` : "Cadastre-se"}</title>
                 <link rel="icon" href="/favicon.png" />
             </Helmet>
 
