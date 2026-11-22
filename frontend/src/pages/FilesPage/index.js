@@ -5,9 +5,9 @@ import {
   Dashboard as DashboardIcon,
   List as ListIcon,
   CalendarToday as CalendarIcon,
+  ViewColumn as KanbanIcon,
+  Folder as FolderIcon,
 } from "@material-ui/icons";
-import KanbanIcon from "@mui/icons-material/ViewKanban";
-import FolderIcon from "@material-ui/icons/Folder";
 
 import MainContainer from "../../components/MainContainer";
 import InternalNavbar from "../../components/InternalNavbar";

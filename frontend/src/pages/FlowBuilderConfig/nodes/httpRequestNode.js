@@ -19,17 +19,15 @@ import {
   MenuItem
 } from "@mui/material";
 import HttpIcon from "@mui/icons-material/Http";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import SettingsIcon from "@mui/icons-material/Settings";
-import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { Lightbulb as TipsAndUpdatesIcon, Maximize2 as OpenInFullIcon, Webhook as WebhookIcon } from "lucide-react";
 import LinearScaleIcon from "@mui/icons-material/LinearScale";
-import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import CloseIcon from "@mui/icons-material/Close";
-import WebhookIcon from "@mui/icons-material/Webhook";
 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";

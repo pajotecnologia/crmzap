@@ -188,7 +188,7 @@ const SignUp = () => {
     const theme = useTheme();
     const history = useHistory();
     const colorMode = useContext(ColorModeContext);
-    const {appLogoFavicon, appName, mode} = colorMode;
+    const {appLogoFavicon, mode} = colorMode;
     const {getPlanList} = usePlans()
     const [plans, setPlans] = useState([])
     const [loading, setLoading] = useState(false);

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import MomentsUser from "../../components/MomentsUser";
-// import MomentsQueues from "../../components/MomentsQueues";
+
 
 import MainHeader from "../../components/MainHeader";
 import { Grid, Paper } from "@material-ui/core";

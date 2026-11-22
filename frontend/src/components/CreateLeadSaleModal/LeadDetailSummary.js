@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Box, Grid, Avatar, Chip } from "@material-ui/core";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import LeadStageNotionTag from "./LeadStageNotionTag";
 

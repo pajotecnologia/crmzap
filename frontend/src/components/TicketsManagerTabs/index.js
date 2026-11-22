@@ -26,7 +26,7 @@ import {
   ArrowUpNarrowWide,
   Hash,
 } from "lucide-react";
-import SearchRounded from "@mui/icons-material/SearchRounded";
+import SearchRounded from "@material-ui/icons/SearchRounded";
 import ManageSearchOutlined from "@mui/icons-material/ManageSearchOutlined";
 
 import TicketsList from "../TicketsListCustom";

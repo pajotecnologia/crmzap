@@ -19,7 +19,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
-import NotificationsRounded from "@mui/icons-material/NotificationsRounded";
+import NotificationsRounded from "@material-ui/icons/NotificationsRounded";
 import EventRounded from "@mui/icons-material/EventRounded";
 import { toast } from "react-toastify";
 

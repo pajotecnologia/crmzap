@@ -52,8 +52,8 @@ import {
   Textsms,
 } from "@material-ui/icons";
 import CloudSyncIcon from "@mui/icons-material/CloudSync";
-import WebhookIcon from '@mui/icons-material/Webhook';
-import TelegramIcon from "@mui/icons-material/Telegram";
+import { Webhook as WebhookIcon } from "lucide-react";
+import TelegramIcon from "@material-ui/icons/Telegram";
 
 import TableRowSkeleton from "../../components/TableRowSkeleton";
 import api from "../../services/api";
@@ -154,11 +154,10 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === "dark" ? "#454545" : "#f5f5f9",
     color: theme.palette.text.primary,
     fontSize: theme.typography.pxToRem(14),
-    border: `1px solid ${
-      theme.palette.type === "dark"
-        ? "rgba(255,255,255,0.12)"
-        : "#dadde9"
-    }`,
+    border: `1px solid ${theme.palette.type === "dark"
+      ? "rgba(255,255,255,0.12)"
+      : "#dadde9"
+      }`,
     maxWidth: 450,
   },
   tooltipPopper: {
@@ -408,13 +407,13 @@ const ConnectionsTypePage = () => {
       } else if (data?.deliveryMode === "polling") {
         toast.warning(
           data?.webhookError ||
-            "Não foi possível iniciar o polling. Verifique o token do bot.",
+          "Não foi possível iniciar o polling. Verifique o token do bot.",
           { autoClose: 12000 }
         );
       } else {
         toast.warning(
           data?.webhookError ||
-            "Não foi possível registrar o webhook. Defina BACKEND_URL ou TELEGRAM_WEBHOOK_URL com HTTPS público.",
+          "Não foi possível registrar o webhook. Defina BACKEND_URL ou TELEGRAM_WEBHOOK_URL com HTTPS público.",
           { autoClose: 12000 }
         );
       }
@@ -613,13 +612,13 @@ const ConnectionsTypePage = () => {
       if (data?.tokenValid === false) {
         toast.warning(
           data?.tokenError ||
-            "Webhook atualizado, mas o token Meta ainda está inválido. Edite a conexão.",
+          "Webhook atualizado, mas o token Meta ainda está inválido. Edite a conexão.",
           { autoClose: 10000 }
         );
       } else if (data?.wabaSubscription?.success === false) {
         toast.warning(
           data?.wabaSubscription?.error ||
-            "Falha ao inscrever webhooks na WABA — mensagens do cliente não chegam.",
+          "Falha ao inscrever webhooks na WABA — mensagens do cliente não chegam.",
           { autoClose: 12000 }
         );
       } else if (
@@ -628,7 +627,7 @@ const ConnectionsTypePage = () => {
       ) {
         toast.warning(
           data?.cloudRegistration?.error ||
-            "Webhook OK, mas falha ao registrar número na Cloud API (erro 133010 ao enviar).",
+          "Webhook OK, mas falha ao registrar número na Cloud API (erro 133010 ao enviar).",
           { autoClose: 12000 }
         );
       } else if (
@@ -656,8 +655,8 @@ const ConnectionsTypePage = () => {
     } catch (err) {
       toast.error(
         err?.response?.data?.error ||
-          err?.response?.data?.message ||
-          "Não foi possível reparar a conexão oficial."
+        err?.response?.data?.message ||
+        "Não foi possível reparar a conexão oficial."
       );
     }
   };
@@ -696,10 +695,9 @@ const ConnectionsTypePage = () => {
         );
       } else {
         toast.warning(
-          `Reparo parcial (${parts.join(", ")}). ${
-            Array.isArray(data?.nextSteps) && data.nextSteps[0]
-              ? data.nextSteps[0]
-              : "Confira Alert Inbox e Advanced Access no Meta Developers."
+          `Reparo parcial (${parts.join(", ")}). ${Array.isArray(data?.nextSteps) && data.nextSteps[0]
+            ? data.nextSteps[0]
+            : "Confira Alert Inbox e Advanced Access no Meta Developers."
           }`,
           { autoClose: 14000 }
         );
@@ -710,8 +708,8 @@ const ConnectionsTypePage = () => {
     } catch (err) {
       toast.error(
         err?.response?.data?.error ||
-          err?.response?.data?.message ||
-          "Não foi possível reparar webhooks do Instagram/Facebook."
+        err?.response?.data?.message ||
+        "Não foi possível reparar webhooks do Instagram/Facebook."
       );
     }
   };
@@ -742,7 +740,7 @@ const ConnectionsTypePage = () => {
       setDeletingWhatsAppId((cur) => (Number(cur) === idNum ? null : cur));
       toast.error(
         i18n.t("connections.toasts.deleteTimeout") ||
-          "A exclusão demorou demais. Verifique o backend e tente novamente."
+        "A exclusão demorou demais. Verifique o backend e tente novamente."
       );
       if (typeof fetchWhatsApps === "function") fetchWhatsApps({ silent: true });
     }, 60000);
@@ -970,8 +968,8 @@ const ConnectionsTypePage = () => {
             )}
             {(whatsApp.status === "DISCONNECTED" || !whatsApp.status) &&
               !whatsApp.hasMtprotoSession && (
-              <span style={{ fontSize: 11, color: "#757575" }}>Login pendente</span>
-            )}
+                <span style={{ fontSize: 11, color: "#757575" }}>Login pendente</span>
+              )}
             <Can
               role={user.profile === "user" && user.allowConnections === "enabled" ? "admin" : user.profile}
               perform="connections-page:addConnection"
@@ -1038,18 +1036,18 @@ const ConnectionsTypePage = () => {
         )}
         {whatsApp.status === "OPENING" &&
           (whatsApp.channel === "whatsapp" || !whatsApp.channel) && (
-          <CircularProgress size={24} className={classes.buttonProgress} />
-        )}
+            <CircularProgress size={24} className={classes.buttonProgress} />
+          )}
         {whatsApp.status === "OPENING" &&
           (whatsApp.channel === "telegram" ||
             whatsApp.channel === "linkedin") && (
-          <CustomToolTip
-            title="Webhook pendente"
-            content="A conexão está ativa, mas o webhook inbound pode não estar registrado. Clique em Webhook ou salve novamente com BACKEND_URL HTTPS."
-          >
-            <SignalCellularConnectedNoInternet2Bar style={{ color: "#ed6c02" }} />
-          </CustomToolTip>
-        )}
+            <CustomToolTip
+              title="Webhook pendente"
+              content="A conexão está ativa, mas o webhook inbound pode não estar registrado. Clique em Webhook ou salve novamente com BACKEND_URL HTTPS."
+            >
+              <SignalCellularConnectedNoInternet2Bar style={{ color: "#ed6c02" }} />
+            </CustomToolTip>
+          )}
         {whatsApp.status === "qrcode" && (
           <CustomToolTip
             title={i18n.t("connections.toolTips.qrcode.title")}
@@ -1060,10 +1058,10 @@ const ConnectionsTypePage = () => {
         )}
         {(whatsApp.status === "CONNECTED" ||
           (whatsApp.channel === "telegram_oficial" && whatsApp.hasMtprotoSession)) && (
-          <CustomToolTip title={i18n.t("connections.toolTips.connected.title")}>
-            <SignalCellular4Bar style={{ color: green[500] }} />
-          </CustomToolTip>
-        )}
+            <CustomToolTip title={i18n.t("connections.toolTips.connected.title")}>
+              <SignalCellular4Bar style={{ color: green[500] }} />
+            </CustomToolTip>
+          )}
         {whatsApp.status === "PAIRING" && whatsApp.channel === "telegram_oficial" && (
           <CustomToolTip
             title="Login Telegram pendente"
@@ -1074,13 +1072,13 @@ const ConnectionsTypePage = () => {
         )}
         {(whatsApp.status === "TIMEOUT" ||
           (whatsApp.status === "PAIRING" && whatsApp.channel !== "telegram_oficial")) && (
-          <CustomToolTip
-            title={i18n.t("connections.toolTips.timeout.title")}
-            content={i18n.t("connections.toolTips.timeout.content")}
-          >
-            <SignalCellularConnectedNoInternet2Bar color="secondary" />
-          </CustomToolTip>
-        )}
+            <CustomToolTip
+              title={i18n.t("connections.toolTips.timeout.title")}
+              content={i18n.t("connections.toolTips.timeout.content")}
+            >
+              <SignalCellularConnectedNoInternet2Bar color="secondary" />
+            </CustomToolTip>
+          )}
       </div>
     );
   };
@@ -1169,11 +1167,11 @@ const ConnectionsTypePage = () => {
         <DialogTitle>Transferência de Tickets</DialogTitle>
         <DialogContent>
           <Typography variant="body1" style={{ marginBottom: 24, lineHeight: 1.6 }}>
-            Para transferir os tickets, selecione a conexão de <strong>origem</strong> (de onde os tickets serão movidos) 
-            e a conexão de <strong>destino</strong> (para onde os tickets serão transferidos). 
+            Para transferir os tickets, selecione a conexão de <strong>origem</strong> (de onde os tickets serão movidos)
+            e a conexão de <strong>destino</strong> (para onde os tickets serão transferidos).
             Todos os atendimentos ativos da conexão de origem serão movidos para a conexão de destino.
           </Typography>
-          
+
           <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 24 }}>
             <FormControl fullWidth>
               <InputLabel>Origem</InputLabel>
@@ -1216,234 +1214,232 @@ const ConnectionsTypePage = () => {
           </Button>
           <Button onClick={handleTransferTickets} color="primary" variant="contained">
             TRANSFERIR
-                     </Button>
-         </DialogActions>
-       </Dialog>
-       <Dialog
-         open={transferProgressModalOpen}
-         onClose={handleCloseTransferProgressModal}
-         maxWidth="sm"
-         fullWidth
-         disableBackdropClick
-         disableEscapeKeyDown
-       >
-         <DialogTitle>Transferindo Tickets</DialogTitle>
-         <DialogContent>
-           <div style={{ textAlign: 'center', padding: '20px 0' }}>
-             <Typography variant="h6" style={{ marginBottom: 16 }}>
-               Progresso da Transferência
-             </Typography>
-             
-             <Box position="relative" display="inline-flex" marginBottom={2}>
-               <CircularProgress 
-                 variant="determinate" 
-                 value={transferProgress.percentage} 
-                 size={80}
-                 thickness={4}
-               />
-               <Box
-                 top={0}
-                 left={0}
-                 bottom={0}
-                 right={0}
-                 position="absolute"
-                 display="flex"
-                 alignItems="center"
-                 justifyContent="center"
-               >
-                 <Typography variant="caption" component="div" color="textSecondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
-                   {transferProgress.percentage}%
-                 </Typography>
-               </Box>
-             </Box>
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={transferProgressModalOpen}
+        onClose={handleCloseTransferProgressModal}
+        maxWidth="sm"
+        fullWidth
+        disableBackdropClick
+        disableEscapeKeyDown
+      >
+        <DialogTitle>Transferindo Tickets</DialogTitle>
+        <DialogContent>
+          <div style={{ textAlign: 'center', padding: '20px 0' }}>
+            <Typography variant="h6" style={{ marginBottom: 16 }}>
+              Progresso da Transferência
+            </Typography>
 
-             <Typography variant="body1" style={{ marginTop: 16 }}>
-               {transferProgress.current} de {transferProgress.total} tickets transferidos
-             </Typography>
-             
-             <Typography variant="body2" color="textSecondary" style={{ marginTop: 8 }}>
-               Por favor, aguarde enquanto os tickets são transferidos...
-             </Typography>
-           </div>
-         </DialogContent>
-       </Dialog>
+            <Box position="relative" display="inline-flex" marginBottom={2}>
+              <CircularProgress
+                variant="determinate"
+                value={transferProgress.percentage}
+                size={80}
+                thickness={4}
+              />
+              <Box
+                top={0}
+                left={0}
+                bottom={0}
+                right={0}
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Typography variant="caption" component="div" color="textSecondary" style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                  {transferProgress.percentage}%
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography variant="body1" style={{ marginTop: 16 }}>
+              {transferProgress.current} de {transferProgress.total} tickets transferidos
+            </Typography>
+
+            <Typography variant="body2" color="textSecondary" style={{ marginTop: 8 }}>
+              Por favor, aguarde enquanto os tickets são transferidos...
+            </Typography>
+          </div>
+        </DialogContent>
+      </Dialog>
       {user.profile === "user" && user.allowConnections === "disabled" ?
         <ForbiddenPage />
         :
         <>
-      <ConnectionsChannelLayout
-        integration={integration}
-        manageActive
-        managePath={managePath}
-      >
-        <ConnectionsMagicFrame noPanel formPanel fill>
-        <Box className={manageClasses.manageShell}>
-        <ConnectionsManageToolbar
-          searchValue={searchParam}
-          onSearchChange={setSearchParam}
-          searchPlaceholder={`Buscar em ${integration?.label || "conexões"}...`}
-          onCreateConnection={
-            integrationSupportsNewForm(integration?.key)
-              ? () => goToChannelSetup()
-              : undefined
-          }
-          createLabel="Criar conexão"
-        />
+          <ConnectionsChannelLayout
+            integration={integration}
+            manageActive
+            managePath={managePath}
+          >
+            <ConnectionsMagicFrame noPanel formPanel fill>
+              <Box className={manageClasses.manageShell}>
+                <ConnectionsManageToolbar
+                  searchValue={searchParam}
+                  onSearchChange={setSearchParam}
+                  searchPlaceholder={`Buscar em ${integration?.label || "conexões"}...`}
+                  onCreateConnection={
+                    integrationSupportsNewForm(integration?.key)
+                      ? () => goToChannelSetup()
+                      : undefined
+                  }
+                  createLabel="Criar conexão"
+                />
 
-        <Box className={manageClasses.manageBody}>
-        <Box
-          className={`${manageClasses.manageScroll}${
-            integrationUsesConfigManage(integration)
-              ? ` ${manageClasses.manageScrollAi}`
-              : ""
-          }`}
-        >
-        {integrationUsesConfigManage(integration) ? (
-          <IntegrationConfigManage integrationKey={integration.key} />
-        ) : (
-        <>
-        {(integration?.key === "facebook" || integration?.key === "instagram") &&
-        filteredWhatsApps.length === 0 ? (
-          <Box mb={2} px={0.5}>
-            <MetaMessengerOAuthConnect
-              channel={integration.key}
-              disabled={
-                integration.key === "facebook"
-                  ? planConfig?.plan && !planConfig.plan.useFacebook
-                  : planConfig?.plan && !planConfig.plan.useInstagram
-              }
-              onSuccess={handleMetaChannelConnected}
-            />
-          </Box>
-        ) : null}
-
-          {
-            statusImport?.all ? (
-              <>
-                <div style={{ margin: "auto", marginBottom: 12 }}>
-                  <Card className={classes.root}>
-                    <CardContent className={classes.content}>
-                      <Typography component="h5" variant="h5">
-
-                        {statusImport?.this === -1 ? i18n.t("connections.buttons.preparing") : i18n.t("connections.buttons.importing")}
-
-                      </Typography>
-                      {statusImport?.this === -1 ?
-                        <Typography component="h6" variant="h6" align="center">
-
-                          <CircularProgress
-                            size={24}
-                          />
-
-                        </Typography>
-                        :
-                        <>
-                          <Typography component="h6" variant="h6" align="center">
-                            {`${i18n.t(`connections.typography.processed`)} ${statusImport?.this} ${i18n.t(`connections.typography.in`)} ${statusImport?.all}  ${i18n.t(`connections.typography.date`)}: ${statusImport?.date} `}
-                          </Typography>
-                          <Typography align="center">
-                            <CircularProgressWithLabel
-                              style={{ margin: "auto" }}
-                              value={(statusImport?.this / statusImport?.all) * 100}
+                <Box className={manageClasses.manageBody}>
+                  <Box
+                    className={`${manageClasses.manageScroll}${integrationUsesConfigManage(integration)
+                      ? ` ${manageClasses.manageScrollAi}`
+                      : ""
+                      }`}
+                  >
+                    {integrationUsesConfigManage(integration) ? (
+                      <IntegrationConfigManage integrationKey={integration.key} />
+                    ) : (
+                      <>
+                        {(integration?.key === "facebook" || integration?.key === "instagram") &&
+                          filteredWhatsApps.length === 0 ? (
+                          <Box mb={2} px={0.5}>
+                            <MetaMessengerOAuthConnect
+                              channel={integration.key}
+                              disabled={
+                                integration.key === "facebook"
+                                  ? planConfig?.plan && !planConfig.plan.useFacebook
+                                  : planConfig?.plan && !planConfig.plan.useInstagram
+                              }
+                              onSuccess={handleMetaChannelConnected}
                             />
-                          </Typography>
-                        </>
-                      }
-                    </CardContent>
-                  </Card>
-                </div>
-              </>
-            ) : null
-          }
+                          </Box>
+                        ) : null}
 
-          <ConnectionSection noPadding flat>
-            <ConnectionListMinimal
-              connections={filteredWhatsApps}
-              loading={loading}
-              emptyLabel={`Nenhuma conexão ainda. Use + para criar a primeira${
-                integration?.label ? ` em ${integration.label}` : ""
-              }.`}
-              user={user}
-              formatNumber={formatSerializedId}
-              renderStatusToolTips={renderStatusToolTips}
-              renderActionButtons={renderActionButtons}
-              onEdit={handleEditWhatsApp}
-              onDelete={handleDeleteConnectionImmediately}
-              deletingWhatsAppId={deletingWhatsAppId}
-              extraActions={(whatsApp) => (
-                <>
-                  {whatsApp.channel === "telegram" && (
-                    <Tooltip title="Copiar webhook Telegram">
-                      <IconButton
-                        size="small"
-                        onClick={() =>
-                          handleCopyTelegramWebhook(whatsApp.waba_webhook)
-                        }
-                      >
-                        <WebhookIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
-                  {whatsApp.channel === "linkedin" && (
-                    <Tooltip title="Copiar webhook LinkedIn">
-                      <IconButton
-                        size="small"
-                        onClick={() =>
-                          handleCopyLinkedInWebhook(whatsApp.waba_webhook)
-                        }
-                      >
-                        <WebhookIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
-                  {whatsApp.channel === "whatsapp_oficial" && (
-                    <>
-                      <Tooltip title="Sincronizar templates">
-                        <IconButton
-                          size="small"
-                          disabled={syncingTemplatesId === whatsApp.id}
-                          onClick={() => handleSyncTemplates(whatsApp.id)}
-                        >
-                          {syncingTemplatesId === whatsApp.id ? (
-                            <CircularProgress size={18} />
-                          ) : (
-                            <Sync fontSize="small" />
-                          )}
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Reparar webhook (atualiza URL no banco)">
-                        <IconButton
-                          size="small"
-                          onClick={() => handleRepairWaba(whatsApp.id)}
-                        >
-                          <CloudSyncIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Copiar webhook Meta">
-                        <IconButton
-                          size="small"
-                          onClick={() => {
-                            handleCopyWebhook(whatsApp.waba_webhook);
-                            toast.info("URL do webhook copiada.", { autoClose: 2000 });
-                          }}
-                        >
-                          <WebhookIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </>
-                  )}
-                </>
-              )}
-            />
-          </ConnectionSection>
-        </>
-        )}
-        </Box>
-        </Box>
-        </Box>
-        </ConnectionsMagicFrame>
+                        {
+                          statusImport?.all ? (
+                            <>
+                              <div style={{ margin: "auto", marginBottom: 12 }}>
+                                <Card className={classes.root}>
+                                  <CardContent className={classes.content}>
+                                    <Typography component="h5" variant="h5">
 
-      </ConnectionsChannelLayout>
+                                      {statusImport?.this === -1 ? i18n.t("connections.buttons.preparing") : i18n.t("connections.buttons.importing")}
+
+                                    </Typography>
+                                    {statusImport?.this === -1 ?
+                                      <Typography component="h6" variant="h6" align="center">
+
+                                        <CircularProgress
+                                          size={24}
+                                        />
+
+                                      </Typography>
+                                      :
+                                      <>
+                                        <Typography component="h6" variant="h6" align="center">
+                                          {`${i18n.t(`connections.typography.processed`)} ${statusImport?.this} ${i18n.t(`connections.typography.in`)} ${statusImport?.all}  ${i18n.t(`connections.typography.date`)}: ${statusImport?.date} `}
+                                        </Typography>
+                                        <Typography align="center">
+                                          <CircularProgressWithLabel
+                                            style={{ margin: "auto" }}
+                                            value={(statusImport?.this / statusImport?.all) * 100}
+                                          />
+                                        </Typography>
+                                      </>
+                                    }
+                                  </CardContent>
+                                </Card>
+                              </div>
+                            </>
+                          ) : null
+                        }
+
+                        <ConnectionSection noPadding flat>
+                          <ConnectionListMinimal
+                            connections={filteredWhatsApps}
+                            loading={loading}
+                            emptyLabel={`Nenhuma conexão ainda. Use + para criar a primeira${integration?.label ? ` em ${integration.label}` : ""
+                              }.`}
+                            user={user}
+                            formatNumber={formatSerializedId}
+                            renderStatusToolTips={renderStatusToolTips}
+                            renderActionButtons={renderActionButtons}
+                            onEdit={handleEditWhatsApp}
+                            onDelete={handleDeleteConnectionImmediately}
+                            deletingWhatsAppId={deletingWhatsAppId}
+                            extraActions={(whatsApp) => (
+                              <>
+                                {whatsApp.channel === "telegram" && (
+                                  <Tooltip title="Copiar webhook Telegram">
+                                    <IconButton
+                                      size="small"
+                                      onClick={() =>
+                                        handleCopyTelegramWebhook(whatsApp.waba_webhook)
+                                      }
+                                    >
+                                      <WebhookIcon fontSize="small" />
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
+                                {whatsApp.channel === "linkedin" && (
+                                  <Tooltip title="Copiar webhook LinkedIn">
+                                    <IconButton
+                                      size="small"
+                                      onClick={() =>
+                                        handleCopyLinkedInWebhook(whatsApp.waba_webhook)
+                                      }
+                                    >
+                                      <WebhookIcon fontSize="small" />
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
+                                {whatsApp.channel === "whatsapp_oficial" && (
+                                  <>
+                                    <Tooltip title="Sincronizar templates">
+                                      <IconButton
+                                        size="small"
+                                        disabled={syncingTemplatesId === whatsApp.id}
+                                        onClick={() => handleSyncTemplates(whatsApp.id)}
+                                      >
+                                        {syncingTemplatesId === whatsApp.id ? (
+                                          <CircularProgress size={18} />
+                                        ) : (
+                                          <Sync fontSize="small" />
+                                        )}
+                                      </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Reparar webhook (atualiza URL no banco)">
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => handleRepairWaba(whatsApp.id)}
+                                      >
+                                        <CloudSyncIcon fontSize="small" />
+                                      </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Copiar webhook Meta">
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => {
+                                          handleCopyWebhook(whatsApp.waba_webhook);
+                                          toast.info("URL do webhook copiada.", { autoClose: 2000 });
+                                        }}
+                                      >
+                                        <WebhookIcon fontSize="small" />
+                                      </IconButton>
+                                    </Tooltip>
+                                  </>
+                                )}
+                              </>
+                            )}
+                          />
+                        </ConnectionSection>
+                      </>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+            </ConnectionsMagicFrame>
+
+          </ConnectionsChannelLayout>
         </>
       }
     </>

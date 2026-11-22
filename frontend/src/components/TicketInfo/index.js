@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { getBackendUrl } from "../../config";
-import PersonOutlineRounded from "@mui/icons-material/PersonOutlineRounded";
+import PersonOutlineRounded from "@material-ui/icons/PersonOutlineRounded";
 import AssignmentIndOutlined from "@mui/icons-material/AssignmentIndOutlined";
 import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
 import AccessTimeOutlined from "@mui/icons-material/AccessTimeOutlined";
@@ -162,7 +162,7 @@ const TicketInfo = ({ contact, ticket, onClick }) => {
                     setAvatarSrc(resolveImageUrl(candidate));
                 }
             })
-            .catch(() => {});
+            .catch(() => { });
         return () => {
             cancelled = true;
         };
@@ -193,9 +193,8 @@ const TicketInfo = ({ contact, ticket, onClick }) => {
             const urgent = hrs != null && hrs <= 4;
             return (
                 <span
-                    className={`${classes.metaChip} ${
-                        urgent ? classes.metaChipWarn : classes.metaChipOk
-                    }`}
+                    className={`${classes.metaChip} ${urgent ? classes.metaChipWarn : classes.metaChipOk
+                        }`}
                 >
                     <AccessTimeOutlined />
                     Janela 24h · {hrs != null ? `${hrs}h` : "ativa"}

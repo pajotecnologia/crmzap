@@ -56,12 +56,12 @@ import {
   Info,
   AccountTree
 } from "@material-ui/icons";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import SendRounded from "@mui/icons-material/SendRounded";
+import TelegramIcon from "@material-ui/icons/Telegram";
+import SendRounded from "@material-ui/icons/SendRounded";
 import MicNoneOutlined from "@mui/icons-material/MicNoneOutlined";
 import EmojiEmotionsOutlined from "@mui/icons-material/EmojiEmotionsOutlined";
-import PermMediaOutlined from "@mui/icons-material/PermMediaOutlined";
-import MoreVertRounded from "@mui/icons-material/MoreVertRounded";
+import PermMediaOutlined from "@material-ui/icons/PermMediaOutlined";
+import MoreVertRounded from "@material-ui/icons/MoreVertRounded";
 
 import {
   FormatBold as FormatBoldIcon,

@@ -9,7 +9,6 @@ import {
 } from "@material-ui/icons";
 import {
   Popover,
-  Typography,
 } from "@material-ui/core";
 
 import MainContainer from "../../components/MainContainer";

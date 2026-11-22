@@ -5,9 +5,9 @@ import Modal from "@material-ui/core/Modal";
 import Typography from "@material-ui/core/Typography";
 import InfoIcon from "@material-ui/icons/Info";
 import CancelIcon from "@material-ui/icons/Cancel";
-import prod from "../../assets/prod.png"
-import prodKey from "../../assets/prodKey.png"
-import web from "../../assets/web.png"
+const prod = "";
+const prodKey = "";
+const web = "";
 import webhook from "../../assets/webhook.png"
 import { getBackendUrl } from "../../config";
 

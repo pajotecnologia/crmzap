@@ -12,12 +12,12 @@ import {
   Add,
 } from "@material-ui/icons";
 import BoltOutlined from "@mui/icons-material/BoltOutlined";
-import TaskAltOutlined from "@mui/icons-material/TaskAltOutlined";
-import UndoOutlined from "@mui/icons-material/UndoOutlined";
-import SwapHorizOutlinedIcon from "@mui/icons-material/SwapHorizOutlined";
+import TaskAltOutlined from "@material-ui/icons/CheckCircleOutline";
+import UndoOutlined from "@material-ui/icons/UndoOutlined";
+import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
-import MoreVertRounded from "@mui/icons-material/MoreVertRounded";
-import PersonOutlineRounded from "@mui/icons-material/PersonOutlineRounded";
+import MoreVertRounded from "@material-ui/icons/MoreVertRounded";
+import PersonOutlineRounded from "@material-ui/icons/PersonOutlineRounded";
 import { v4 as uuidv4 } from "uuid";
 
 import { i18n } from "../../translate/i18n";
@@ -83,158 +83,158 @@ const useStyles = makeStyles((theme) => {
   const isDark = theme.palette.type === "dark";
 
   return {
-  actionButtons: {
-    marginRight: 6,
-    maxWidth: "100%",
-    flex: "0 1 auto",
-    alignSelf: "center",
-    marginLeft: "auto",
-    display: "flex",
-    whiteSpace: "nowrap",
-    overflow: "visible",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    gap: 2,
-    minWidth: 0,
-    "& > *": {
-      margin: theme.spacing(0.25),
-    },
-    "@media (max-width: 600px)": {
-      flexWrap: "nowrap",
+    actionButtons: {
+      marginRight: 6,
       maxWidth: "100%",
-      marginRight: 2,
-      gap: 0,
-      overflow: "hidden",
-      "& > *": {
-        margin: 0,
-      },
-    },
-    "& .MuiButton-root": {
-      minWidth: "auto",
-      padding: "2px 6px",
-      fontSize: "0.66rem",
-      lineHeight: 1.0,
-      maxWidth: 140
-    },
-    "& .MuiButton-label": {
+      flex: "0 1 auto",
+      alignSelf: "center",
+      marginLeft: "auto",
+      display: "flex",
       whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis"
-    },
-    "& .MuiIconButton-root": {
-      padding: 4,
-    },
-    "& .MuiSvgIcon-root": {
-      fontSize: 18,
-    },
-    "@media (max-width: 480px)": {
-      maxWidth: "46vw",
-      "& .MuiButton-root": {
-        padding: "2px 5px",
-        fontSize: "0.58rem",
-        maxWidth: 88,
-        minHeight: 28,
+      overflow: "visible",
+      flexWrap: "wrap",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      gap: 2,
+      minWidth: 0,
+      "& > *": {
+        margin: theme.spacing(0.25),
       },
-      "& .MuiButton-startIcon": {
+      "@media (max-width: 600px)": {
+        flexWrap: "nowrap",
+        maxWidth: "100%",
         marginRight: 2,
-        marginLeft: 0,
-        "& > *:first-child": {
-          fontSize: 14,
+        gap: 0,
+        overflow: "hidden",
+        "& > *": {
+          margin: 0,
         },
       },
+      "& .MuiButton-root": {
+        minWidth: "auto",
+        padding: "2px 6px",
+        fontSize: "0.66rem",
+        lineHeight: 1.0,
+        maxWidth: 140
+      },
+      "& .MuiButton-label": {
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis"
+      },
       "& .MuiIconButton-root": {
-        padding: 3,
+        padding: 4,
       },
       "& .MuiSvgIcon-root": {
-        fontSize: 16,
+        fontSize: 18,
       },
-    }
-  },
-  bottomButtonVisibilityIcon: {
-    padding: 2,
-    color: theme.mode === "light" ? theme.palette.primary.main : "#FFF",
-  },
-  finalizeDialogPaper: {
-    borderRadius: 20,
-    maxWidth: 320,
-    width: "calc(100% - 32px)",
-    margin: 16,
-    overflow: "hidden",
-    fontFamily: HELVETICA_NEUE,
-    fontWeight: 400,
-    backgroundColor: isDark
-      ? "rgba(44,44,46,0.88)"
-      : "rgba(255,255,255,0.92)",
-    backdropFilter: "saturate(200%) blur(28px)",
-    WebkitBackdropFilter: "saturate(200%) blur(28px)",
-    boxShadow: isDark
-      ? "0 24px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)"
-      : "0 24px 64px rgba(15,23,42,0.16), inset 0 1px 0 rgba(255,255,255,0.95)",
-    border: isDark
-      ? "0.5px solid rgba(255,255,255,0.12)"
-      : "0.5px solid rgba(255,255,255,0.8)",
-  },
-  finalizeDialogTitle: {
-    textAlign: "center",
-    padding: theme.spacing(2.25, 2, 0.25),
-    fontFamily: HELVETICA_NEUE,
-    fontSize: 15,
-    fontWeight: 400,
-    letterSpacing: "-0.03em",
-    lineHeight: 1.35,
-    color: theme.palette.text.primary,
-  },
-  finalizeDialogActions: {
-    display: "flex",
-    flexDirection: "row",
-    gap: theme.spacing(0.75),
-    padding: theme.spacing(1.25, 1.5, 1.75),
-    justifyContent: "stretch",
-    borderTop: isDark
-      ? "0.5px solid rgba(255,255,255,0.08)"
-      : "0.5px solid rgba(60,60,67,0.1)",
-    "@media (max-width: 480px)": {
-      flexDirection: "column",
-      "& > button": {
-        width: "100%",
-        flex: "none",
-      },
+      "@media (max-width: 480px)": {
+        maxWidth: "46vw",
+        "& .MuiButton-root": {
+          padding: "2px 5px",
+          fontSize: "0.58rem",
+          maxWidth: 88,
+          minHeight: 28,
+        },
+        "& .MuiButton-startIcon": {
+          marginRight: 2,
+          marginLeft: 0,
+          "& > *:first-child": {
+            fontSize: 14,
+          },
+        },
+        "& .MuiIconButton-root": {
+          padding: 3,
+        },
+        "& .MuiSvgIcon-root": {
+          fontSize: 16,
+        },
+      }
     },
-    "& > button": {
-      flex: 1,
-      margin: 0,
-      minWidth: 0,
-      textTransform: "none",
-      borderRadius: 12,
+    bottomButtonVisibilityIcon: {
+      padding: 2,
+      color: theme.mode === "light" ? theme.palette.primary.main : "#FFF",
+    },
+    finalizeDialogPaper: {
+      borderRadius: 20,
+      maxWidth: 320,
+      width: "calc(100% - 32px)",
+      margin: 16,
+      overflow: "hidden",
       fontFamily: HELVETICA_NEUE,
-      fontSize: 13,
       fontWeight: 400,
-      letterSpacing: "-0.01em",
-      padding: "8px 12px",
-      minHeight: 36,
-      boxShadow: "none",
-    },
-    "& > button:first-child": {
-      color: theme.palette.text.primary,
       backgroundColor: isDark
-        ? "rgba(120,120,128,0.28)"
-        : "rgba(120,120,128,0.16)",
-      border: "none",
-      "&:hover": {
+        ? "rgba(44,44,46,0.88)"
+        : "rgba(255,255,255,0.92)",
+      backdropFilter: "saturate(200%) blur(28px)",
+      WebkitBackdropFilter: "saturate(200%) blur(28px)",
+      boxShadow: isDark
+        ? "0 24px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)"
+        : "0 24px 64px rgba(15,23,42,0.16), inset 0 1px 0 rgba(255,255,255,0.95)",
+      border: isDark
+        ? "0.5px solid rgba(255,255,255,0.12)"
+        : "0.5px solid rgba(255,255,255,0.8)",
+    },
+    finalizeDialogTitle: {
+      textAlign: "center",
+      padding: theme.spacing(2.25, 2, 0.25),
+      fontFamily: HELVETICA_NEUE,
+      fontSize: 15,
+      fontWeight: 400,
+      letterSpacing: "-0.03em",
+      lineHeight: 1.35,
+      color: theme.palette.text.primary,
+    },
+    finalizeDialogActions: {
+      display: "flex",
+      flexDirection: "row",
+      gap: theme.spacing(0.75),
+      padding: theme.spacing(1.25, 1.5, 1.75),
+      justifyContent: "stretch",
+      borderTop: isDark
+        ? "0.5px solid rgba(255,255,255,0.08)"
+        : "0.5px solid rgba(60,60,67,0.1)",
+      "@media (max-width: 480px)": {
+        flexDirection: "column",
+        "& > button": {
+          width: "100%",
+          flex: "none",
+        },
+      },
+      "& > button": {
+        flex: 1,
+        margin: 0,
+        minWidth: 0,
+        textTransform: "none",
+        borderRadius: 12,
+        fontFamily: HELVETICA_NEUE,
+        fontSize: 13,
+        fontWeight: 400,
+        letterSpacing: "-0.01em",
+        padding: "8px 12px",
+        minHeight: 36,
+        boxShadow: "none",
+      },
+      "& > button:first-child": {
+        color: theme.palette.text.primary,
         backgroundColor: isDark
-          ? "rgba(120,120,128,0.36)"
-          : "rgba(120,120,128,0.22)",
+          ? "rgba(120,120,128,0.28)"
+          : "rgba(120,120,128,0.16)",
+        border: "none",
+        "&:hover": {
+          backgroundColor: isDark
+            ? "rgba(120,120,128,0.36)"
+            : "rgba(120,120,128,0.22)",
+        },
+      },
+      "& > button.MuiButton-contained": {
+        backgroundColor: topbar,
+        color: topbarContrast,
+        "&:hover": {
+          backgroundColor: topbarHover,
+        },
       },
     },
-    "& > button.MuiButton-contained": {
-      backgroundColor: topbar,
-      color: topbarContrast,
-      "&:hover": {
-        backgroundColor: topbarHover,
-      },
-    },
-  },
   };
 });
 
@@ -658,13 +658,13 @@ const TicketActionButtonsCustom = ({
         (status === "open" || status === "group") && ticket.status === "pending"
           ? buildAcceptTicketPayload(ticket, userId)
           : status === "closed"
-          ? {
+            ? {
               status,
               userId: userId || null,
               sendFarewellMessage: options.sendFarewellMessage === true,
               amountUsedBotQueues: 0,
             }
-          : { status, userId: userId || null };
+            : { status, userId: userId || null };
       const { data } = await api.put(`/tickets/${ticket.id}`, payload);
 
       let setting;
@@ -1217,8 +1217,8 @@ const TicketActionButtonsCustom = ({
                             color: !canAssumeHuman
                               ? "#9ca3af"
                               : !connectionHasAgent
-                              ? "#9ca3af"
-                              : undefined,
+                                ? "#9ca3af"
+                                : undefined,
                           }}
                         />
                       </ListItemIcon>
@@ -1292,81 +1292,81 @@ const TicketActionButtonsCustom = ({
       </div>
       <>
         {!shouldUseFinalizacaoComValorVenda && (
-            <Formik
-              enableReinitialize={true}
-              validationSchema={SessionSchema}
-              innerRef={formRef}
-              onSubmit={(values, actions) => {
-                setTimeout(() => {
-                  actions.setSubmitting(false);
-                  actions.resetForm();
-                }, 400);
-              }}
-            >
-              {({
-                values,
-                touched,
-                errors,
-                isSubmitting,
-                setFieldValue,
-                resetForm,
-              }) => (
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                  PaperProps={{ className: classes.finalizeDialogPaper }}
+          <Formik
+            enableReinitialize={true}
+            validationSchema={SessionSchema}
+            innerRef={formRef}
+            onSubmit={(values, actions) => {
+              setTimeout(() => {
+                actions.setSubmitting(false);
+                actions.resetForm();
+              }, 400);
+            }}
+          >
+            {({
+              values,
+              touched,
+              errors,
+              isSubmitting,
+              setFieldValue,
+              resetForm,
+            }) => (
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                PaperProps={{ className: classes.finalizeDialogPaper }}
+              >
+                <DialogTitle
+                  id="alert-dialog-title"
+                  className={classes.finalizeDialogTitle}
+                  disableTypography
                 >
-                  <DialogTitle
-                    id="alert-dialog-title"
-                    className={classes.finalizeDialogTitle}
-                    disableTypography
-                  >
-                    Como deseja finalizar?
-                  </DialogTitle>
-                  <Form>
-                    <DialogActions className={classes.finalizeDialogActions}>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        onClick={() => handleFinalizarTicket("semDespedida")}
-                      >
-                        {i18n.t(
-                          "messagesList.header.dialogRatingWithoutFarewellMsg"
-                        )}
-                      </Button>
+                  Como deseja finalizar?
+                </DialogTitle>
+                <Form>
+                  <DialogActions className={classes.finalizeDialogActions}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => handleFinalizarTicket("semDespedida")}
+                    >
+                      {i18n.t(
+                        "messagesList.header.dialogRatingWithoutFarewellMsg"
+                      )}
+                    </Button>
 
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      disableElevation
+                      onClick={() => handleFinalizarTicket("comDespedida")}
+                    >
+                      {i18n.t("messagesList.header.dialogRatingCancel")}
+                    </Button>
+
+                    {showTestButton && (
                       <Button
                         size="small"
                         variant="contained"
                         color="primary"
                         disableElevation
-                        onClick={() => handleFinalizarTicket("comDespedida")}
+                        onClick={handleTestButton}
+                        style={{ flex: "1 1 100%" }}
                       >
-                        {i18n.t("messagesList.header.dialogRatingCancel")}
+                        {i18n.t(
+                          "whatsappModalRel.form.resolveAndTriggerIntegration"
+                        )}
                       </Button>
-
-                      {showTestButton && (
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="primary"
-                          disableElevation
-                          onClick={handleTestButton}
-                          style={{ flex: "1 1 100%" }}
-                        >
-                          {i18n.t(
-                            "whatsappModalRel.form.resolveAndTriggerIntegration"
-                          )}
-                        </Button>
-                      )}
-                    </DialogActions>
-                  </Form>
-                </Dialog>
-              )}
-            </Formik>
-          )}
+                    )}
+                  </DialogActions>
+                </Form>
+              </Dialog>
+            )}
+          </Formik>
+        )}
       </>
       {openFinalizacaoVenda && (
         <FinalizacaoVendaModal

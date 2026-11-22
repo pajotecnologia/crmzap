@@ -1,5 +1,5 @@
 import React from 'react'
-import  SoftPhone  from 'react-softphone'
+import ReactSoftphone from 'react-softphone'
 import { WebSocketInterface } from 'jssip';
 
 
@@ -41,7 +41,7 @@ function SoftPhone() {
   return (
     <div className="SoftPhone">
       <header className="SoftPhone-header">
-         <SoftPhone
+         <ReactSoftphone
                      callVolume={33} //Set Default callVolume
                      ringVolume={44} //Set Default ringVolume
                      connectOnStart={false} //Auto connect to sip

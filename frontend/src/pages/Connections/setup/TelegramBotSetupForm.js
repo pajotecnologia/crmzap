@@ -13,7 +13,7 @@ import {
   Switch,
   FormControlLabel,
 } from "@material-ui/core";
-import TelegramIcon from "@mui/icons-material/Telegram";
+import TelegramIcon from "@material-ui/icons/Telegram";
 import { toast } from "react-toastify";
 import api from "../../../services/api";
 import toastError from "../../../errors/toastError";
@@ -135,7 +135,7 @@ export default function TelegramBotSetupForm({
       if (data?.webhookConfigured === false) {
         toast.warning(
           data?.webhookError ||
-            "Conexão salva, mas o webhook não foi registrado. Use BACKEND_URL HTTPS público."
+          "Conexão salva, mas o webhook não foi registrado. Use BACKEND_URL HTTPS público."
         );
       } else {
         toast.success(
@@ -148,7 +148,7 @@ export default function TelegramBotSetupForm({
         try {
           await navigator.clipboard.writeText(webhookUrl);
           toast.info("URL do webhook copiada.");
-        } catch (_) {}
+        } catch (_) { }
       }
       onSaved();
     } catch (err) {

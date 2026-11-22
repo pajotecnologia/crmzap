@@ -54,7 +54,7 @@ import DocumentModal from "../../components/DocumentModal";
 import whatsBackground from "../../assets/wa-background.png";
 import whatsBackgroundDark from "../../assets/wa-background-dark.png";
 import { format, isSameDay, parseISO } from "date-fns";
-import ReplyIcon from "@mui/icons-material/Reply";
+import ReplyIcon from "@material-ui/icons/Reply";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";

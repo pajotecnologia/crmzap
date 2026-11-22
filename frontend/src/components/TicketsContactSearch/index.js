@@ -12,7 +12,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import PersonOutlineRounded from "@mui/icons-material/PersonOutlineRounded";
+import PersonOutlineRounded from "@material-ui/icons/PersonOutlineRounded";
 import api from "../../services/api";
 import toastError from "../../errors/toastError";
 import { AuthContext } from "../../context/Auth/AuthContext";

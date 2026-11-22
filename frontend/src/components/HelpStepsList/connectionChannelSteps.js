@@ -1,4 +1,4 @@
-import TelegramIcon from "@mui/icons-material/Telegram";
+import TelegramIcon from "@material-ui/icons/Telegram";
 import Textsms from "@material-ui/icons/Textsms";
 import VpnKey from "@material-ui/icons/VpnKey";
 import LinkIcon from "@material-ui/icons/Link";

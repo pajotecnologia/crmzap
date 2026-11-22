@@ -67,7 +67,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { i18n } from "../../translate/i18n";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import ForbiddenPage from "../../components/ForbiddenPage";

@@ -4,7 +4,7 @@ import {
   Instagram,
   WhatsApp,
 } from "@material-ui/icons";
-import TelegramIcon from "@mui/icons-material/Telegram";
+import TelegramIcon from "@material-ui/icons/Telegram";
 import {
   SiGithub,
   SiGmail,

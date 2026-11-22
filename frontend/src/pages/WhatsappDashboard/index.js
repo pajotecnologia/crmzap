@@ -52,7 +52,7 @@ import TelegramIcon from "@material-ui/icons/Telegram";
 import AllInboxIcon from "@material-ui/icons/AllInbox";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import FacebookIcon from "@material-ui/icons/Facebook";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
+import { Bot as SmartToyIcon } from "lucide-react";
 import ActivitiesStyleLayout from "../../components/ActivitiesStyleLayout";
 import WhatsappMetricCard, {
   dashboardIndicatorGridStyles,
@@ -285,9 +285,8 @@ const WhatsappDashboard = () => {
   let month = newDate.getMonth() + 1;
   let year = newDate.getFullYear();
   let nowIni = `${year}-${month < 10 ? `0${month}` : `${month}`}-01`;
-  let now = `${year}-${month < 10 ? `0${month}` : `${month}`}-${
-    date < 10 ? `0${date}` : `${date}`
-  }`;
+  let now = `${year}-${month < 10 ? `0${month}` : `${month}`}-${date < 10 ? `0${date}` : `${date}`
+    }`;
 
   const [showFilter, setShowFilter] = useState(false);
   const [dateStartTicket, setDateStartTicket] = useState(nowIni);
@@ -623,292 +622,292 @@ const WhatsappDashboard = () => {
               hideNavDivider
               navActions={
                 <>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                {(() => {
-                  const layout = {
-                    filterItem: "whatsapp-filter-item",
-                    filterLabel: "whatsapp-filter-label",
-                    chevronIcon: "whatsapp-chevron-icon",
-                    calendarIcon: "whatsapp-calendar-icon",
-                  };
-                  const filterItemStyle = {
-                    display: "flex", alignItems: "center", gap: 3,
-                    cursor: "pointer", padding: "1px 5px", borderRadius: 4,
-                    fontSize: 9, fontWeight: 400, color: isDark ? "rgba(255,255,255,0.55)" : "#64748B",
-                    transition: "background 0.15s",
-                  };
-                  const chevronStyle = { fontSize: 10, color: isDark ? "rgba(255,255,255,0.55)" : "#64748B" };
-                  const calIconStyle = { fontSize: 10, color: isDark ? "rgba(255,255,255,0.55)" : "#64748B", marginRight: 2 };
-                  return (
-                    <>
-                      <div style={filterItemStyle} onClick={(e) => setAnchorConnection(e.currentTarget)}>
-                        {connectionFilter !== "all" ? (CHANNEL_OPTIONS.find((o) => o.value === connectionFilter)?.icon || <AllInboxIcon style={{ fontSize: 14 }} />) : <AllInboxIcon style={{ fontSize: 14 }} />}
-                        <span>{connectionFilter === "all" ? "Conexões" : CHANNEL_OPTIONS.find((o) => o.value === connectionFilter)?.label || "Conexões"}</span>
-                        <ExpandMoreIcon style={chevronStyle} />
-                      </div>
-                      <div style={filterItemStyle} onClick={(e) => setAnchorPeriodo(e.currentTarget)}>
-                        <CalendarTodayIcon style={calIconStyle} />
-                        <span>Período</span>
-                        <ExpandMoreIcon style={chevronStyle} />
-                      </div>
-                      <div style={filterItemStyle} onClick={openResponsiblePopover}>
-                        <PersonOutlineIcon style={calIconStyle} />
-                        <span>{i18n.t("dashboard.responsibleUser")}</span>
-                        <ExpandMoreIcon style={chevronStyle} />
-                      </div>
-                    </>
-                  );
-                })()}
-                </div>
-                <IconButton
-                  onClick={exportarGridParaExcel}
-                  aria-label="Exportar para Excel"
-                  size="small"
-                  sx={{ color: isDark ? "#ffffff" : "#111111", p: "4px" }}
-                >
-                  <SaveAlt />
-                </IconButton>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    {(() => {
+                      const layout = {
+                        filterItem: "whatsapp-filter-item",
+                        filterLabel: "whatsapp-filter-label",
+                        chevronIcon: "whatsapp-chevron-icon",
+                        calendarIcon: "whatsapp-calendar-icon",
+                      };
+                      const filterItemStyle = {
+                        display: "flex", alignItems: "center", gap: 3,
+                        cursor: "pointer", padding: "1px 5px", borderRadius: 4,
+                        fontSize: 9, fontWeight: 400, color: isDark ? "rgba(255,255,255,0.55)" : "#64748B",
+                        transition: "background 0.15s",
+                      };
+                      const chevronStyle = { fontSize: 10, color: isDark ? "rgba(255,255,255,0.55)" : "#64748B" };
+                      const calIconStyle = { fontSize: 10, color: isDark ? "rgba(255,255,255,0.55)" : "#64748B", marginRight: 2 };
+                      return (
+                        <>
+                          <div style={filterItemStyle} onClick={(e) => setAnchorConnection(e.currentTarget)}>
+                            {connectionFilter !== "all" ? (CHANNEL_OPTIONS.find((o) => o.value === connectionFilter)?.icon || <AllInboxIcon style={{ fontSize: 14 }} />) : <AllInboxIcon style={{ fontSize: 14 }} />}
+                            <span>{connectionFilter === "all" ? "Conexões" : CHANNEL_OPTIONS.find((o) => o.value === connectionFilter)?.label || "Conexões"}</span>
+                            <ExpandMoreIcon style={chevronStyle} />
+                          </div>
+                          <div style={filterItemStyle} onClick={(e) => setAnchorPeriodo(e.currentTarget)}>
+                            <CalendarTodayIcon style={calIconStyle} />
+                            <span>Período</span>
+                            <ExpandMoreIcon style={chevronStyle} />
+                          </div>
+                          <div style={filterItemStyle} onClick={openResponsiblePopover}>
+                            <PersonOutlineIcon style={calIconStyle} />
+                            <span>{i18n.t("dashboard.responsibleUser")}</span>
+                            <ExpandMoreIcon style={chevronStyle} />
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                  <IconButton
+                    onClick={exportarGridParaExcel}
+                    aria-label="Exportar para Excel"
+                    size="small"
+                    sx={{ color: isDark ? "#ffffff" : "#111111", p: "4px" }}
+                  >
+                    <SaveAlt />
+                  </IconButton>
                 </>
               }
             >
               {/* Popovers rendered at root level for proper anchoring */}
               <Popover
-                    open={Boolean(anchorConnection)}
-                    anchorEl={anchorConnection}
-                    onClose={() => setAnchorConnection(null)}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                  >
-                    <div style={{ padding: 8, minWidth: 180, backgroundColor: isDark ? palette.card : "#fff", borderRadius: 4 }}>
-                      {CHANNEL_OPTIONS.map((opt) => (
-                        <div
-                          key={opt.value}
-                          onClick={() => { setConnectionFilter(opt.value); setAnchorConnection(null); }}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            padding: "6px 10px",
-                            borderRadius: 4,
-                            cursor: "pointer",
-                            fontSize: 13,
-                            color: connectionFilter === opt.value ? palette.blue : palette.text,
-                            fontWeight: connectionFilter === opt.value ? 600 : 400,
-                            backgroundColor: connectionFilter === opt.value ? (isDark ? "rgba(96,165,250,0.12)" : "rgba(59,130,246,0.06)") : "transparent",
-                          }}
-                        >
-                          {opt.icon}
-                          {opt.label}
-                        </div>
-                      ))}
-                    </div>
-                  </Popover>
-                  <Popover
-                    open={Boolean(anchorResponsible)}
-                    anchorEl={anchorResponsible}
-                    onClose={() => setAnchorResponsible(null)}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                  >
+                open={Boolean(anchorConnection)}
+                anchorEl={anchorConnection}
+                onClose={() => setAnchorConnection(null)}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              >
+                <div style={{ padding: 8, minWidth: 180, backgroundColor: isDark ? palette.card : "#fff", borderRadius: 4 }}>
+                  {CHANNEL_OPTIONS.map((opt) => (
                     <div
+                      key={opt.value}
+                      onClick={() => { setConnectionFilter(opt.value); setAnchorConnection(null); }}
                       style={{
-                        padding: 12,
-                        minWidth: 280,
-                        maxWidth: 340,
-                        backgroundColor: isDark ? palette.card : "#fff",
-                        border: `1px solid ${palette.border}`,
-                        borderRadius: 8,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "6px 10px",
+                        borderRadius: 4,
+                        cursor: "pointer",
+                        fontSize: 13,
+                        color: connectionFilter === opt.value ? palette.blue : palette.text,
+                        fontWeight: connectionFilter === opt.value ? 600 : 400,
+                        backgroundColor: connectionFilter === opt.value ? (isDark ? "rgba(96,165,250,0.12)" : "rgba(59,130,246,0.06)") : "transparent",
                       }}
                     >
-                      <TextField
-                        size="small"
-                        fullWidth
-                        margin="dense"
-                        variant="outlined"
-                        placeholder={i18n.t("dashboard.searchResponsible")}
-                        value={responsibleSearch}
-                        onChange={(e) =>
-                          setResponsibleSearch(e.target.value)
-                        }
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment
-                              position="start"
-                              style={{ marginRight: 2 }}
-                            >
-                              <SearchIcon
-                                style={{
-                                  fontSize: 14,
-                                  color: palette.sub,
-                                }}
-                              />
-                            </InputAdornment>
-                          ),
-                          style: { fontSize: 12, borderRadius: 6 },
-                        }}
-                        inputProps={{
-                          style: {
-                            padding: "6px 8px",
-                            fontSize: 12,
-                          },
-                        }}
-                        style={{ marginBottom: 8 }}
-                      />
-                      <div
-                        style={{
-                          maxHeight: 260,
-                          overflowY: "auto",
-                          marginBottom: 10,
-                        }}
-                      >
-                        {filteredResponsibleUsers.length === 0 ? (
-                          <Typography
-                            variant="caption"
-                            style={{ color: palette.sub }}
-                          >
-                            {orgUsers.length === 0
-                              ? i18n.t("dashboard.loadingUsersShort")
-                              : i18n.t(
-                                  "dashboard.noResponsibleSearchResults"
-                                )}
-                          </Typography>
-                        ) : (
-                          filteredResponsibleUsers.map((u) => {
-                            const uid = Number(u.id);
-                            return (
-                              <FormControlLabel
-                                key={u.id}
-                                style={{
-                                  display: "flex",
-                                  marginLeft: 0,
-                                  marginRight: 0,
-                                  alignItems: "center",
-                                }}
-                                control={
-                                  <Checkbox
-                                    size="small"
-                                    color="primary"
-                                    checked={draftResponsibleIds.includes(
-                                      uid
-                                    )}
-                                    onChange={() =>
-                                      toggleDraftResponsible(u.id)
-                                    }
-                                  />
-                                }
-                                label={
-                                  <span
-                                    style={{
-                                      fontSize: "0.75rem",
-                                      color: palette.text,
-                                      lineHeight: "20px",
-                                    }}
-                                  >
-                                    {u.name}
-                                  </span>
-                                }
-                              />
-                            );
-                          })
-                        )}
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: 8,
-                          marginBottom: 10,
-                        }}
-                      >
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          color="primary"
-                          onClick={handleSelectAllResponsibleDraft}
-                          disabled={orgUsers.length === 0}
-                          style={{
-                            textTransform: "none",
-                            fontSize: 12,
-                          }}
-                        >
-                          {i18n.t("dashboard.selectAllResponsible")}
-                        </Button>
-                        <Button
-                          size="small"
-                          onClick={handleClearResponsibleDraft}
-                          style={{
-                            textTransform: "none",
-                            fontSize: 12,
-                          }}
-                        >
-                          {i18n.t("dashboard.clearResponsibleSelection")}
-                        </Button>
-                      </div>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        onClick={handleApplyResponsibleFilter}
-                        style={{ textTransform: "none" }}
-                      >
-                        {i18n.t("dashboard.applyResponsibleFilter")}
-                      </Button>
+                      {opt.icon}
+                      {opt.label}
                     </div>
-                  </Popover>
-                  <Popover
-                    open={Boolean(anchorPeriodo)}
-                    anchorEl={anchorPeriodo}
-                    onClose={() => setAnchorPeriodo(null)}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                    PaperProps={{ style: { borderRadius: 6, boxShadow: '0 4px 24px rgba(0,0,0,0.12)', border: 'none', minWidth: 240 } }}
+                  ))}
+                </div>
+              </Popover>
+              <Popover
+                open={Boolean(anchorResponsible)}
+                anchorEl={anchorResponsible}
+                onClose={() => setAnchorResponsible(null)}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <div
+                  style={{
+                    padding: 12,
+                    minWidth: 280,
+                    maxWidth: 340,
+                    backgroundColor: isDark ? palette.card : "#fff",
+                    border: `1px solid ${palette.border}`,
+                    borderRadius: 8,
+                  }}
+                >
+                  <TextField
+                    size="small"
+                    fullWidth
+                    margin="dense"
+                    variant="outlined"
+                    placeholder={i18n.t("dashboard.searchResponsible")}
+                    value={responsibleSearch}
+                    onChange={(e) =>
+                      setResponsibleSearch(e.target.value)
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment
+                          position="start"
+                          style={{ marginRight: 2 }}
+                        >
+                          <SearchIcon
+                            style={{
+                              fontSize: 14,
+                              color: palette.sub,
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
+                      style: { fontSize: 12, borderRadius: 6 },
+                    }}
+                    inputProps={{
+                      style: {
+                        padding: "6px 8px",
+                        fontSize: 12,
+                      },
+                    }}
+                    style={{ marginBottom: 8 }}
+                  />
+                  <div
+                    style={{
+                      maxHeight: 260,
+                      overflowY: "auto",
+                      marginBottom: 10,
+                    }}
                   >
-                    <div style={{ padding: 12 }}>
-                      <div style={{ display: 'flex', gap: 4, marginBottom: 10, flexWrap: 'wrap' }}>
-                        {[
-                          { label: "Hoje", days: 0 },
-                          { label: "7 dias", days: 7 },
-                          { label: "30 dias", days: 30 },
-                          { label: "90 dias", days: 90 },
-                        ].map((p) => {
-                          const end = new Date();
-                          const start = new Date();
-                          start.setDate(end.getDate() - p.days);
-                          const sv = start.toISOString().slice(0,10);
-                          const ev = end.toISOString().slice(0,10);
-                          const active = dateStartTicket === sv && dateEndTicket === ev;
-                          return (
-                            <div key={p.label} onClick={() => { setDateStartTicket(sv); setDateEndTicket(ev); setAnchorPeriodo(null); setFetchDataFilter((v) => !v); }}
-                              style={{
-                                padding: '4px 10px', borderRadius: 4, fontSize: 11, fontWeight: 500,
-                                cursor: 'pointer', transition: 'all 0.15s',
-                                backgroundColor: active ? '#3b82f6' : (isDark ? 'rgba(255,255,255,0.06)' : '#f3f4f6'),
-                                color: active ? '#fff' : (isDark ? '#e5e7eb' : '#374151'),
-                              }}
-                            >{p.label}</div>
-                          );
-                        })}
-                      </div>
-                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                        <input type="date" value={dateStartTicket} onChange={(e) => setDateStartTicket(e.target.value)}
-                          style={{ flex: 1, padding: '5px 6px', fontSize: 11, borderRadius: 4, border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : '#d1d5db'}`, background: isDark ? 'rgba(255,255,255,0.06)' : '#fff', color: isDark ? '#e5e7eb' : '#111', outline: 'none' }}
-                        />
-                        <span style={{ fontSize: 10, color: isDark ? '#9ca3af' : '#6b7280' }}>–</span>
-                        <input type="date" value={dateEndTicket} onChange={(e) => setDateEndTicket(e.target.value)}
-                          style={{ flex: 1, padding: '5px 6px', fontSize: 11, borderRadius: 4, border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : '#d1d5db'}`, background: isDark ? 'rgba(255,255,255,0.06)' : '#fff', color: isDark ? '#e5e7eb' : '#111', outline: 'none' }}
-                        />
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, gap: 6 }}>
-                        <div onClick={() => { setDateStartTicket(""); setDateEndTicket(""); setAnchorPeriodo(null); setFetchDataFilter((v) => !v); }}
-                          style={{ padding: '4px 10px', fontSize: 11, fontWeight: 500, cursor: 'pointer', borderRadius: 4, color: isDark ? '#9ca3af' : '#6b7280' }}
-                        >Limpar</div>
-                        <div onClick={() => { setAnchorPeriodo(null); setFetchDataFilter((v) => !v); }}
-                          style={{ padding: '4px 14px', fontSize: 11, fontWeight: 600, cursor: 'pointer', borderRadius: 4, backgroundColor: '#3b82f6', color: '#fff' }}
-                        >Aplicar</div>
-                      </div>
-                    </div>
-                  </Popover>
+                    {filteredResponsibleUsers.length === 0 ? (
+                      <Typography
+                        variant="caption"
+                        style={{ color: palette.sub }}
+                      >
+                        {orgUsers.length === 0
+                          ? i18n.t("dashboard.loadingUsersShort")
+                          : i18n.t(
+                            "dashboard.noResponsibleSearchResults"
+                          )}
+                      </Typography>
+                    ) : (
+                      filteredResponsibleUsers.map((u) => {
+                        const uid = Number(u.id);
+                        return (
+                          <FormControlLabel
+                            key={u.id}
+                            style={{
+                              display: "flex",
+                              marginLeft: 0,
+                              marginRight: 0,
+                              alignItems: "center",
+                            }}
+                            control={
+                              <Checkbox
+                                size="small"
+                                color="primary"
+                                checked={draftResponsibleIds.includes(
+                                  uid
+                                )}
+                                onChange={() =>
+                                  toggleDraftResponsible(u.id)
+                                }
+                              />
+                            }
+                            label={
+                              <span
+                                style={{
+                                  fontSize: "0.75rem",
+                                  color: palette.text,
+                                  lineHeight: "20px",
+                                }}
+                              >
+                                {u.name}
+                              </span>
+                            }
+                          />
+                        );
+                      })
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 8,
+                      marginBottom: 10,
+                    }}
+                  >
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      onClick={handleSelectAllResponsibleDraft}
+                      disabled={orgUsers.length === 0}
+                      style={{
+                        textTransform: "none",
+                        fontSize: 12,
+                      }}
+                    >
+                      {i18n.t("dashboard.selectAllResponsible")}
+                    </Button>
+                    <Button
+                      size="small"
+                      onClick={handleClearResponsibleDraft}
+                      style={{
+                        textTransform: "none",
+                        fontSize: 12,
+                      }}
+                    >
+                      {i18n.t("dashboard.clearResponsibleSelection")}
+                    </Button>
+                  </div>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={handleApplyResponsibleFilter}
+                    style={{ textTransform: "none" }}
+                  >
+                    {i18n.t("dashboard.applyResponsibleFilter")}
+                  </Button>
+                </div>
+              </Popover>
+              <Popover
+                open={Boolean(anchorPeriodo)}
+                anchorEl={anchorPeriodo}
+                onClose={() => setAnchorPeriodo(null)}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                PaperProps={{ style: { borderRadius: 6, boxShadow: '0 4px 24px rgba(0,0,0,0.12)', border: 'none', minWidth: 240 } }}
+              >
+                <div style={{ padding: 12 }}>
+                  <div style={{ display: 'flex', gap: 4, marginBottom: 10, flexWrap: 'wrap' }}>
+                    {[
+                      { label: "Hoje", days: 0 },
+                      { label: "7 dias", days: 7 },
+                      { label: "30 dias", days: 30 },
+                      { label: "90 dias", days: 90 },
+                    ].map((p) => {
+                      const end = new Date();
+                      const start = new Date();
+                      start.setDate(end.getDate() - p.days);
+                      const sv = start.toISOString().slice(0, 10);
+                      const ev = end.toISOString().slice(0, 10);
+                      const active = dateStartTicket === sv && dateEndTicket === ev;
+                      return (
+                        <div key={p.label} onClick={() => { setDateStartTicket(sv); setDateEndTicket(ev); setAnchorPeriodo(null); setFetchDataFilter((v) => !v); }}
+                          style={{
+                            padding: '4px 10px', borderRadius: 4, fontSize: 11, fontWeight: 500,
+                            cursor: 'pointer', transition: 'all 0.15s',
+                            backgroundColor: active ? '#3b82f6' : (isDark ? 'rgba(255,255,255,0.06)' : '#f3f4f6'),
+                            color: active ? '#fff' : (isDark ? '#e5e7eb' : '#374151'),
+                          }}
+                        >{p.label}</div>
+                      );
+                    })}
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <input type="date" value={dateStartTicket} onChange={(e) => setDateStartTicket(e.target.value)}
+                      style={{ flex: 1, padding: '5px 6px', fontSize: 11, borderRadius: 4, border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : '#d1d5db'}`, background: isDark ? 'rgba(255,255,255,0.06)' : '#fff', color: isDark ? '#e5e7eb' : '#111', outline: 'none' }}
+                    />
+                    <span style={{ fontSize: 10, color: isDark ? '#9ca3af' : '#6b7280' }}>–</span>
+                    <input type="date" value={dateEndTicket} onChange={(e) => setDateEndTicket(e.target.value)}
+                      style={{ flex: 1, padding: '5px 6px', fontSize: 11, borderRadius: 4, border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : '#d1d5db'}`, background: isDark ? 'rgba(255,255,255,0.06)' : '#fff', color: isDark ? '#e5e7eb' : '#111', outline: 'none' }}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, gap: 6 }}>
+                    <div onClick={() => { setDateStartTicket(""); setDateEndTicket(""); setAnchorPeriodo(null); setFetchDataFilter((v) => !v); }}
+                      style={{ padding: '4px 10px', fontSize: 11, fontWeight: 500, cursor: 'pointer', borderRadius: 4, color: isDark ? '#9ca3af' : '#6b7280' }}
+                    >Limpar</div>
+                    <div onClick={() => { setAnchorPeriodo(null); setFetchDataFilter((v) => !v); }}
+                      style={{ padding: '4px 14px', fontSize: 11, fontWeight: 600, cursor: 'pointer', borderRadius: 4, backgroundColor: '#3b82f6', color: '#fff' }}
+                    >Aplicar</div>
+                  </div>
+                </div>
+              </Popover>
               {tab === "Dashboard" && (
                 <div
                   style={{
@@ -1287,114 +1286,114 @@ const WhatsappDashboard = () => {
                     </div>
                   </div>
 
-                    {/* AI Agent Performance */}
-                    <div className={classes.attendantsChartGrid} style={{ marginTop: 16 }}>
-                      <Paper elevation={0} style={chartPanelStyle(palette, 360)}>
-                        <div style={{ marginBottom: 4 }}>
-                          <Typography variant="subtitle2" style={{ fontWeight: 600, color: palette.text, fontSize: 14 }}>
-                            Agente IA · Atendimentos
-                          </Typography>
-                          <Typography variant="caption" style={{ color: palette.sub, fontSize: 11 }}>
-                            Conversas atendidas pelo Brain AI vs Humanos
-                          </Typography>
-                        </div>
-                        <ResponsiveContainer width="100%" height={260}>
-                          <BarChart
-                            data={(() => {
-                              const total = (counters.supportFinished || 0);
-                              const aiCount = counters.closedByBot || counters.closedByAi || Math.round(total * 0.35);
-                              const humanCount = Math.max(0, total - aiCount);
-                              const dateLabels = [];
-                              const start = moment(dateStartTicket);
-                              const end = moment(dateEndTicket);
-                              const diff = end.diff(start, 'days');
-                              const step = diff > 7 ? Math.ceil(diff / 7) : 1;
-                              for (let d = moment(start); d.isSameOrBefore(end); d.add(step, 'days')) {
-                                dateLabels.push(d.format('DD/MM'));
-                              }
-                              if (dateLabels.length === 0) dateLabels.push(moment().format('DD/MM'));
-                              const aiPerDay = dateLabels.length > 0 ? aiCount / dateLabels.length : 0;
-                              const humanPerDay = dateLabels.length > 0 ? humanCount / dateLabels.length : 0;
-                              return dateLabels.map((label, idx) => ({
-                                dia: label,
-                                ia: Math.max(0, Math.round(aiPerDay * (0.7 + Math.sin(idx * 1.2) * 0.3 + 0.3))),
-                                humano: Math.max(0, Math.round(humanPerDay * (0.6 + Math.cos(idx * 0.9) * 0.4 + 0.3))),
-                              }));
-                            })()}
-                            margin={{ top: 10, right: 10, left: -10, bottom: 5 }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" stroke={palette.track} vertical={false} />
-                            <XAxis dataKey="dia" tick={{ fontSize: 10, fill: palette.sub }} />
-                            <YAxis tick={{ fontSize: 10, fill: palette.sub }} />
-                            <RTooltip contentStyle={{ backgroundColor: palette.card, border: `1px solid ${palette.border}`, borderRadius: 6, fontSize: 12 }} />
-                            <RLegend wrapperStyle={{ fontSize: 11 }} />
-                            <Bar dataKey="ia" name="Agente IA" fill="#8b5cf6" radius={[4, 4, 0, 0]} maxBarSize={28} />
-                            <Bar dataKey="humano" name="Humano" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={28} />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </Paper>
-
-                      <Paper elevation={0} style={chartPanelStyle(palette, 360)}>
-                        <div style={{ marginBottom: 4 }}>
-                          <Typography variant="subtitle2" style={{ fontWeight: 600, color: palette.text, fontSize: 14 }}>
-                            Eficiência do Agente IA
-                          </Typography>
-                          <Typography variant="caption" style={{ color: palette.sub, fontSize: 11 }}>
-                            Proporção de resolução automática
-                          </Typography>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '10px 0' }}>
-                          {(() => {
+                  {/* AI Agent Performance */}
+                  <div className={classes.attendantsChartGrid} style={{ marginTop: 16 }}>
+                    <Paper elevation={0} style={chartPanelStyle(palette, 360)}>
+                      <div style={{ marginBottom: 4 }}>
+                        <Typography variant="subtitle2" style={{ fontWeight: 600, color: palette.text, fontSize: 14 }}>
+                          Agente IA · Atendimentos
+                        </Typography>
+                        <Typography variant="caption" style={{ color: palette.sub, fontSize: 11 }}>
+                          Conversas atendidas pelo Brain AI vs Humanos
+                        </Typography>
+                      </div>
+                      <ResponsiveContainer width="100%" height={260}>
+                        <BarChart
+                          data={(() => {
                             const total = (counters.supportFinished || 0);
                             const aiCount = counters.closedByBot || counters.closedByAi || Math.round(total * 0.35);
                             const humanCount = Math.max(0, total - aiCount);
-                            const pct = total > 0 ? Math.round((aiCount / total) * 100) : 0;
-                            const r = 80;
-                            const circ = 2 * Math.PI * r;
-                            const dash = (pct / 100) * circ;
-                            return (
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
-                                <div style={{ position: 'relative', width: 190, height: 190 }}>
-                                  <svg width="190" height="190" viewBox="0 0 190 190">
-                                    <circle cx="95" cy="95" r={r} fill="none" stroke={isDark ? 'rgba(255,255,255,0.08)' : '#f3f4f6'} strokeWidth="14" />
-                                    <circle cx="95" cy="95" r={r} fill="none" stroke="#8b5cf6" strokeWidth="14"
-                                      strokeDasharray={`${dash} ${circ}`} strokeDashoffset={circ * 0.25}
-                                      strokeLinecap="round" style={{ transition: 'stroke-dasharray 0.6s ease' }} />
-                                  </svg>
-                                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
-                                    <div style={{ fontSize: 28, fontWeight: 700, color: palette.text }}>{pct}%</div>
-                                    <div style={{ fontSize: 10, color: palette.sub }}>resolvido por IA</div>
+                            const dateLabels = [];
+                            const start = moment(dateStartTicket);
+                            const end = moment(dateEndTicket);
+                            const diff = end.diff(start, 'days');
+                            const step = diff > 7 ? Math.ceil(diff / 7) : 1;
+                            for (let d = moment(start); d.isSameOrBefore(end); d.add(step, 'days')) {
+                              dateLabels.push(d.format('DD/MM'));
+                            }
+                            if (dateLabels.length === 0) dateLabels.push(moment().format('DD/MM'));
+                            const aiPerDay = dateLabels.length > 0 ? aiCount / dateLabels.length : 0;
+                            const humanPerDay = dateLabels.length > 0 ? humanCount / dateLabels.length : 0;
+                            return dateLabels.map((label, idx) => ({
+                              dia: label,
+                              ia: Math.max(0, Math.round(aiPerDay * (0.7 + Math.sin(idx * 1.2) * 0.3 + 0.3))),
+                              humano: Math.max(0, Math.round(humanPerDay * (0.6 + Math.cos(idx * 0.9) * 0.4 + 0.3))),
+                            }));
+                          })()}
+                          margin={{ top: 10, right: 10, left: -10, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke={palette.track} vertical={false} />
+                          <XAxis dataKey="dia" tick={{ fontSize: 10, fill: palette.sub }} />
+                          <YAxis tick={{ fontSize: 10, fill: palette.sub }} />
+                          <RTooltip contentStyle={{ backgroundColor: palette.card, border: `1px solid ${palette.border}`, borderRadius: 6, fontSize: 12 }} />
+                          <RLegend wrapperStyle={{ fontSize: 11 }} />
+                          <Bar dataKey="ia" name="Agente IA" fill="#8b5cf6" radius={[4, 4, 0, 0]} maxBarSize={28} />
+                          <Bar dataKey="humano" name="Humano" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={28} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </Paper>
+
+                    <Paper elevation={0} style={chartPanelStyle(palette, 360)}>
+                      <div style={{ marginBottom: 4 }}>
+                        <Typography variant="subtitle2" style={{ fontWeight: 600, color: palette.text, fontSize: 14 }}>
+                          Eficiência do Agente IA
+                        </Typography>
+                        <Typography variant="caption" style={{ color: palette.sub, fontSize: 11 }}>
+                          Proporção de resolução automática
+                        </Typography>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '10px 0' }}>
+                        {(() => {
+                          const total = (counters.supportFinished || 0);
+                          const aiCount = counters.closedByBot || counters.closedByAi || Math.round(total * 0.35);
+                          const humanCount = Math.max(0, total - aiCount);
+                          const pct = total > 0 ? Math.round((aiCount / total) * 100) : 0;
+                          const r = 80;
+                          const circ = 2 * Math.PI * r;
+                          const dash = (pct / 100) * circ;
+                          return (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+                              <div style={{ position: 'relative', width: 190, height: 190 }}>
+                                <svg width="190" height="190" viewBox="0 0 190 190">
+                                  <circle cx="95" cy="95" r={r} fill="none" stroke={isDark ? 'rgba(255,255,255,0.08)' : '#f3f4f6'} strokeWidth="14" />
+                                  <circle cx="95" cy="95" r={r} fill="none" stroke="#8b5cf6" strokeWidth="14"
+                                    strokeDasharray={`${dash} ${circ}`} strokeDashoffset={circ * 0.25}
+                                    strokeLinecap="round" style={{ transition: 'stroke-dasharray 0.6s ease' }} />
+                                </svg>
+                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
+                                  <div style={{ fontSize: 28, fontWeight: 700, color: palette.text }}>{pct}%</div>
+                                  <div style={{ fontSize: 10, color: palette.sub }}>resolvido por IA</div>
+                                </div>
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: '#8b5cf6' }} />
+                                  <div>
+                                    <div style={{ fontSize: 12, fontWeight: 600, color: palette.text }}>{aiCount}</div>
+                                    <div style={{ fontSize: 10, color: palette.sub }}>Agente IA</div>
                                   </div>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: '#8b5cf6' }} />
-                                    <div>
-                                      <div style={{ fontSize: 12, fontWeight: 600, color: palette.text }}>{aiCount}</div>
-                                      <div style={{ fontSize: 10, color: palette.sub }}>Agente IA</div>
-                                    </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: '#3b82f6' }} />
+                                  <div>
+                                    <div style={{ fontSize: 12, fontWeight: 600, color: palette.text }}>{humanCount}</div>
+                                    <div style={{ fontSize: 10, color: palette.sub }}>Humano</div>
                                   </div>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: '#3b82f6' }} />
-                                    <div>
-                                      <div style={{ fontSize: 12, fontWeight: 600, color: palette.text }}>{humanCount}</div>
-                                      <div style={{ fontSize: 10, color: palette.sub }}>Humano</div>
-                                    </div>
-                                  </div>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e7eb' }} />
-                                    <div>
-                                      <div style={{ fontSize: 12, fontWeight: 600, color: palette.text }}>{total}</div>
-                                      <div style={{ fontSize: 10, color: palette.sub }}>Total</div>
-                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <div style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: isDark ? 'rgba(255,255,255,0.15)' : '#e5e7eb' }} />
+                                  <div>
+                                    <div style={{ fontSize: 12, fontWeight: 600, color: palette.text }}>{total}</div>
+                                    <div style={{ fontSize: 10, color: palette.sub }}>Total</div>
                                   </div>
                                 </div>
                               </div>
-                            );
-                          })()}
-                        </div>
-                      </Paper>
-                    </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </Paper>
+                  </div>
 
                   {/* Attendants Section */}
                   <div

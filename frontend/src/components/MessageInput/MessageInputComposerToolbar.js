@@ -10,13 +10,13 @@ import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import EmojiEmotionsOutlined from "@mui/icons-material/EmojiEmotionsOutlined";
 import MicNoneOutlined from "@mui/icons-material/MicNoneOutlined";
 import AttachFileOutlined from "@mui/icons-material/AttachFileOutlined";
-import PermMediaOutlined from "@mui/icons-material/PermMediaOutlined";
+import PermMediaOutlined from "@material-ui/icons/PermMediaOutlined";
 import ChatBubbleOutlineOutlined from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import EventOutlined from "@mui/icons-material/EventOutlined";
 import DataObjectOutlined from "@mui/icons-material/DataObjectOutlined";
-import StorefrontOutlined from "@mui/icons-material/StorefrontOutlined";
-import SendRounded from "@mui/icons-material/SendRounded";
-import Reply from "@mui/icons-material/Reply";
+import StorefrontOutlined from "@material-ui/icons/StorefrontOutlined";
+import SendRounded from "@material-ui/icons/SendRounded";
+import Reply from "@material-ui/icons/Reply";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 
 const ICON = 16;

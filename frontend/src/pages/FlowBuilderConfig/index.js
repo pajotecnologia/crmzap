@@ -51,7 +51,7 @@ import toastError from "../../errors/toastError";
 
 import HttpIcon from "@mui/icons-material/Http";
 import DataObjectIcon from "@mui/icons-material/DataObject";
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import CompareArrows from "@mui/icons-material/CompareArrows";
 
 import ReactFlow, {
