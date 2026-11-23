@@ -1,5 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, CircularProgress, Typography } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+  Divider,
+} from "@material-ui/core";
+import InfoIcon from "@material-ui/icons/Info";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { toast } from "react-toastify";
 import api from "../../services/api";
@@ -69,6 +80,7 @@ export default function MetaMessengerOAuthConnect({
   fullWidth = false,
 }) {
   const [busy, setBusy] = useState(false);
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [instagramAppId, setInstagramAppId] = useState(ENV_INSTAGRAM_APP_ID);
   const unsubRef = useRef(null);
   const isInstagram = channel === "instagram";
@@ -115,10 +127,7 @@ export default function MetaMessengerOAuthConnect({
   const startInstagramLoginPopup = (clientIdOverride) => {
     const clientId = String(clientIdOverride || instagramAppId || "").trim();
     if (!clientId) {
-      toast.error(
-        "Falta Instagram App ID. No Meta Developers → Instagram → API setup with Instagram login, copie o Instagram App ID e configure INSTAGRAM_APP_ID nas variáveis de ambiente do Coolify / servidor.",
-        { autoClose: 14000 }
-      );
+      setInfoModalOpen(true);
       return;
     }
 
@@ -356,21 +365,93 @@ export default function MetaMessengerOAuthConnect({
   // Instagram: apenas Instagram Login (popup).
   if (isInstagram) {
     return (
-      <Button
-        color="primary"
-        variant="contained"
-        disableElevation
-        size={size}
-        fullWidth={fullWidth}
-        className={className}
-        disabled={disabled || busy}
-        onClick={() => startInstagramLoginPopup()}
-        startIcon={
-          busy ? <CircularProgress size={16} color="inherit" /> : null
-        }
-      >
-        {busy ? "Aguardando autorização…" : label}
-      </Button>
+      <>
+        <Button
+          color="primary"
+          variant="contained"
+          disableElevation
+          size={size}
+          fullWidth={fullWidth}
+          className={className}
+          disabled={disabled || busy}
+          onClick={() => startInstagramLoginPopup()}
+          startIcon={
+            busy ? <CircularProgress size={16} color="inherit" /> : null
+          }
+        >
+          {busy ? "Aguardando autorização…" : label}
+        </Button>
+
+        <Dialog
+          open={infoModalOpen}
+          onClose={() => setInfoModalOpen(false)}
+          maxWidth="sm"
+          fullWidth
+          aria-labelledby="instagram-config-info-title"
+        >
+          <DialogTitle id="instagram-config-info-title" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <InfoIcon color="primary" />
+            Configuração da Conexão com o Instagram
+          </DialogTitle>
+          <DialogContent dividers>
+            <Box mb={2}>
+              <Typography variant="subtitle1" style={{ fontWeight: 600, color: "#1976d2", marginBottom: 6 }}>
+                Integração Oficial da Meta (Facebook / Instagram)
+              </Typography>
+              <Typography variant="body2" color="textSecondary" paragraph>
+                O canal do Instagram Direct é <strong>opcional</strong>. Para que o sistema receba e envie mensagens do Instagram pelo CRM, a Meta exige a vinculação de um aplicativo oficial de desenvolvedor.
+              </Typography>
+              <Typography variant="body2" color="textSecondary" paragraph>
+                <strong>Isto não é uma falha do sistema.</strong> Trata-se de uma etapa de configuração que deve ser ativada pelo administrador caso sua empresa deseje utilizar este canal.
+              </Typography>
+            </Box>
+
+            <Divider style={{ margin: "12px 0" }} />
+
+            <Typography variant="subtitle2" style={{ fontWeight: 700, marginBottom: 8 }}>
+              Passo a passo para o Administrador habilitar o Instagram:
+            </Typography>
+
+            <Box component="ol" style={{ paddingLeft: 20, margin: "0 0 16px 0", fontSize: "0.875rem", lineHeight: 1.6, color: "#374151" }}>
+              <li style={{ marginBottom: 8 }}>
+                <strong>Criar o App na Meta:</strong><br />
+                Acesse <a href="https://developers.facebook.com" target="_blank" rel="noopener noreferrer">developers.facebook.com</a>, clique em <em>Meus Aplicativos → Criar Aplicativo</em> e selecione o tipo comercial/empresa.
+              </li>
+              <li style={{ marginBottom: 8 }}>
+                <strong>Ativar o Instagram Login:</strong><br />
+                No painel do aplicativo na Meta, adicione o produto <em>Instagram</em> → <em>API setup with Instagram login</em>.
+              </li>
+              <li style={{ marginBottom: 8 }}>
+                <strong>Copiar as Chaves:</strong><br />
+                Copie o seu <strong>Instagram App ID</strong> e a <strong>Chave Secreta</strong> (App Secret).
+              </li>
+              <li style={{ marginBottom: 8 }}>
+                <strong>Configurar no Servidor (Coolify):</strong><br />
+                No painel do Coolify, acesse as <em>Environment Variables</em> do serviço <strong>Backend</strong> e adicione:<br />
+                <code>INSTAGRAM_APP_ID=seu_app_id</code><br />
+                <code>INSTAGRAM_APP_SECRET=seu_app_secret</code><br />
+                E no serviço do <strong>Frontend</strong>:<br />
+                <code>REACT_APP_INSTAGRAM_APP_ID=seu_app_id</code>
+              </li>
+              <li>
+                <strong>Atualizar a Aplicação:</strong><br />
+                Clique em <em>Deploy</em> no Coolify. O botão estará pronto para conectar suas contas do Instagram!
+              </li>
+            </Box>
+
+            <Box p={1.5} style={{ backgroundColor: "#f0fdf4", borderRadius: 8, border: "1px solid #bbf7d0" }}>
+              <Typography variant="caption" style={{ color: "#166534", display: "block" }}>
+                💡 <strong>Importante:</strong> Se sua operação utiliza apenas o <strong>WhatsApp</strong>, nenhuma configuração é necessária. O WhatsApp e todas as demais funções do sistema operam perfeitamente sem o Instagram.
+              </Typography>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setInfoModalOpen(false)} color="primary" variant="contained">
+              Entendido
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
     );
   }
 

@@ -772,7 +772,7 @@ export const storeInstagramLogin = async (
     ) {
       return res.status(400).json({
         error:
-          "Falta INSTAGRAM_APP_ID no servidor. No Meta Developers → Instagram → API setup with Instagram login, copie o Instagram App ID (não o Facebook App ID) e configure INSTAGRAM_APP_ID + INSTAGRAM_APP_SECRET nas variáveis de ambiente do Coolify/servidor. Usar o Facebook App ID gera Invalid platform app."
+          "Configuração de Instagram pendente: Este canal é opcional e requer a configuração de INSTAGRAM_APP_ID e INSTAGRAM_APP_SECRET nas variáveis de ambiente do Coolify/servidor pelo administrador. Se você utiliza apenas o WhatsApp, nenhuma ação é necessária."
       });
     }
 
