@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import toastError from "../../errors/toastError";
 import useSettings from "../../hooks/useSettings";
 import MinimalLanguageSelector from "../../components/MinimalLanguageSelector";
-import { OFFICIAL_LOGO as logoVB } from "../../constants/defaultLogos";
 import { getBackendUrl } from "../../config";
 import { openApi } from "../../services/api";
 import {
@@ -100,11 +99,37 @@ const useStyles = makeStyles(() => ({
         alignItems: "center",
         fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif',
     },
+    heroLogoContainer: {
+        minHeight: 52,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 8,
+        width: "100%",
+    },
     heroLogo: {
-        width: 160,
+        maxWidth: 180,
+        maxHeight: 65,
+        width: "auto",
         height: "auto",
-        marginBottom: 4,
+        objectFit: "contain",
         opacity: 0.96,
+        transition: "opacity 0.2s ease",
+    },
+    heroLogoSkeleton: {
+        width: 160,
+        height: 50,
+        borderRadius: 8,
+        backgroundColor: "transparent",
+    },
+    fallbackBrandTitle: {
+        fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
+        fontSize: 22,
+        fontWeight: 700,
+        letterSpacing: "-0.02em",
+        color: "#ffffff",
+        margin: 0,
+        lineHeight: 1.2,
     },
     welcome: {
         fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
@@ -318,7 +343,12 @@ const Login = () => {
     const [googleConfigured, setGoogleConfigured] = useState(true);
     const [googleAuthError, setGoogleAuthError] = useState(null);
     const [enabledLanguages, setEnabledLanguages] = useState(["pt-BR", "en", "es", "ar"]);
-    const [customLogo, setCustomLogo] = useState(null);
+    const [customLogo, setCustomLogo] = useState(
+        () => localStorage.getItem("appLogoLight") || null
+    );
+    const [logoLoaded, setLogoLoaded] = useState(
+        () => Boolean(localStorage.getItem("appLogoLight"))
+    );
     const [customAppName, setCustomAppName] = useState(() => localStorage.getItem("appName") || "");
 
     const getCompanyIdFromUrl = () => {
@@ -415,15 +445,21 @@ const Login = () => {
         getPublicSetting("appLogoLight", companyId)
             .then((logo) => {
                 if (logo) {
-                    setCustomLogo(`${getBackendUrl()}/public/${logo}`);
+                    const fullLogoUrl = `${getBackendUrl()}/public/${logo}`;
+                    setCustomLogo(fullLogoUrl);
+                    localStorage.setItem("appLogoLight", fullLogoUrl);
                 }
+                setLogoLoaded(true);
             })
-            .catch(() => {});
+            .catch(() => {
+                setLogoLoaded(true);
+            });
 
         getPublicSetting("appName", companyId)
             .then((name) => {
                 if (name) {
                     setCustomAppName(name);
+                    localStorage.setItem("appName", name);
                 }
             })
             .catch(() => {});
@@ -455,7 +491,21 @@ const Login = () => {
                 <div className={classes.centerWrap}>
                     <CssBaseline />
                     <div className={classes.paper}>
-                        <img src={customLogo || logoVB} alt="VBsolution" className={classes.heroLogo} />
+                        <div className={classes.heroLogoContainer}>
+                            {customLogo ? (
+                                <img
+                                    src={customLogo}
+                                    alt={customAppName || "Logo"}
+                                    className={classes.heroLogo}
+                                />
+                            ) : logoLoaded ? (
+                                <Typography component="h2" className={classes.fallbackBrandTitle}>
+                                    {customAppName || "CRM"}
+                                </Typography>
+                            ) : (
+                                <div className={classes.heroLogoSkeleton} />
+                            )}
+                        </div>
                         <Typography component="h1" className={classes.welcome}>
                             {t("login.welcome")}
                         </Typography>

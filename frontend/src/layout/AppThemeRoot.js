@@ -152,8 +152,12 @@ const AppThemeRoot = ({ children }) => {
   const [chartColorDark, setChartColorDark] = useState(
     () => localStorage.getItem("chartColorDark") || ""
   );
-  const [appLogoLight, setAppLogoLight] = useState(defaultLogoLight);
-  const [appLogoDark, setAppLogoDark] = useState(defaultLogoDark);
+  const [appLogoLight, setAppLogoLight] = useState(
+    () => localStorage.getItem("appLogoLight") || defaultLogoLight
+  );
+  const [appLogoDark, setAppLogoDark] = useState(
+    () => localStorage.getItem("appLogoDark") || defaultLogoDark
+  );
   const [appLogoFavicon, setAppLogoFavicon] = useState(defaultLogoFavicon);
   const [appLogoTickets, setAppLogoTickets] = useState("");
   const [appName, setAppName] = useState(appNameLocalStorage);
@@ -1165,11 +1169,18 @@ const AppThemeRoot = ({ children }) => {
             setSidebarColorDark(sbDark);
             setChartColorLight(chLight);
             setChartColorDark(chDark);
-            setAppLogoLight(logoUrl(fL) || defaultLogoLight);
-            setAppLogoDark(logoUrl(fD) || defaultLogoDark);
-            setAppLogoFavicon(logoUrl(fF) || defaultLogoFavicon);
+            const finalLight = logoUrl(fL) || defaultLogoLight;
+            const finalDark = logoUrl(fD) || defaultLogoDark;
+            setAppLogoLight(finalLight);
+            setAppLogoDark(finalDark);
+            if (logoUrl(fL)) localStorage.setItem("appLogoLight", finalLight);
+            if (logoUrl(fD)) localStorage.setItem("appLogoDark", finalDark);
+            const finalFav = logoUrl(fF) || defaultLogoFavicon;
+            setAppLogoFavicon(finalFav);
+            if (logoUrl(fF)) localStorage.setItem("appLogoFavicon", finalFav);
             setAppLogoTickets(logoUrl(fT) || "");
             setAppName(resolvedName);
+            if (resolvedName) localStorage.setItem("appName", resolvedName);
           });
           return;
         }
@@ -1229,11 +1240,18 @@ const AppThemeRoot = ({ children }) => {
           setSidebarColorDark(sDark && isValidHex(sDark) ? sDark : "");
           setChartColorLight(cLight && isValidHex(cLight) ? cLight : "");
           setChartColorDark(cDark && isValidHex(cDark) ? cDark : "");
-          setAppLogoLight(lLight ? getBackendUrl() + "/public/" + lLight : defaultLogoLight);
-          setAppLogoDark(lDark ? getBackendUrl() + "/public/" + lDark : defaultLogoDark);
-          setAppLogoFavicon(lFav ? getBackendUrl() + "/public/" + lFav : defaultLogoFavicon);
+          const finalLight = lLight ? getBackendUrl() + "/public/" + lLight : defaultLogoLight;
+          const finalDark = lDark ? getBackendUrl() + "/public/" + lDark : defaultLogoDark;
+          setAppLogoLight(finalLight);
+          setAppLogoDark(finalDark);
+          if (lLight) localStorage.setItem("appLogoLight", finalLight);
+          if (lDark) localStorage.setItem("appLogoDark", finalDark);
+          const finalFav = lFav ? getBackendUrl() + "/public/" + lFav : defaultLogoFavicon;
+          setAppLogoFavicon(finalFav);
+          if (lFav) localStorage.setItem("appLogoFavicon", finalFav);
           setAppLogoTickets(lTick ? getBackendUrl() + "/public/" + lTick : "");
           setAppName(aName || "PjzZAp");
+          if (aName) localStorage.setItem("appName", aName);
         });
       } catch (e) {
         console.log("Theme load error", e);
