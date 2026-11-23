@@ -37,6 +37,7 @@ import {
   isManualTicketAccept
 } from "../../helpers/ticketHumanAccept";
 import EnsureTicketWhatsApp from "../../helpers/EnsureTicketWhatsApp";
+import { cacheLayer } from "../../libs/cache";
 interface TicketData {
   status?: string;
   userId?: number | null;
@@ -359,6 +360,11 @@ const UpdateTicketService = async ({
           : shouldSendFarewellMessage;
 
     if (status !== undefined && ["closed"].indexOf(status) > -1) {
+      try {
+        await cacheLayer.del(`first-contact-executed:${ticketId}`);
+      } catch (e) {
+        logger.error(`[CACHE] Erro ao limpar flag de primeiro contato do ticket ${ticketId}:`, e);
+      }
       const _userId = ticket.userId || userId;
       let user;
       if (_userId) {

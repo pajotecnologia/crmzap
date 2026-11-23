@@ -3363,29 +3363,35 @@ export const flowbuilderIntegration = async (
     console.log(`[FIRST CONTACT] ⏭️ Já executado anteriormente para ticket ${ticket.id}, ignorando.`);
   }
 
-  // *** FLUXO flowIdWelcome: Para contatos que JÁ EXISTEM na base ***
-  if (
+  // *** FLUXO BOAS-VINDAS / NÃO-FRASE: Dispara quando não há atendente humano nem fluxo em andamento ***
+  const targetFlowId = isNewContact
+    ? (whatsapp.flowIdNotPhrase || whatsapp.flowIdWelcome)
+    : (whatsapp.flowIdWelcome || whatsapp.flowIdNotPhrase);
+
+  const canRunWelcomeFlow =
     !hasAnyPhraseMatch(listPhrase, body, whatsapp.id) &&
-    whatsapp.flowIdWelcome &&
-    messageCount === 1 &&
-    !isNewContact &&
-    !firstContactAlreadyRan
-  ) {
+    targetFlowId &&
+    !ticket.userId &&
+    !ticket.flowWebhook &&
+    !ticket.flowStopped &&
+    !firstContactAlreadyRan;
+
+  if (canRunWelcomeFlow) {
     console.log(
-      `[WELCOME FLOW] 🚀 Iniciando flowIdWelcome (${whatsapp.flowIdWelcome}) - Contato existente na primeira mensagem`
+      `[FLOW DISPATCH] 🚀 Iniciando fluxo ${targetFlowId} (isNewContact: ${isNewContact}, messageCount: ${messageCount}) para ticket ${ticket.id}`
     );
 
     try {
       const flow = await FlowBuilderModel.findOne({
         where: {
-          id: whatsapp.flowIdWelcome,
+          id: targetFlowId,
           company_id: companyId
         }
       });
 
       if (!flow) {
         console.error(
-          `[WELCOME FLOW] ❌ Fluxo flowIdWelcome ${whatsapp.flowIdWelcome} não encontrado`
+          `[FLOW DISPATCH] ❌ Fluxo ${targetFlowId} não encontrado`
         );
       } else {
         const nodes: INodes[] = flow.flow["nodes"];
@@ -3393,7 +3399,7 @@ export const flowbuilderIntegration = async (
 
         if (!nodes || !Array.isArray(nodes) || nodes.length === 0) {
           console.error(
-            `[WELCOME FLOW] ❌ Fluxo flowIdWelcome ${flow.id} não possui nós válidos`
+            `[FLOW DISPATCH] ❌ Fluxo ${flow.id} não possui nós válidos`
           );
         } else {
           const mountDataContact = {
@@ -3402,13 +3408,16 @@ export const flowbuilderIntegration = async (
             email: contact.email
           };
 
+          // Garantir nó inicial correto (procura 'start' ou o primeiro)
+          const startNode = nodes.find(n => n.type === "start") || nodes[0];
+
           await ActionsWebhookService(
             whatsapp.id,
-            whatsapp.flowIdWelcome,
+            targetFlowId,
             ticket.companyId,
             nodes,
             connections,
-            flow.flow["nodes"][0].id,
+            startNode.id,
             null,
             "",
             "",
@@ -3418,7 +3427,7 @@ export const flowbuilderIntegration = async (
           );
 
           console.log(
-            `[WELCOME FLOW] ✅ Fluxo flowIdWelcome executado com sucesso!`
+            `[FLOW DISPATCH] ✅ Fluxo ${targetFlowId} disparado com sucesso!`
           );
 
           // Marcar em cache para não reexecutar neste ticket
@@ -3428,89 +3437,9 @@ export const flowbuilderIntegration = async (
       }
     } catch (error) {
       console.error(
-        "[WELCOME FLOW] ❌ Erro ao executar fluxo flowIdWelcome:",
+        `[FLOW DISPATCH] ❌ Erro ao executar fluxo ${targetFlowId}:`,
         error
       );
-    }
-  } else if (
-    !hasAnyPhraseMatch(listPhrase, body, whatsapp.id) &&
-    whatsapp.flowIdNotPhrase &&
-    messageCount === 1 &&
-    isNewContact &&
-    !firstContactAlreadyRan
-  ) {
-    console.log(
-      `[FIRST CONTACT] 🚀 Iniciando flowIdNotPhrase (${whatsapp.flowIdNotPhrase}) - Contato NOVO na primeira mensagem sem match de campanha`
-    );
-
-    try {
-      const flow = await FlowBuilderModel.findOne({
-        where: {
-          id: whatsapp.flowIdNotPhrase,
-          company_id: companyId
-        }
-      });
-
-      if (!flow) {
-        console.error(
-          `[FIRST CONTACT] ❌ Fluxo flowIdNotPhrase ${whatsapp.flowIdNotPhrase} não encontrado`
-        );
-      } else {
-        const nodes: INodes[] = flow.flow["nodes"];
-        const connections: IConnections[] = flow.flow["connections"];
-
-        if (!nodes || !Array.isArray(nodes) || nodes.length === 0) {
-          console.error(
-            `[FIRST CONTACT] ❌ Fluxo flowIdNotPhrase ${flow.id} não possui nós válidos`
-          );
-        } else {
-          const mountDataContact = {
-            number: contact.number,
-            name: contact.name,
-            email: contact.email
-          };
-
-          await ActionsWebhookService(
-            whatsapp.id,
-            whatsapp.flowIdNotPhrase,
-            ticket.companyId,
-            nodes,
-            connections,
-            flow.flow["nodes"][0].id,
-            null,
-            "",
-            "",
-            null,
-            ticket.id,
-            mountDataContact
-          );
-
-          console.log(
-            `[FIRST CONTACT] ✅ Fluxo flowIdNotPhrase executado com sucesso na primeira mensagem!`
-          );
-
-          // Marcar em cache para não reexecutar neste ticket
-          await cacheLayer.set(firstContactFlagKey, "1", "EX", 86400);
-          return true;
-        }
-      }
-    } catch (error) {
-      console.error(
-        "[FIRST CONTACT] ❌ Erro ao executar fluxo flowIdNotPhrase:",
-        error
-      );
-    }
-  } else if (
-    !hasAnyPhraseMatch(listPhrase, body, whatsapp.id) &&
-    (whatsapp.flowIdNotPhrase || whatsapp.flowIdWelcome) &&
-    messageCount > 1
-  ) {
-    console.log(
-      `[FLOW SKIP] ℹ️ Pulando fluxos de primeiro contato - NÃO é primeira mensagem (count: ${messageCount})`
-    );
-    // Limpar flag caso exista, para não interferir em novos tickets
-    if (firstContactAlreadyRan) {
-      await cacheLayer.del(firstContactFlagKey);
     }
   }
 
@@ -6304,7 +6233,7 @@ const handleMessage = async (
       console.log(e);
     }
 
-    if (!msg.key.fromMe && !ticket.imported && !isGroup && ticket.isBot !== false) {
+    if (!msg.key.fromMe && !ticket.imported && !isGroup && (!ticket.userId || ticket.isBot)) {
       const hasFlowOrIntegration = Boolean(
         ticket.integrationId ||
         whatsapp.integrationId ||

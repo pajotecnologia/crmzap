@@ -538,6 +538,12 @@ export const ActionsWebhookService = async (
         }
       }
 
+      if (nodeSelected.type === "interval") {
+        const sec = parseInt(nodeSelected.data?.sec || "1", 10) || 1;
+        console.log(`[INTERVAL NODE] Aguardando intervalo de ${sec}s para ticket ${ticket?.id || idTicket}`);
+        await intervalWhats(String(sec));
+      }
+
       if (nodeSelected.type === "message") {
         if (dataWebhook === "") {
           msg = {
