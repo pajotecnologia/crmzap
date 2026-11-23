@@ -539,8 +539,8 @@ export const ActionsWebhookService = async (
       }
 
       if (nodeSelected.type === "interval") {
-        const sec = parseInt(nodeSelected.data?.sec || "1", 10) || 1;
-        console.log(`[INTERVAL NODE] Aguardando intervalo de ${sec}s para ticket ${ticket?.id || idTicket}`);
+        const sec = parseInt((nodeSelected.data as any)?.sec || "1", 10) || 1;
+        console.log(`[INTERVAL NODE] Aguardando intervalo de ${sec}s para ticket ${(ticket as any)?.id || idTicket}`);
         await intervalWhats(String(sec));
       }
 

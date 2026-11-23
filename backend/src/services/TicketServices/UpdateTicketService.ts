@@ -37,7 +37,7 @@ import {
   isManualTicketAccept
 } from "../../helpers/ticketHumanAccept";
 import EnsureTicketWhatsApp from "../../helpers/EnsureTicketWhatsApp";
-import { cacheLayer } from "../../libs/cache";
+import cacheLayer from "../../libs/cache";
 interface TicketData {
   status?: string;
   userId?: number | null;

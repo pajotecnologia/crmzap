@@ -101,4 +101,5 @@ class CacheSingleton {
 
 const redisInstance = new Redis(REDIS_URI_CONNECTION);
 
-export default CacheSingleton.getInstance(redisInstance);
+export const cacheLayer = CacheSingleton.getInstance(redisInstance);
+export default cacheLayer;

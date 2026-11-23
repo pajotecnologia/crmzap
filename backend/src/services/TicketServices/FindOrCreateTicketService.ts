@@ -16,7 +16,7 @@ import logger from "../../utils/logger";
 import { normalizeTicketDataWebhook } from "../AgentProactiveServices/agentProactiveTicketState";
 import { whatsappHasConnectionAgent } from "../../providers/anthropic/services/resolveConnectionAgent";
 import { runWithTicketLock } from "../../helpers/metaTicketLock";
-import { cacheLayer } from "../../libs/cache";
+import cacheLayer from "../../libs/cache";
 
 const OPEN_STATUSES = ["open", "pending", "group", "chatbot", "nps", "lgpd"] as const;
 

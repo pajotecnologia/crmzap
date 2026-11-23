@@ -3370,28 +3370,29 @@ export const flowbuilderIntegration = async (
 
   const canRunWelcomeFlow =
     !hasAnyPhraseMatch(listPhrase, body, whatsapp.id) &&
-    targetFlowId &&
+    Boolean(targetFlowId) &&
     !ticket.userId &&
     !ticket.flowWebhook &&
     !ticket.flowStopped &&
     !firstContactAlreadyRan;
 
-  if (canRunWelcomeFlow) {
+  if (canRunWelcomeFlow && targetFlowId) {
+    const validFlowId = Number(targetFlowId);
     console.log(
-      `[FLOW DISPATCH] 🚀 Iniciando fluxo ${targetFlowId} (isNewContact: ${isNewContact}, messageCount: ${messageCount}) para ticket ${ticket.id}`
+      `[FLOW DISPATCH] 🚀 Iniciando fluxo ${validFlowId} (isNewContact: ${isNewContact}, messageCount: ${messageCount}) para ticket ${ticket.id}`
     );
 
     try {
       const flow = await FlowBuilderModel.findOne({
         where: {
-          id: targetFlowId,
+          id: validFlowId,
           company_id: companyId
         }
       });
 
       if (!flow) {
         console.error(
-          `[FLOW DISPATCH] ❌ Fluxo ${targetFlowId} não encontrado`
+          `[FLOW DISPATCH] ❌ Fluxo ${validFlowId} não encontrado`
         );
       } else {
         const nodes: INodes[] = flow.flow["nodes"];
@@ -3409,15 +3410,16 @@ export const flowbuilderIntegration = async (
           };
 
           // Garantir nó inicial correto (procura 'start' ou o primeiro)
-          const startNode = nodes.find(n => n.type === "start") || nodes[0];
+          const startNode = (nodes.find(n => n.type === "start") || nodes[0]) as INodes;
+          const startNodeId = String(startNode?.id || nodes[0]?.id || "1");
 
           await ActionsWebhookService(
             whatsapp.id,
-            targetFlowId,
+            validFlowId,
             ticket.companyId,
             nodes,
             connections,
-            startNode.id,
+            startNodeId,
             null,
             "",
             "",
@@ -3427,7 +3429,7 @@ export const flowbuilderIntegration = async (
           );
 
           console.log(
-            `[FLOW DISPATCH] ✅ Fluxo ${targetFlowId} disparado com sucesso!`
+            `[FLOW DISPATCH] ✅ Fluxo ${validFlowId} disparado com sucesso!`
           );
 
           // Marcar em cache para não reexecutar neste ticket
@@ -3437,7 +3439,7 @@ export const flowbuilderIntegration = async (
       }
     } catch (error) {
       console.error(
-        `[FLOW DISPATCH] ❌ Erro ao executar fluxo ${targetFlowId}:`,
+        `[FLOW DISPATCH] ❌ Erro ao executar fluxo ${validFlowId}:`,
         error
       );
     }
@@ -6256,7 +6258,7 @@ const handleMessage = async (
         try {
           const queueIntegrations = (ticket.integrationId || whatsapp.integrationId)
             ? await ShowQueueIntegrationService(
-                ticket.integrationId || whatsapp.integrationId,
+                (ticket.integrationId || whatsapp.integrationId) as number,
                 companyId
               )
             : null;
@@ -7005,7 +7007,7 @@ const handleMessage = async (
 
               const queueIntegrations = whatsapp.integrationId
                 ? await ShowQueueIntegrationService(
-                    whatsapp.integrationId,
+                    whatsapp.integrationId as number,
                     companyId
                   )
                 : null;
