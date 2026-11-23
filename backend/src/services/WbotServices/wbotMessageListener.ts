@@ -3423,6 +3423,7 @@ export const flowbuilderIntegration = async (
 
           // Marcar em cache para não reexecutar neste ticket
           await cacheLayer.set(firstContactFlagKey, "1", "EX", 86400);
+          return true;
         }
       }
     } catch (error) {
@@ -3490,6 +3491,7 @@ export const flowbuilderIntegration = async (
 
           // Marcar em cache para não reexecutar neste ticket
           await cacheLayer.set(firstContactFlagKey, "1", "EX", 86400);
+          return true;
         }
       }
     } catch (error) {
@@ -3641,6 +3643,7 @@ export const flowbuilderIntegration = async (
           );
 
           logger.info("[FLOW STOPPED] ✅ Fluxo interrompido continuado!");
+          return true;
         } else {
           logger.error(
             `[FLOW STOPPED] ❌ Fluxo interrompido ${ticket.flowStopped} não encontrado`
@@ -6302,11 +6305,19 @@ const handleMessage = async (
     }
 
     if (!msg.key.fromMe && !ticket.imported && !isGroup && ticket.isBot !== false) {
-      // Verificar se ticket.integrationId existe antes de continuar
-      if (!ticket.integrationId) {
-        logger.info("[HANDLE MESSAGE] Ticket sem integração, pulando verificação de campanhas");
+      const hasFlowOrIntegration = Boolean(
+        ticket.integrationId ||
+        whatsapp.integrationId ||
+        whatsapp.flowIdWelcome ||
+        whatsapp.flowIdNotPhrase ||
+        ticket.flowStopped ||
+        ticket.flowWebhook
+      );
+
+      if (!hasFlowOrIntegration) {
+        logger.info("[HANDLE MESSAGE] Ticket sem integração nem fluxo configurado, pulando verificação de campanhas/fluxos");
       } else {
-        console.log("[HANDLE MESSAGE] Verificando campanhas de fluxo...");
+        console.log("[HANDLE MESSAGE] Verificando campanhas e fluxos...");
 
         const contactForCampaign = await ShowContactService(
           ticket.contactId,
@@ -6314,12 +6325,14 @@ const handleMessage = async (
         );
 
         try {
-          const queueIntegrations = await ShowQueueIntegrationService(
-            ticket.integrationId,
-            companyId
-          );
+          const queueIntegrations = (ticket.integrationId || whatsapp.integrationId)
+            ? await ShowQueueIntegrationService(
+                ticket.integrationId || whatsapp.integrationId,
+                companyId
+              )
+            : null;
 
-          // ✅ EXECUTAR CAMPANHA APENAS UMA VEZ
+          // ✅ EXECUTAR CAMPANHA OU FLUXO
           campaignExecuted = await flowbuilderIntegration(
             msg,
             wbot,
@@ -6332,11 +6345,11 @@ const handleMessage = async (
           );
 
           if (campaignExecuted) {
-            console.log("[RDS-4121 - HANDLE MESSAGE] ✅ Campanha executada, parando outros fluxos");
+            console.log("[RDS-4121 - HANDLE MESSAGE] ✅ Fluxo/Campanha executado, parando outros fluxos");
             return;
           }
         } catch (error) {
-          console.error("[RDS-4125 HANDLE MESSAGE] Erro ao verificar campanhas:", error);
+          console.error("[RDS-4125 HANDLE MESSAGE] Erro ao verificar campanhas/fluxos:", error);
         }
       }
     }
@@ -6819,7 +6832,9 @@ const handleMessage = async (
         ((whatsapp as any)?.agentDisabled === true) ||
         !whatsappHasConnectionAgent(whatsapp)
       ) &&
-      !ticket.useIntegration
+      !ticket.useIntegration &&
+      !ticket.flowWebhook &&
+      !ticket.flowStopped
     ) {
       // console.log("antes do verifyqueue")
       await verifyQueue(wbot, msg, ticket, contact, settings, ticketTraking);
@@ -7052,17 +7067,19 @@ const handleMessage = async (
               ticket.companyId
             );
 
-            // Verificar se existe integrationId antes de prosseguir
+            // Verificar se existe integrationId ou fluxo antes de prosseguir
             try {
-              if (!whatsapp.integrationId) {
-                logger.info("[RDS-4573 - DEBUG] whatsapp.integrationId não está definido para a conexão WhatsApp ID: " + whatsapp.id);
-                return; // Encerrar execução se não houver integrationId
+              if (!whatsapp.integrationId && !whatsapp.flowIdWelcome && !whatsapp.flowIdNotPhrase && !ticket.flowStopped) {
+                logger.info("[RDS-4573 - DEBUG] Nem whatsapp.integrationId nem fluxos estão definidos para conexão WhatsApp ID: " + whatsapp.id);
+                return;
               }
 
-              const queueIntegrations = await ShowQueueIntegrationService(
-                whatsapp.integrationId,
-                companyId
-              );
+              const queueIntegrations = whatsapp.integrationId
+                ? await ShowQueueIntegrationService(
+                    whatsapp.integrationId,
+                    companyId
+                  )
+                : null;
 
               // DEBUG - Verificar tipo de integração para diagnóstico
               logger.info(`[RDS-FLOW-DEBUG] Iniciando flowbuilder para ticket ${ticket.id}, integração tipo: ${queueIntegrations?.type || 'indefinido'}`);
