@@ -27,7 +27,7 @@ export async function testSmtpConnection() {
     const info = await transporter.sendMail({
       from: resolveMailFromAddress(),
       to: process.env.MAIL_USER, // Envia para si mesmo
-      subject: "Teste de Conexão SMTP - VBSolution",
+      subject: `Teste de Conexão SMTP - ${process.env.APP_NAME || "Pajotech CRM"}`,
       text: "Este é um email de teste para verificar se a configuração SMTP está funcionando corretamente.",
       html: `<p>Este é um email de teste para verificar se a configuração SMTP está funcionando corretamente.</p>
              <p><strong>Data:</strong> ${new Date().toLocaleString('pt-BR')}</p>`

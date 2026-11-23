@@ -304,6 +304,12 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
     // const { state, saveCreds } = await useMultiFileAuthState(folderSessions);
     const { state, saveCreds } = await useMultiFileAuthState(whatsapp);
 
+    const browserClientName = (
+      process.env.WHATSAPP_BROWSER_CLIENT_NAME ||
+      process.env.APP_NAME ||
+      (name && name.trim().length > 0 ? name.trim() : "Pajotech CRM")
+    ).trim();
+
     wsocket = makeWASocket({
       version: versionWA,
       logger: loggerBaileys,
@@ -313,7 +319,7 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
         /** caching makes the store faster to send/recv messages */
         keys: state.keys,
       },
-      browser: ["VBSolution", "Chrome", "10.0"],
+      browser: [browserClientName, "Chrome", "10.0"],
       syncFullHistory: true,
       connectTimeoutMs: 60000,
       defaultQueryTimeoutMs: 60000,
