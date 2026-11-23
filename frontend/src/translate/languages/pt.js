@@ -687,6 +687,7 @@ const messages = {
       },
       qrCode: {
         message: "Leia o QrCode para iniciar a sessão",
+        waiting: "Aguardando geração do QR Code... Por favor, aguarde alguns instantes.",
       },
       contacts: {
         title: "Contatos",

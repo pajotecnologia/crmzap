@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getWbot } from "../libs/wbot";
+import { getWbot, removeWbot } from "../libs/wbot";
 import ShowWhatsAppService from "../services/WhatsappService/ShowWhatsAppService";
 import { StartWhatsAppSession } from "../services/WbotServices/StartWhatsAppSession";
 import UpdateWhatsAppService from "../services/WhatsappService/UpdateWhatsAppService";
@@ -28,6 +28,17 @@ const store = async (req: Request, res: Response): Promise<Response> => {
     });
   }
 
+  // Se a conexão estava desconectada ou pendente sem QR code, limpa credenciais obsoletas para permitir nova leitura
+  if (whatsapp.channel === "whatsapp" && whatsapp.status !== "CONNECTED" && !whatsapp.qrcode) {
+    try {
+      await removeWbot(whatsapp.id, false);
+      await DeleteBaileysService(whatsapp.id);
+      await cacheLayer.delFromPattern(`sessions:${whatsapp.id}:*`);
+    } catch (err) {
+      // ignore
+    }
+  }
+
   await StartWhatsAppSession(whatsapp, companyId);
 
   return res.status(200).json({ message: "Starting session." });
@@ -39,9 +50,32 @@ const update = async (req: Request, res: Response): Promise<Response> => {
 
   const whatsapp = await ShowWhatsAppService(whatsappId, companyId, undefined, +userId);
 
-  await whatsapp.update({ session: "" });
-
   if (whatsapp.channel === "whatsapp") {
+    try {
+      await removeWbot(whatsapp.id, true);
+    } catch (err) {
+      // ignore
+    }
+
+    try {
+      await DeleteBaileysService(whatsapp.id);
+      await cacheLayer.delFromPattern(`sessions:${whatsapp.id}:*`);
+    } catch (err) {
+      // ignore
+    }
+
+    await whatsapp.update({ session: "", qrcode: "", status: "PENDING", retries: 0 });
+
+    try {
+      const io = getIO();
+      io.of("/" + String(whatsapp.companyId)).emit(`company-${whatsapp.companyId}-whatsappSession`, {
+        action: "update",
+        session: whatsapp
+      });
+    } catch (err) {
+      // ignore
+    }
+
     await StartWhatsAppSession(whatsapp, whatsapp.companyId);
   }
 
@@ -51,17 +85,34 @@ const update = async (req: Request, res: Response): Promise<Response> => {
 const remove = async (req: Request, res: Response): Promise<Response> => {
   const { whatsappId } = req.params;
   const { companyId, id: userId } = req.user;
-  const io = getIO();
-  console.log("DISCONNECTING SESSION", whatsappId)
+  console.log("DISCONNECTING SESSION", whatsappId);
   const whatsapp = await ShowWhatsAppService(whatsappId, companyId, undefined, +userId);
 
   if (whatsapp.channel === "whatsapp") {
-    await DeleteBaileysService(whatsappId);
+    try {
+      await removeWbot(whatsapp.id, true);
+    } catch (err) {
+      // ignore
+    }
 
-    const wbot = await getWbot(whatsapp.id);
+    try {
+      await DeleteBaileysService(whatsappId);
+      await cacheLayer.delFromPattern(`sessions:${whatsapp.id}:*`);
+    } catch (err) {
+      // ignore
+    }
 
-    wbot.logout();
-    wbot.ws.close();
+    await whatsapp.update({ status: "DISCONNECTED", session: "", qrcode: "" });
+
+    try {
+      const io = getIO();
+      io.of("/" + String(whatsapp.companyId)).emit(`company-${whatsapp.companyId}-whatsappSession`, {
+        action: "update",
+        session: whatsapp
+      });
+    } catch (err) {
+      // ignore
+    }
   }
 
   return res.status(200).json({ message: "Session disconnected." });

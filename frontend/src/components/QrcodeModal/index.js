@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import QRCode from "qrcode.react";
 import toastError from "../../errors/toastError";
 import { makeStyles } from "@material-ui/core/styles";
-import { Dialog, DialogContent, Paper, Typography } from "@material-ui/core";
+import { Dialog, DialogContent, Paper, Typography, CircularProgress, Button } from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import { i18n } from "../../translate/i18n";
 import api from "../../services/api";
 import { AuthContext } from "../../context/Auth/AuthContext";
@@ -13,7 +14,8 @@ import { isLocalMode, createLocalSocket } from "../../services/localMode";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flexWrap: "wrap",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     width: "100%",
     maxWidth: "100%",
@@ -65,22 +67,64 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
     },
   },
-  loadingText: {
+  loadingWrap: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing(2),
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  loadingText: {
+    marginTop: theme.spacing(1),
     color: theme.palette.text.secondary,
+    fontSize: "0.95rem",
+    maxWidth: 280,
+  },
+  retryButton: {
+    marginTop: theme.spacing(1.5),
+    textTransform: "none",
   },
 }));
 
 const QrcodeModal = ({ open, onClose, whatsAppId, companyId }) => {
   const classes = useStyles();
   const [qrCode, setQrCode] = useState("");
+  const [isRetrying, setIsRetrying] = useState(false);
+  const [showRetry, setShowRetry] = useState(false);
   const { user, socket: globalSocket } = useContext(AuthContext);
   const [socket, setSocket] = useState(globalSocket);
+
+  const handleRequestNewQr = useCallback(async () => {
+    if (!whatsAppId || isRetrying) return;
+    try {
+      setIsRetrying(true);
+      setQrCode("");
+      await api.put(`/whatsappsession/${whatsAppId}`);
+    } catch (err) {
+      toastError(err);
+    } finally {
+      setIsRetrying(false);
+    }
+  }, [whatsAppId, isRetrying]);
+
+  useEffect(() => {
+    if (!open) {
+      setShowRetry(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowRetry(true);
+    }, 7000);
+
+    return () => clearTimeout(timer);
+  }, [open, qrCode]);
 
   useEffect(() => {
     if (!open) return;
 
-    // Se companyId for fornecido e diferente do usuário logado (Super Admin)
     if (companyId && user.companyId && Number(companyId) !== Number(user.companyId)) {
       const token = localStorage.getItem("token");
       const newSocket = isLocalMode()
@@ -105,7 +149,9 @@ const QrcodeModal = ({ open, onClose, whatsAppId, companyId }) => {
 
       try {
         const { data } = await api.get(`/whatsapp/${whatsAppId}`);
-        setQrCode(data.qrcode);
+        if (data.qrcode) {
+          setQrCode(data.qrcode);
+        }
       } catch (err) {
         toastError(err);
       }
@@ -118,12 +164,13 @@ const QrcodeModal = ({ open, onClose, whatsAppId, companyId }) => {
     const socketCompanyId = companyId || user.companyId;
 
     const onWhatsappData = (data) => {
-      if (data.action === "update" && data.session.id === whatsAppId) {
-        setQrCode(data.session.qrcode);
-      }
-
-      if (data.action === "update" && data.session.qrcode === "") {
-        onClose();
+      if (data.action === "update" && data.session && Number(data.session.id) === Number(whatsAppId)) {
+        if (data.session.qrcode) {
+          setQrCode(data.session.qrcode);
+        }
+        if (data.session.status === "CONNECTED") {
+          onClose();
+        }
       }
     };
     
@@ -156,9 +203,25 @@ const QrcodeModal = ({ open, onClose, whatsAppId, companyId }) => {
                 />
               </div>
             ) : (
-              <Typography variant="body1" className={classes.loadingText}>
-                {i18n.t("qrCode.waiting")}
-              </Typography>
+              <div className={classes.loadingWrap}>
+                <CircularProgress size={36} color="primary" />
+                <Typography variant="body2" className={classes.loadingText}>
+                  {i18n.t("qrCode.waiting")}
+                </Typography>
+                {showRetry && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<RefreshIcon />}
+                    onClick={handleRequestNewQr}
+                    disabled={isRetrying}
+                    className={classes.retryButton}
+                  >
+                    {isRetrying ? "Gerando..." : "Gerar novo QR Code"}
+                  </Button>
+                )}
+              </div>
             )}
           </div>
         </Paper>

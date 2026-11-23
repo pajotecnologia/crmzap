@@ -216,6 +216,7 @@ export const initWASocket = async (whatsapp: Whatsapp): Promise<Session> => {
     const { id, name, allowGroup, companyId } = whatsappUpdate;
 
     logger.info(`Starting session ${name}`);
+    await removeWbot(whatsapp.id, false);
     let retriesQrCode = 0;
 
     let wsocket: Session = null;

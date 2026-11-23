@@ -116,7 +116,7 @@ export default function MetaMessengerOAuthConnect({
     const clientId = String(clientIdOverride || instagramAppId || "").trim();
     if (!clientId) {
       toast.error(
-        "Falta Instagram App ID. No Meta Developers → Instagram → API setup with Instagram login, copie o Instagram App ID e configure INSTAGRAM_APP_ID no Railway (e opcionalmente REACT_APP_INSTAGRAM_APP_ID no Vercel).",
+        "Falta Instagram App ID. No Meta Developers → Instagram → API setup with Instagram login, copie o Instagram App ID e configure INSTAGRAM_APP_ID nas variáveis de ambiente do Coolify / servidor.",
         { autoClose: 14000 }
       );
       return;
