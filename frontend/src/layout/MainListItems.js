@@ -31,6 +31,7 @@ import {
   Bot,
   Plug,
   Webhook,
+  Tag,
   ChevronRight,
 } from "lucide-react";
 
@@ -681,6 +682,7 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
             count={ticketsCount}
           />
           <Collapse in={openVBZappySubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
+            <ListItemLink to="/tags" primary={translateUi("Tags")} icon={<AppIcon icon={Tag} />} collapsed={collapsed} submenu />
             <ListItemLink to="/queues" primary={translateUi("Filas & Chatbot")} icon={<AppIcon icon={GitBranch} />} collapsed={collapsed} submenu />
             {showCampaigns && <ListItemLink to="/campaigns" primary={translateUi("Campanhas")} icon={<AppIcon icon={Megaphone} />} collapsed={collapsed} submenu />}
             <ListItemLink to="/quick-messages" primary={translateUi("Respostas Rápidas")} icon={<AppIcon icon={Zap} />} collapsed={collapsed} submenu />

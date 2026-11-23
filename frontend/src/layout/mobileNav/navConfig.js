@@ -23,6 +23,7 @@ import {
   HelpCircle,
   ShieldCheck,
   Wallet,
+  Tag,
 } from "lucide-react";
 
 export const MOBILE_NAV_ROUTES = {
@@ -95,6 +96,7 @@ export function buildMoreSections(perms, t) {
       items: [
         { to: "/tickets", label: t("Atendimentos"), icon: MessageSquare },
         perms.showContacts && { to: "/contacts", label: t("Contatos"), icon: Contact },
+        { to: "/tags", label: t("Tags"), icon: Tag },
         { to: "/quick-messages", label: t("Respostas Rápidas"), icon: Zap },
         { to: "/queues", label: t("Filas & Chatbot"), icon: GitBranch },
         { to: "/email", label: t("Email"), icon: Mail },
