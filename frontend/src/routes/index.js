@@ -341,6 +341,13 @@ const RoutesContent = () => {
                 />
                 <Route
                   exact
+                  path="/flowdefault"
+                  component={FlowDefault}
+                  isPrivate
+                  title="Fluxos Padrão"
+                />
+                <Route
+                  exact
                   path="/registro-gratis"
                   component={RegistroGratisGuard}
                   isPrivate

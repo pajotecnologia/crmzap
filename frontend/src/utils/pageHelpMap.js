@@ -26,6 +26,7 @@ export const PAGE_HELP_TOPICS = {
   "/prompts": "prompts",
   "/allConnections": "allConnections",
   "/phrase-lists": "phraseLists",
+  "/flowdefault": "flowbuilders",
   "/flowbuilders": "flowbuilders",
   "/flowbuilder": "flowbuilder",
   "/activities": "activities",

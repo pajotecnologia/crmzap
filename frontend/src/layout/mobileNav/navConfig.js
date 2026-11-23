@@ -95,10 +95,12 @@ export function buildMoreSections(perms, t) {
       title: t("Atendimento"),
       items: [
         { to: "/tickets", label: t("Atendimentos"), icon: MessageSquare },
+        { to: "/Kanban", label: t("Kanban"), icon: FolderKanban },
         perms.showContacts && { to: "/contacts", label: t("Contatos"), icon: Contact },
         { to: "/tags", label: t("Tags"), icon: Tag },
         { to: "/quick-messages", label: t("Respostas Rápidas"), icon: Zap },
         { to: "/queues", label: t("Filas & Chatbot"), icon: GitBranch },
+        { to: "/chats", label: t("Chat Interno"), icon: MessageSquare },
         { to: "/email", label: t("Email"), icon: Mail },
       ],
     },
@@ -106,8 +108,11 @@ export function buildMoreSections(perms, t) {
       key: "automation",
       title: t("Automação"),
       items: [
-        perms.showFlow && { to: "/flowbuilders", label: t("Automações"), icon: Workflow },
+        perms.showFlow && { to: "/flowbuilders", label: t("Flow Builder"), icon: Workflow },
+        perms.showFlow && { to: "/phrase-lists", label: t("Campanhas de Fluxo"), icon: Sparkles },
+        perms.showFlow && { to: "/flowdefault", label: t("Fluxos Padrão"), icon: GitBranch },
         perms.showCampaigns && { to: "/campaigns", label: t("Campanhas"), icon: Megaphone },
+        perms.showCampaigns && { to: "/contact-lists", label: t("Listas de Contatos"), icon: Contact },
       ],
     },
     {
@@ -125,6 +130,7 @@ export function buildMoreSections(perms, t) {
       items: [
         { to: "/activities", label: t("Atividades"), icon: CheckSquare },
         { to: "/projects", label: t("Projetos"), icon: FolderKanban },
+        { to: "/todolist", label: t("Tarefas"), icon: CheckSquare },
         perms.showSchedules && { to: "/schedules", label: t("Agenda"), icon: CalendarDays },
       ],
     },
@@ -134,6 +140,8 @@ export function buildMoreSections(perms, t) {
       items: [
         { to: "/", label: t("Início"), icon: Home, exact: true },
         { to: "/whatsapp-dashboard", label: t("Dashboard WhatsApp"), icon: LayoutDashboard },
+        { to: "/reports", label: t("Relatórios de Atendimento"), icon: CheckSquare },
+        { to: "/relatorio-vendas", label: t("Relatório de Vendas"), icon: CircleDollarSign },
       ],
     },
     {

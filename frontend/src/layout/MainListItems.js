@@ -33,6 +33,11 @@ import {
   Webhook,
   Tag,
   ChevronRight,
+  Sparkles,
+  Settings2,
+  FileText,
+  Bell,
+  ListTodo,
 } from "lucide-react";
 
 import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
@@ -405,12 +410,18 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
   const [, setConnectionWarning] = useState(false);
   const [openVBZappySubmenu, setOpenVBZappySubmenu] = useState(false);
   const [openMoreSubmenu, setOpenMoreSubmenu] = useState(false);
+  const [openAutomacoesSubmenu, setOpenAutomacoesSubmenu] = useState(false);
+  const [openCampaignsSubmenu, setOpenCampaignsSubmenu] = useState(false);
+  const [openReportsSubmenu, setOpenReportsSubmenu] = useState(false);
 
   const [showCampaigns, setShowCampaigns] = useState(false);
   const [showOpenAi, setShowOpenAi] = useState(false);
+  const [showKanban, setShowKanban] = useState(true);
+  const [showInternalChat, setShowInternalChat] = useState(true);
 
   const [showSchedules, setShowSchedules] = useState(false);
   const [showExternalApi, setShowExternalApi] = useState(false);
+  const [chatsUnreadCount, setChatsUnreadCount] = useState(0);
 
   const [, setInvisible] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
@@ -423,18 +434,74 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
   const { get: getSetting } = useCompanySettings();
   const [, setShowWallets] = useState(false);
 
-  const isTicketsRouteActive = location.pathname.startsWith("/tickets");
+  const isTicketsRouteActive = [
+    "/tickets",
+    "/Kanban",
+    "/TagsKanban",
+    "/tags",
+    "/queues",
+    "/quick-messages",
+    "/whatsapp-dashboard",
+    "/chats",
+  ].some((p) => location.pathname.startsWith(p));
+
+  const isAutomacoesRouteActive = [
+    "/flowbuilders",
+    "/flowbuilder",
+    "/phrase-lists",
+    "/flowdefault",
+  ].some((p) => location.pathname.startsWith(p));
+
+  const isCampaignsRouteActive = [
+    "/campaigns",
+    "/contact-lists",
+    "/campaigns-config",
+    "/campaign-meta-templates",
+  ].some((p) => location.pathname.startsWith(p));
+
+  const isReportsRouteActive = [
+    "/reports",
+    "/relatorio-vendas",
+  ].some((p) => location.pathname.startsWith(p));
+
   const isMoreRouteActive = [
     "/leads-convertidos",
     "/inventory",
+    "/todolist",
+    "/files",
+    "/announcements",
     "/platform-api",
     "/api",
-  ].includes(location.pathname);
+  ].some((p) => location.pathname.startsWith(p));
 
   const handleVBZappyClick = () => {
     history.push("/tickets");
     setOpenVBZappySubmenu((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (isAutomacoesRouteActive) {
+      setOpenAutomacoesSubmenu(true);
+    }
+  }, [isAutomacoesRouteActive]);
+
+  useEffect(() => {
+    if (isCampaignsRouteActive) {
+      setOpenCampaignsSubmenu(true);
+    }
+  }, [isCampaignsRouteActive]);
+
+  useEffect(() => {
+    if (isReportsRouteActive) {
+      setOpenReportsSubmenu(true);
+    }
+  }, [isReportsRouteActive]);
+
+  useEffect(() => {
+    if (isTicketsRouteActive && location.pathname !== "/tickets") {
+      setOpenVBZappySubmenu(true);
+    }
+  }, [isTicketsRouteActive, location.pathname]);
 
   useEffect(() => {
     async function checkHelps() {
@@ -494,6 +561,12 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
           setShowOpenAi(planConfigs.plan.useOpenAi);
           setShowSchedules(planConfigs.plan.useSchedules);
           setShowExternalApi(planConfigs.plan.useExternalApi);
+          if (planConfigs.plan.useKanban !== undefined) {
+            setShowKanban(planConfigs.plan.useKanban);
+          }
+          if (planConfigs.plan.useInternalChat !== undefined) {
+            setShowInternalChat(planConfigs.plan.useInternalChat);
+          }
         });
       } catch (err) {
       }
@@ -543,6 +616,7 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
         }
       }
     }
+    setChatsUnreadCount(unreadsCount);
     if (unreadsCount > 0) {
       setInvisible(false);
     } else {
@@ -624,6 +698,99 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
             />
           )}
 
+          <div className={classes.groupGap} aria-hidden />
+
+          <ListItemGroup
+            icon={<AppIcon icon={MessageSquare} />}
+            primary={translateUi("Atendimento")}
+            open={openVBZappySubmenu}
+            active={isTicketsRouteActive}
+            onClick={handleVBZappyClick}
+            collapsed={collapsed}
+            count={ticketsCount}
+          />
+          <Collapse in={openVBZappySubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
+            <ListItemLink to="/tickets" primary={translateUi("Painel")} icon={<AppIcon icon={MessageSquare} />} collapsed={collapsed} submenu />
+            {showKanban && <ListItemLink to="/Kanban" primary={translateUi("Kanban")} icon={<AppIcon icon={FolderKanban} />} collapsed={collapsed} submenu />}
+            <ListItemLink to="/tags" primary={translateUi("Tags")} icon={<AppIcon icon={Tag} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/queues" primary={translateUi("Filas & Chatbot")} icon={<AppIcon icon={GitBranch} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/quick-messages" primary={translateUi("Respostas Rápidas")} icon={<AppIcon icon={Zap} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/whatsapp-dashboard" primary={translateUi("Dashboard")} icon={<AppIcon icon={LayoutDashboard} />} collapsed={collapsed} submenu />
+            {showInternalChat && (
+              <ListItemLink
+                to="/chats"
+                primary={translateUi("Chat Interno")}
+                icon={<AppIcon icon={MessageSquare} />}
+                collapsed={collapsed}
+                count={chatsUnreadCount}
+                submenu
+              />
+            )}
+          </Collapse>
+
+          {user.showFlow === "enabled" && (
+            <>
+              <ListItemGroup
+                icon={<AppIcon icon={Workflow} />}
+                primary={translateUi("Automações")}
+                open={openAutomacoesSubmenu}
+                active={isAutomacoesRouteActive}
+                onClick={() => setOpenAutomacoesSubmenu((prev) => !prev)}
+                collapsed={collapsed}
+              />
+              <Collapse in={openAutomacoesSubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
+                <ListItemLink to="/flowbuilders" primary={translateUi("Flow Builder")} icon={<AppIcon icon={Workflow} />} collapsed={collapsed} submenu />
+                <ListItemLink to="/phrase-lists" primary={translateUi("Campanhas de Fluxo")} icon={<AppIcon icon={Sparkles} />} collapsed={collapsed} submenu />
+                <ListItemLink to="/flowdefault" primary={translateUi("Fluxos Padrão")} icon={<AppIcon icon={GitBranch} />} collapsed={collapsed} submenu />
+              </Collapse>
+            </>
+          )}
+
+          {showCampaigns && (
+            <>
+              <ListItemGroup
+                icon={<AppIcon icon={Megaphone} />}
+                primary={translateUi("Campanhas")}
+                open={openCampaignsSubmenu}
+                active={isCampaignsRouteActive}
+                onClick={() => setOpenCampaignsSubmenu((prev) => !prev)}
+                collapsed={collapsed}
+              />
+              <Collapse in={openCampaignsSubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
+                <ListItemLink to="/campaigns" primary={translateUi("Campanhas")} icon={<AppIcon icon={Megaphone} />} collapsed={collapsed} submenu />
+                <ListItemLink to="/contact-lists" primary={translateUi("Listas de Contatos")} icon={<AppIcon icon={Contact} />} collapsed={collapsed} submenu />
+                <ListItemLink to="/campaigns-config" primary={translateUi("Configurações")} icon={<AppIcon icon={Settings2} />} collapsed={collapsed} submenu />
+                <ListItemLink to="/campaign-meta-templates" primary={translateUi("Templates Meta")} icon={<AppIcon icon={Code} />} collapsed={collapsed} submenu />
+              </Collapse>
+            </>
+          )}
+
+          <ListItemLink to="/email" primary={translateUi("Email")} icon={<AppIcon icon={Mail} />} collapsed={collapsed} />
+
+          {(showOpenAi || user.profile !== "user") && (
+            <ListItemLink to="/prompts" primary={translateUi("Agente IA")} icon={<AppIcon icon={Bot} />} collapsed={collapsed} />
+          )}
+
+          <ListItemLink
+            to="/connections"
+            primary={translateUi("Integrações")}
+            icon={<AppIcon icon={Plug} />}
+            collapsed={collapsed}
+          />
+
+          <ListItemGroup
+            icon={<AppIcon icon={LayoutDashboard} />}
+            primary={translateUi("Relatórios")}
+            open={openReportsSubmenu}
+            active={isReportsRouteActive}
+            onClick={() => setOpenReportsSubmenu((prev) => !prev)}
+            collapsed={collapsed}
+          />
+          <Collapse in={openReportsSubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
+            <ListItemLink to="/reports" primary={translateUi("Atendimentos")} icon={<AppIcon icon={CheckSquare} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/relatorio-vendas" primary={translateUi("Vendas")} icon={<AppIcon icon={CircleDollarSign} />} collapsed={collapsed} submenu />
+          </Collapse>
+
           <ListItemGroup
             icon={<AppIcon icon={MoreHorizontal} />}
             primary={translateUi("Mais")}
@@ -641,6 +808,9 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
               collapsed={collapsed}
               submenu
             />
+            <ListItemLink to="/todolist" primary={translateUi("Tarefas")} icon={<AppIcon icon={ListTodo} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/files" primary={translateUi("Lista de Arquivos")} icon={<AppIcon icon={FileText} />} collapsed={collapsed} submenu />
+            <ListItemLink to="/announcements" primary={translateUi("Avisos")} icon={<AppIcon icon={Bell} />} collapsed={collapsed} submenu />
             {!isFreeTrialUser(user) && (
               <ListItemLink
                 to="/platform-api"
@@ -668,44 +838,6 @@ const MainListItems = ({ collapsed, drawerClose, section, ticketsCount = 0 }) =>
               icon={<AppIcon icon={HelpCircle} />}
               collapsed={collapsed}
             />
-          )}
-
-          <div className={classes.groupGap} aria-hidden />
-
-          <ListItemGroup
-            icon={<AppIcon icon={MessageSquare} />}
-            primary={translateUi("Atendimento")}
-            open={openVBZappySubmenu}
-            active={isTicketsRouteActive}
-            onClick={handleVBZappyClick}
-            collapsed={collapsed}
-            count={ticketsCount}
-          />
-          <Collapse in={openVBZappySubmenu} timeout="auto" unmountOnExit className={classes.collapse}>
-            <ListItemLink to="/tags" primary={translateUi("Tags")} icon={<AppIcon icon={Tag} />} collapsed={collapsed} submenu />
-            <ListItemLink to="/queues" primary={translateUi("Filas & Chatbot")} icon={<AppIcon icon={GitBranch} />} collapsed={collapsed} submenu />
-            {showCampaigns && <ListItemLink to="/campaigns" primary={translateUi("Campanhas")} icon={<AppIcon icon={Megaphone} />} collapsed={collapsed} submenu />}
-            <ListItemLink to="/quick-messages" primary={translateUi("Respostas Rápidas")} icon={<AppIcon icon={Zap} />} collapsed={collapsed} submenu />
-            <ListItemLink to="/whatsapp-dashboard" primary={translateUi("Dashboard")} icon={<AppIcon icon={LayoutDashboard} />} collapsed={collapsed} submenu />
-          </Collapse>
-
-          <ListItemLink to="/email" primary={translateUi("Email")} icon={<AppIcon icon={Mail} />} collapsed={collapsed} />
-
-          <div className={classes.groupGap} aria-hidden />
-
-          {(showOpenAi || user.profile !== "user") && (
-            <ListItemLink to="/prompts" primary={translateUi("Agente IA")} icon={<AppIcon icon={Bot} />} collapsed={collapsed} />
-          )}
-
-          <ListItemLink
-            to="/connections"
-            primary={translateUi("Integrações")}
-            icon={<AppIcon icon={Plug} />}
-            collapsed={collapsed}
-          />
-
-          {user.showFlow === "enabled" && (
-            <ListItemLink to="/flowbuilders" primary={translateUi("Automações")} icon={<AppIcon icon={Workflow} />} collapsed={collapsed} />
           )}
 
           {isInternalAutomationUser(user) && (
