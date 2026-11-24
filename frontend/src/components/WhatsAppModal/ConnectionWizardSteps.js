@@ -1465,6 +1465,82 @@ export const WizardStep4 = ({
           ))}
         </Select>
       </FormControl>
+
+      <Divider style={{ margin: "16px 0 12px 0" }} />
+      <Typography className={ws.sectionCompact}>Encerramento por Inatividade</Typography>
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <Field
+            as={TextField}
+            label={opt("Encerrar após (min)")}
+            fullWidth
+            name="expiresTicket"
+            type="number"
+            size="small"
+            className={ws.compactField}
+            variant="outlined"
+            margin="dense"
+            helperText="Tempo sem resposta (0 = Desativado)"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl variant="outlined" margin="dense" fullWidth size="small">
+            <InputLabel shrink>{opt("Critério")}</InputLabel>
+            <Field
+              as={Select}
+              name="whenExpiresTicket"
+              displayEmpty
+            >
+              <MenuItem value={0}>Cliente ou Atendente</MenuItem>
+              <MenuItem value={1}>Apenas se atendente enviou a última</MenuItem>
+            </Field>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <Field
+            as={TextField}
+            label={opt("Tempo aviso prévio (min)")}
+            fullWidth
+            name="timeInactiveMessage"
+            type="number"
+            size="small"
+            className={ws.compactField}
+            variant="outlined"
+            margin="dense"
+            helperText="Tempo antes de encerrar (opcional)"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Field
+            as={TextField}
+            label={opt("Mensagem de aviso prévio de inatividade")}
+            fullWidth
+            name="inactiveMessage"
+            multiline
+            rows={2}
+            size="small"
+            className={ws.compactField}
+            variant="outlined"
+            margin="dense"
+            placeholder="Ex: Olá! Você ainda está aí? Seu atendimento será encerrado em breve por inatividade."
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Field
+            as={TextField}
+            label={opt("Mensagem de encerramento por inatividade")}
+            fullWidth
+            name="expiresInactiveMessage"
+            multiline
+            rows={2}
+            size="small"
+            className={ws.compactField}
+            variant="outlined"
+            margin="dense"
+            placeholder="Ex: Seu atendimento foi finalizado por inatividade. Caso precise, envie uma nova mensagem!"
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 };
