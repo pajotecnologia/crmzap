@@ -34,8 +34,4 @@ export const META_INSTAGRAM_BUSINESS_LOGIN_SCOPES = [
 ].join(",");
 
 /** Permissões para Instagram via Facebook Login (Graph API da Página). */
-export const META_INSTAGRAM_LOGIN_SCOPE = withBusinessManagement([
-  ...PAGE_SCOPES,
-  "instagram_basic",
-  "instagram_manage_messages",
-]).join(",");
+export const META_INSTAGRAM_LOGIN_SCOPE = META_FACEBOOK_LOGIN_SCOPE;
