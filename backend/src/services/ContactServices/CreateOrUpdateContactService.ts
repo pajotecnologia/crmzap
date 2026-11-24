@@ -164,6 +164,17 @@ const CreateOrUpdateContactService = async ({
       false;
 
     if (contact) {
+      // Se o nome atual do contato for vazio, apenas números ou o próprio número, e o novo nome contiver letras, atualiza
+      const isCurrentNameDigitsOnly =
+        !contact.name ||
+        /^\d+$/.test(contact.name) ||
+        contact.name === contact.number;
+      const isNewNameReal =
+        name && /[a-zA-ZÀ-ÿ]/.test(name) && !/^\d+$/.test(name);
+      if (isCurrentNameDigitsOnly && isNewNameReal) {
+        contact.name = name;
+      }
+
       // ✅ RDS-FIX: Só atualizar remoteJid se o novo valor contém o número real (não é LID)
       if (!isGroup && cleanNumber && isLidJid(fallbackRemoteJid, cleanNumber)) {
         logger.info(

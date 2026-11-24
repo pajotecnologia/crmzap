@@ -174,9 +174,21 @@ export async function verifyContact(
     if (isLid) {
       if (foundContact) {
         await recoverInboundBlockedContact(wbot, foundContact);
-        return updateContact(foundContact, {
+        const shouldUpdateName =
+          contactData.name &&
+          contactData.name !== foundContact.name &&
+          (!foundContact.name ||
+            /^\d+$/.test(foundContact.name) ||
+            foundContact.name === foundContact.number);
+
+        const updatePayload: any = {
           profilePicUrl: contactData.profilePicUrl
-        });
+        };
+        if (shouldUpdateName) {
+          updatePayload.name = contactData.name;
+        }
+
+        return updateContact(foundContact, updatePayload);
       }
 
       const foundMappedContact = await WhatsappLidMap.findOne({
@@ -195,9 +207,21 @@ export async function verifyContact(
 
       if (foundMappedContact) {
         await recoverInboundBlockedContact(wbot, foundMappedContact.contact);
-        return updateContact(foundMappedContact.contact, {
+        const shouldUpdateName =
+          contactData.name &&
+          contactData.name !== foundMappedContact.contact.name &&
+          (!foundMappedContact.contact.name ||
+            /^\d+$/.test(foundMappedContact.contact.name) ||
+            foundMappedContact.contact.name === foundMappedContact.contact.number);
+
+        const updatePayload: any = {
           profilePicUrl: contactData.profilePicUrl
-        });
+        };
+        if (shouldUpdateName) {
+          updatePayload.name = contactData.name;
+        }
+
+        return updateContact(foundMappedContact.contact, updatePayload);
       }
 
       const partialLidContact = await Contact.findOne({
@@ -210,12 +234,37 @@ export async function verifyContact(
 
       if (partialLidContact) {
         await recoverInboundBlockedContact(wbot, partialLidContact);
-        return updateContact(partialLidContact, {
+        const shouldUpdateName =
+          contactData.name &&
+          contactData.name !== partialLidContact.name &&
+          (!partialLidContact.name ||
+            /^\d+$/.test(partialLidContact.name) ||
+            partialLidContact.name === partialLidContact.number);
+
+        const updatePayload: any = {
           number: contactData.number,
+          profilePicUrl: contactData.profilePicUrl
+        };
+        if (shouldUpdateName) {
+          updatePayload.name = contactData.name;
+        }
+
+        return updateContact(partialLidContact, updatePayload);
+      }
+    } else if (foundContact) {
+      const shouldUpdateName =
+        contactData.name &&
+        contactData.name !== foundContact.name &&
+        (!foundContact.name ||
+          /^\d+$/.test(foundContact.name) ||
+          foundContact.name === foundContact.number);
+
+      if (shouldUpdateName) {
+        await updateContact(foundContact, {
+          name: contactData.name,
           profilePicUrl: contactData.profilePicUrl
         });
       }
-    } else if (foundContact) {
       if (!foundContact.whatsappLidMap) {
         try {
 
