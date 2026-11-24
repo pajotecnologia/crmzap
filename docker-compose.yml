@@ -60,6 +60,11 @@ services:
       # Segredos de Autenticacao
       JWT_SECRET: ${JWT_SECRET:-vbsolution_jwt_secret_random_key_change_me}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-vbsolution_jwt_refresh_secret_random_key_change_me}
+      # Integracao Oficial Meta (Facebook e Instagram)
+      FACEBOOK_APP_ID: ${FACEBOOK_APP_ID:-}
+      FACEBOOK_APP_SECRET: ${FACEBOOK_APP_SECRET:-}
+      INSTAGRAM_APP_ID: ${INSTAGRAM_APP_ID:-}
+      INSTAGRAM_APP_SECRET: ${INSTAGRAM_APP_SECRET:-}
     volumes:
       - backend_public:/app/public
     ports:
@@ -72,9 +77,13 @@ services:
       args:
         REACT_APP_BACKEND_URL: ${BACKEND_URL:-http://localhost:3000}
         REACT_APP_LOCAL_MODE: "false"
+        REACT_APP_FACEBOOK_APP_ID: ${FACEBOOK_APP_ID:-}
+        REACT_APP_INSTAGRAM_APP_ID: ${INSTAGRAM_APP_ID:-}
     environment:
       REACT_APP_BACKEND_URL: ${BACKEND_URL:-}
       REACT_APP_LOCAL_MODE: "false"
+      REACT_APP_FACEBOOK_APP_ID: ${FACEBOOK_APP_ID:-}
+      REACT_APP_INSTAGRAM_APP_ID: ${INSTAGRAM_APP_ID:-}
     restart: always
     depends_on:
       - backend
