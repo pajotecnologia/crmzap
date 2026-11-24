@@ -13,7 +13,6 @@ const PAGE_SCOPES = [
   "public_profile",
   "pages_show_list",
   "pages_manage_metadata",
-  "pages_read_engagement",
   "pages_messaging",
 ];
 
@@ -32,13 +31,11 @@ export const META_FACEBOOK_LOGIN_SCOPE = withBusinessManagement(PAGE_SCOPES).joi
 export const META_INSTAGRAM_BUSINESS_LOGIN_SCOPES = [
   "instagram_business_basic",
   "instagram_business_manage_messages",
-  "instagram_business_manage_comments",
 ].join(",");
 
-/** @deprecated Mantido por compat; Instagram agora usa META_INSTAGRAM_BUSINESS_LOGIN_SCOPES. */
+/** Permissões para Instagram via Facebook Login (Graph API da Página). */
 export const META_INSTAGRAM_LOGIN_SCOPE = withBusinessManagement([
   ...PAGE_SCOPES,
   "instagram_basic",
   "instagram_manage_messages",
-  "instagram_manage_comments",
 ]).join(",");
