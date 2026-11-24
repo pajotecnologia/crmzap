@@ -16,7 +16,7 @@ export function getMetaAppId(): string {
       if (typeof value === "string" && value.trim()) return value.trim();
     }
   }
-  return "";
+  return "1694035698920340";
 }
 
 export function getMetaAppSecret(): string {

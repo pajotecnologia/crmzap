@@ -620,13 +620,19 @@ export const getInstagramOAuthConfig = async (
 ): Promise<Response> => {
   const {
     getInstagramAppId,
-    getInstagramAppSecret
+    getInstagramAppSecret,
+    getMetaAppId,
+    getMetaAppSecret
   } = await import("../helpers/getMetaAppCredentials");
   const appId = getInstagramAppId();
+  const facebookAppId = getMetaAppId();
   const hasSecret = Boolean(getInstagramAppSecret());
+  const hasFacebookSecret = Boolean(getMetaAppSecret());
   return res.status(200).json({
     appId: appId || null,
+    facebookAppId: facebookAppId || "1694035698920340",
     configured: Boolean(appId && hasSecret),
+    facebookConfigured: Boolean(facebookAppId && hasFacebookSecret),
     redirectPath: "/connections/instagram-oauth"
   });
 };
