@@ -122,6 +122,18 @@ const EnsureTicketWhatsApp = async (
   ticket: Ticket,
   options: EnsureOptions = {}
 ): Promise<Ticket> => {
+  if (ticket && !ticket.contact && ticket.contactId) {
+    try {
+      const Contact = (await import("../models/Contact")).default;
+      const contact = await Contact.findByPk(ticket.contactId);
+      if (contact) {
+        ticket.contact = contact;
+      }
+    } catch (err) {
+      logger.warn({ err }, "[EnsureTicketWhatsApp] falha ao carregar contato do ticket");
+    }
+  }
+
   const requireConnected = options.requireConnected !== false;
   const throwOnMissing = options.throwOnMissing !== false;
   const repairSiblings = options.repairSiblings !== false;

@@ -308,6 +308,13 @@ const SendWhatsAppMedia = async ({
   try {
     await EnsureTicketWhatsApp(ticket);
 
+    if (ticket && !ticket.contact && ticket.contactId) {
+      const contact = await Contact.findByPk(ticket.contactId);
+      if (contact) {
+        ticket.contact = contact;
+      }
+    }
+
     let wbot: Session;
     try {
       wbot = await getWbot(ticket.whatsappId);
@@ -390,7 +397,10 @@ const SendWhatsAppMedia = async ({
       }
 
       const contactNumber = await Contact.findByPk(ticket.contactId);
-      const targetJid = getJidOf(ticket);
+      if (contactNumber && !ticket.contact) {
+        ticket.contact = contactNumber;
+      }
+      const targetJid = getJidOf(ticket.contact || ticket);
 
       const sendTextPayload = {
         text: formattedBody,
@@ -634,6 +644,9 @@ const SendWhatsAppMedia = async ({
     const contactNumber = await Contact.findByPk(ticket.contactId);
 
     let jid;
+    if (contactNumber && !ticket.contact) {
+      ticket.contact = contactNumber;
+    }
     if (contactNumber.lid && contactNumber.lid !== "") {
       jid = contactNumber.lid;
     } else if (
@@ -655,16 +668,16 @@ const SendWhatsAppMedia = async ({
       }
 
       try {
-        sentMessage = await wbot.sendMessage(getJidOf(ticket), options, quotedOptions);
+        sentMessage = await wbot.sendMessage(getJidOf(ticket.contact || ticket), options, quotedOptions);
       } catch (err1) {
         if (err1.message && err1.message.includes("senderMessageKeys")) {
-          sentMessage = await wbot.sendMessage(getJidOf(ticket), options, quotedOptions);
+          sentMessage = await wbot.sendMessage(getJidOf(ticket.contact || ticket), options, quotedOptions);
         } else {
-          sentMessage = await wbot.sendMessage(getJidOf(ticket), options, quotedOptions);
+          sentMessage = await wbot.sendMessage(getJidOf(ticket.contact || ticket), options, quotedOptions);
         }
       }
     } else {
-      sentMessage = await wbot.sendMessage(getJidOf(ticket), options, quotedOptions);
+      sentMessage = await wbot.sendMessage(getJidOf(ticket.contact || ticket), options, quotedOptions);
     }
 
     wbot.store(sentMessage);

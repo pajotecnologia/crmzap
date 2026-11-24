@@ -3413,7 +3413,7 @@ export const flowbuilderIntegration = async (
           const startNode = (nodes.find(n => n.type === "start") || nodes[0]) as INodes;
           const startNodeId = String(startNode?.id || nodes[0]?.id || "1");
 
-          await ActionsWebhookService(
+          const resultActions = await ActionsWebhookService(
             whatsapp.id,
             validFlowId,
             ticket.companyId,
@@ -3429,12 +3429,15 @@ export const flowbuilderIntegration = async (
           );
 
           console.log(
-            `[FLOW DISPATCH] ✅ Fluxo ${validFlowId} disparado com sucesso!`
+            `[FLOW DISPATCH] ✅ Fluxo ${validFlowId} disparado com sucesso! Resultado: ${resultActions}`
           );
 
-          // Marcar em cache para não reexecutar neste ticket
-          await cacheLayer.set(firstContactFlagKey, "1", "EX", 86400);
-          return true;
+          // Marcar em cache para não reexecutar neste ticket se o fluxo foi disparado com sucesso
+          if (resultActions !== "error") {
+            await cacheLayer.set(firstContactFlagKey, "1", "EX", 86400);
+            return true;
+          }
+          return false;
         }
       }
     } catch (error) {

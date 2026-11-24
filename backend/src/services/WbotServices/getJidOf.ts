@@ -82,10 +82,19 @@ export function getJidOf(reference: string | Contact | Ticket): string {
   }
 
   if (reference instanceof Ticket) {
-    if (!reference.contact) {
-      throw new Error("Ticket without contact for JID resolution");
+    const contact = reference.contact || (reference as any).Contact;
+    if (contact) {
+      return jidFromContact(contact, reference.isGroup);
     }
-    return jidFromContact(reference.contact, reference.isGroup);
+    const ticketAny = reference as any;
+    const rawNumber = ticketAny.contactNumber || ticketAny.number;
+    if (rawNumber) {
+      const phoneDigits = digitsOnly(rawNumber);
+      if (isPlausiblePhone(phoneDigits)) {
+        return normalizeJid(`${phoneDigits}@${reference.isGroup ? "g.us" : "s.whatsapp.net"}`);
+      }
+    }
+    throw new Error("Ticket without contact for JID resolution");
   }
 
   if (typeof address !== "string") {

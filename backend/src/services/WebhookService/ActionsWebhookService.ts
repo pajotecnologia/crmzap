@@ -53,6 +53,7 @@ import { flowbuilderIntegration } from "../WbotServices/wbotMessageListener";
 import { handleOpenAiFlow } from "../IntegrationsServices/OpenAiService";
 import { IOpenAi } from "../../@types/openai";
 import { FlowBuilderModel } from "../../models/FlowBuilder";
+import cacheLayer from "../../libs/cache";
 
 
 declare global {
@@ -281,7 +282,9 @@ export const ActionsWebhookService = async (
 
 
     if (idTicket) {
-      const currentTicket = await Ticket.findByPk(idTicket);
+      const currentTicket = await Ticket.findByPk(idTicket, {
+        include: [{ model: Contact, as: "contact" }]
+      });
 
       console.log(`[RDS-FLOW-DEBUG] Estado do ticket ${idTicket}: flowWebhook=${currentTicket?.flowWebhook}, lastFlowId=${currentTicket?.lastFlowId}, inputResponded=${inputResponded}, pressKey=${pressKey || 'undefined'}`);
 
@@ -304,7 +307,9 @@ export const ActionsWebhookService = async (
       }
     }
 
-    ticket = await Ticket.findByPk(idTicket);
+    ticket = await Ticket.findByPk(idTicket, {
+      include: [{ model: Contact, as: "contact" }]
+    });
     if (ticket && !ticket.flowWebhook) {
       await ticket.update({
         flowWebhook: true,
@@ -482,13 +487,16 @@ export const ActionsWebhookService = async (
         if (!ticket && idTicket) {
           console.log(`Recuperando ticket ${idTicket} para o nó tipo ${nodeSelected.type}`);
           ticket = await Ticket.findOne({
-            where: { id: idTicket, whatsappId }
+            where: { id: idTicket, whatsappId },
+            include: [{ model: Contact, as: "contact" }]
           });
 
           if (!ticket) {
             console.error(`Não foi possível encontrar o ticket ${idTicket} para o nó ${nodeSelected.type}`);
             return false;
           }
+        } else if (ticket && !ticket.contact && ticket.contactId) {
+          ticket.contact = await Contact.findByPk(ticket.contactId);
         }
         return true;
       };
@@ -545,6 +553,7 @@ export const ActionsWebhookService = async (
       }
 
       if (nodeSelected.type === "message") {
+        await ensureTicket();
         if (dataWebhook === "") {
           msg = {
             body: nodeSelected.data.label,
@@ -2140,7 +2149,8 @@ export const ActionsWebhookService = async (
       if (idTicket) {
         console.log("UPDATE10...");
         ticket = await Ticket.findOne({
-          where: { id: idTicket, whatsappId, companyId: companyId }
+          where: { id: idTicket, whatsappId, companyId: companyId },
+          include: [{ model: Contact, as: "contact" }]
         });
       }
 
@@ -2191,7 +2201,9 @@ export const ActionsWebhookService = async (
     logger.error("[ActionsWebhookService] Erro geral no serviço:", error);
 
     if (idTicket) {
-      const ticket = await Ticket.findByPk(idTicket);
+      const ticket = await Ticket.findByPk(idTicket, {
+        include: [{ model: Contact, as: "contact" }]
+      });
       if (ticket) {
         await ticket.update({
           flowWebhook: false,
@@ -2202,8 +2214,14 @@ export const ActionsWebhookService = async (
 
         logger.warn(`[RDS-ERROR-DEBUG] Estado do ticket ${idTicket} resetado após erro`);
       }
+      try {
+        await cacheLayer.del(`first-contact-executed:${idTicket}`);
+      } catch (cacheErr) {
+        logger.warn(`[RDS-ERROR-DEBUG] Erro ao limpar cache do ticket ${idTicket}:`, cacheErr);
+      }
     }
 
+    return "error";
   }
 };
 
@@ -2636,6 +2654,10 @@ const replaceMessages = (
         }
       }
 
+      if (varValue === undefined && dataNoWebhook && (dataNoWebhook as any)[varName] !== undefined) {
+        varValue = (dataNoWebhook as any)[varName];
+      }
+
       if (varValue !== undefined) {
         return typeof varValue === "object"
           ? JSON.stringify(varValue)
@@ -2647,19 +2669,19 @@ const replaceMessages = (
 
     const matches = processedMessage.match(/\{([^}]+)\}/g);
 
-    if (dataWebhook && dataNoWebhook) {
+    if (dataNoWebhook) {
       let newTxt = processedMessage;
       if (dataNoWebhook.nome) {
-        newTxt = newTxt.replace(/{+nome}+/g, dataNoWebhook.nome);
+        newTxt = newTxt.replace(/\$?\{+nome\}+/gi, dataNoWebhook.nome);
       }
       if (dataNoWebhook.numero) {
-        newTxt = newTxt.replace(/{+numero}+/g, dataNoWebhook.numero);
+        newTxt = newTxt.replace(/\$?\{+numero\}+/gi, dataNoWebhook.numero);
       }
       if (dataNoWebhook.email) {
-        newTxt = newTxt.replace(/{+email}+/g, dataNoWebhook.email);
+        newTxt = newTxt.replace(/\$?\{+email\}+/gi, dataNoWebhook.email);
       }
 
-      return newTxt;
+      processedMessage = newTxt;
     }
 
     if (matches && matches.includes("inputs")) {

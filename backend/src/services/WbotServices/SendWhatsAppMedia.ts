@@ -375,6 +375,13 @@ const SendWhatsAppMedia = async ({
   try {
     await EnsureTicketWhatsApp(ticket);
 
+    if (ticket && !ticket.contact && ticket.contactId) {
+      const contact = await Contact.findByPk(ticket.contactId);
+      if (contact) {
+        ticket.contact = contact;
+      }
+    }
+
     let wbot: Session;
     try {
       wbot = await getWbot(ticket.whatsappId);
@@ -593,8 +600,11 @@ const SendWhatsAppMedia = async ({
     }
 
     const contactNumber = await Contact.findByPk(ticket.contactId);
+    if (contactNumber && !ticket.contact) {
+      ticket.contact = contactNumber;
+    }
 
-    const targetJid = getJidOf(ticket);
+    const targetJid = getJidOf(ticket.contact || ticket);
     const phoneDigits = String(contactNumber?.number || "").replace(/\D/g, "");
     const fallbackJid =
       phoneDigits.length >= 10 && phoneDigits.length <= 15
