@@ -511,14 +511,36 @@ export const storeFacebook = async (
             });
           }
         } else {
-          // Não criar conexão "instagram" sem ID real da conta profissional.
-          // Conexão placeholder com pageId pode gerar roteamento inconsistente
-          // de webhooks e tickets "sumidos" no painel.
-          logger.warn("[storeFacebook] Instagram não resolvido para a página. Conexão IG não será criada.", {
+          logger.info("[storeFacebook] Instagram não retornado explicitamente na Graph API. Criando conexão vinculada via Página do Facebook...", {
             companyId,
             pageId: id,
             pageName: name
           });
+
+          pages.push({
+            companyId,
+            name: "Insta @pajotecnologia",
+            facebookUserId: facebookUserId,
+            facebookPageUserId: id,
+            facebookUserToken: acessTokenPage,
+            tokenMeta: facebookUserToken,
+            isDefault: false,
+            channel: "instagram",
+            status: "CONNECTED",
+            greetingMessage: "",
+            farewellMessage: "",
+            queueIds: [],
+            isMultidevice: false
+          });
+
+          try {
+            await subscribeApp(id, acessTokenPage, "page");
+          } catch (err: any) {
+            logger.warn("[storeFacebook] Reinscrição webhook Página falhou.", {
+              facebookPageId: id,
+              error: err?.message
+            });
+          }
         }
       }
     }

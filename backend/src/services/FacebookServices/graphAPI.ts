@@ -565,6 +565,41 @@ export const getInstagramBusinessAccountFromPage = async (
 
   const attempts: Array<() => Promise<any>> = [];
 
+  // 1) Tentativas individuais para connected_instagram_account (SEM misturar com instagram_business_account)
+  for (const fields of fieldSets) {
+    attempts.push(async () => {
+      const response = await apiBase(pageToken).get(
+        `${pageId}?fields=connected_instagram_account{${fields}}`
+      );
+      return extract(response?.data);
+    });
+  }
+
+  attempts.push(async () => {
+    const response = await apiBase(pageToken).get(
+      `${pageId}?fields=connected_instagram_account`
+    );
+    return extract(response?.data);
+  });
+
+  // 2) Tentativas individuais para instagram_business_account
+  for (const fields of fieldSets) {
+    attempts.push(async () => {
+      const response = await apiBase(pageToken).get(
+        `${pageId}?fields=instagram_business_account{${fields}}`
+      );
+      return extract(response?.data);
+    });
+  }
+
+  attempts.push(async () => {
+    const response = await apiBase(pageToken).get(
+      `${pageId}?fields=instagram_business_account`
+    );
+    return extract(response?.data);
+  });
+
+  // 3) Tentativas combinadas como fallback
   for (const fields of fieldSets) {
     attempts.push(async () => {
       const response = await apiBase(pageToken).get(
@@ -574,7 +609,6 @@ export const getInstagramBusinessAccountFromPage = async (
     });
   }
 
-  // Fallback sem nested fields (só id) — depois enrichInstagramBusinessAccount completa
   attempts.push(async () => {
     const response = await apiBase(pageToken).get(
       `${pageId}?fields=instagram_business_account,connected_instagram_account`
@@ -582,8 +616,14 @@ export const getInstagramBusinessAccountFromPage = async (
     return extract(response?.data);
   });
 
-  // 2) Tentativas via sub-recurso: /{pageId}/instagram_business_account(s) ou connected_instagram_account?fields=...
+  // 4) Tentativas via sub-recursos individuais
   for (const fields of fieldSets) {
+    attempts.push(async () => {
+      const response = await apiBase(pageToken).get(
+        `${pageId}/connected_instagram_account?fields=${fields}`
+      );
+      return extract(response?.data);
+    });
     attempts.push(async () => {
       const response = await apiBase(pageToken).get(
         `${pageId}/instagram_business_account?fields=${fields}`
@@ -591,24 +631,23 @@ export const getInstagramBusinessAccountFromPage = async (
       return extract(response?.data);
     });
     attempts.push(async () => {
-      // Alguns casos retornam como lista em plural
       const response = await apiBase(pageToken).get(
         `${pageId}/instagram_business_accounts?fields=${fields}`
       );
       return extract(response?.data);
     });
-    attempts.push(async () => {
-      const response = await apiBase(pageToken).get(
-        `${pageId}/connected_instagram_account?fields=${fields}`
-      );
-      return extract(response?.data);
-    });
   }
 
-  // Fallback direto sub-recurso sem fields
+  // Fallbacks diretos sub-recurso sem fields
   attempts.push(async () => {
     const response = await apiBase(pageToken).get(
       `${pageId}/connected_instagram_account`
+    );
+    return extract(response?.data);
+  });
+  attempts.push(async () => {
+    const response = await apiBase(pageToken).get(
+      `${pageId}/instagram_business_account`
     );
     return extract(response?.data);
   });
