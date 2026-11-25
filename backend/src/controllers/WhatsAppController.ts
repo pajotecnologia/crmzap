@@ -1303,6 +1303,11 @@ export const repairMetaMessenger = async (
     }
   }
 
+  if (!pageId && whatsapp.channel === "instagram" && whatsapp.facebookPageUserId) {
+    pageId = whatsapp.facebookPageUserId;
+    results.siblingPageId = pageId;
+  }
+
   if (pageId) {
     try {
       await subscribeApp(pageId, token, "page");

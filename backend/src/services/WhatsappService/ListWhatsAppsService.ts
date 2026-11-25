@@ -23,7 +23,15 @@ const hideInstagramPageIdPlaceholders = (whatsapps: Whatsapp[]): Whatsapp[] => {
   return whatsapps.filter((w: any) => {
     if (w.channel !== "instagram") return true;
     if (!w.facebookPageUserId) return true;
-    return !facebookPageIds.has(String(w.facebookPageUserId));
+    // Conexões ativas CONNECTED NUNCA devem ser escondidas do usuário
+    if (String(w.status || "").toUpperCase() === "CONNECTED") return true;
+    // Conexões com tokens configurados nunca devem ser escondidas
+    if (w.facebookUserToken || (w as any).tokenMeta) return true;
+    // Apenas placeholders antigos e desconectados são escondidos se colidirem com o Page ID
+    const isLegacyPlaceholder =
+      (w.name === "Instagram" || String(w.status || "").toUpperCase() === "DISCONNECTED") &&
+      facebookPageIds.has(String(w.facebookPageUserId));
+    return !isLegacyPlaceholder;
   });
 };
 

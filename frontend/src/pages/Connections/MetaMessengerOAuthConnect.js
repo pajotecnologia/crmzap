@@ -345,6 +345,7 @@ export default function MetaMessengerOAuthConnect({
         );
         if (typeof onSuccess === "function") onSuccess(data);
         await repairMetaConnection(isInstagram ? "instagram" : "facebook");
+        if (typeof onSuccess === "function") onSuccess(data);
       })
       .catch((error) => {
         const backendError = error?.response?.data?.error;
