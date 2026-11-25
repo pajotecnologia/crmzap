@@ -368,6 +368,7 @@ export default function MetaMessengerOAuthConnect({
         autoLoad={false}
         fields="name,email,picture"
         version="20.0"
+        authType="rerequest"
         disableMobileRedirect
         redirectUri={
           typeof window !== "undefined" ? window.location.origin : undefined

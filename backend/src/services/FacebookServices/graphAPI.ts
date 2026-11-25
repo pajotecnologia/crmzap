@@ -313,18 +313,27 @@ export const getPageProfile = async (
     logger.info("[getPageProfile] Chamando Graph API", { userId: id, tokenLength: token?.length ?? 0 });
     const endpoints = [
       `${id}/accounts?fields=name,access_token,instagram_business_account{id,username,name},connected_instagram_account{id,username,name}`,
+      `me/accounts?fields=name,access_token,instagram_business_account{id,username,name},connected_instagram_account{id,username,name}`,
       `${id}/accounts?fields=name,access_token,instagram_business_account,connected_instagram_account`,
+      `me/accounts?fields=name,access_token,instagram_business_account,connected_instagram_account`,
       `${id}/accounts?fields=name,access_token,instagram_business_account{id}`,
       `${id}/accounts?fields=name,access_token,connected_instagram_account{id}`,
       `${id}/accounts?fields=name,access_token,instagram_business_accounts{id}`,
-      `${id}/accounts?fields=name,access_token`
+      `${id}/accounts?fields=name,access_token`,
+      `me/accounts?fields=name,access_token`
     ];
 
     let response: any = null;
     for (const endpoint of endpoints) {
       try {
-        response = await apiBase(token).get(endpoint);
-        break;
+        const res = await apiBase(token).get(endpoint);
+        if (res?.data?.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          response = res;
+          break;
+        }
+        if (!response) {
+          response = res;
+        }
       } catch (e) {
         // tenta próximo endpoint
       }
