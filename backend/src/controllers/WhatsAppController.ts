@@ -380,9 +380,11 @@ export const storeFacebook = async (
       // A troca de token para "long-lived" pode falhar se o app credentials estiverem
       // divergentes/incompletos. Para não bloquear a conexão (e permitir webhooks/tickets),
       // fazemos fallback para o token original retornado pela Graph API.
-      let acessTokenPage = access_token;
+      let acessTokenPage = access_token || facebookUserToken;
       try {
-        acessTokenPage = await getAccessTokenFromPage(access_token);
+        if (access_token) {
+          acessTokenPage = await getAccessTokenFromPage(access_token);
+        }
       } catch (err: any) {
         logger.warn("[storeFacebook] Falha ao trocar token da página. Usando token original.", {
           facebookUserId,

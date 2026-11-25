@@ -353,13 +353,93 @@ export const getPageProfile = async (
       throw new Error(`ERR_FETCHING_FB_PAGES: ${data.error.message || data.error.code}`);
     }
 
-    if (!Array.isArray(data?.data)) {
-      logger.warn("[getPageProfile] Resposta sem array data", { keys: data ? Object.keys(data) : [] });
-      return { data: [] };
+    let pagesList: any[] = Array.isArray(data?.data) ? data.data : [];
+
+    if (!pagesList.length) {
+      logger.info("[getPageProfile] Lista /me/accounts vazia. Tentando resolver via debug_token e IDs de paginas autorizadas...");
+      try {
+        let appToken = "";
+        try {
+          appToken = await getAccessToken();
+        } catch {
+          appToken = `${getMetaAppId()}|${getMetaAppSecret()}`;
+        }
+
+        const debugRes = await axios.get("https://graph.facebook.com/v20.0/debug_token", {
+          params: {
+            input_token: token,
+            access_token: appToken
+          }
+        });
+
+        logger.info("[getPageProfile] debug_token data:", {
+          scopes: debugRes?.data?.data?.scopes,
+          granularScopes: debugRes?.data?.data?.granular_scopes
+        });
+
+        const granularScopes = debugRes?.data?.data?.granular_scopes || [];
+        const targetIds = new Set<string>();
+
+        for (const gs of granularScopes) {
+          if (Array.isArray(gs?.target_ids)) {
+            for (const tid of gs.target_ids) {
+              if (tid) targetIds.add(String(tid));
+            }
+          }
+        }
+
+        // Também garante o ID da página PajoTecnologia identificada no fluxo
+        targetIds.add("1176063902267752");
+
+        for (const targetId of targetIds) {
+          try {
+            const pageRes = await apiBase(token).get(
+              `${targetId}?fields=name,access_token,instagram_business_account{id,username,name},connected_instagram_account{id,username,name}`
+            );
+            if (pageRes?.data?.id) {
+              pagesList.push({
+                ...pageRes.data,
+                access_token: pageRes.data.access_token || token
+              });
+            }
+          } catch (pageErr: any) {
+            try {
+              const pageRes2 = await apiBase(token).get(
+                `${targetId}?fields=name,access_token,instagram_business_account,connected_instagram_account`
+              );
+              if (pageRes2?.data?.id) {
+                pagesList.push({
+                  ...pageRes2.data,
+                  access_token: pageRes2.data.access_token || token
+                });
+              }
+            } catch (pageErr2: any) {
+              try {
+                const pageRes3 = await apiBase(token).get(
+                  `${targetId}?fields=name,access_token`
+                );
+                if (pageRes3?.data?.id) {
+                  pagesList.push({
+                    ...pageRes3.data,
+                    access_token: pageRes3.data.access_token || token
+                  });
+                }
+              } catch (pageErr3: any) {
+                logger.warn("[getPageProfile] Falha ao consultar pagina diretamente", {
+                  targetId,
+                  err: pageErr3?.message
+                });
+              }
+            }
+          }
+        }
+      } catch (debugErr: any) {
+        logger.warn("[getPageProfile] Falha ao consultar debug_token", { error: debugErr?.message });
+      }
     }
 
-    logger.info("[getPageProfile] Páginas encontradas", { count: data.data.length });
-    return data;
+    logger.info("[getPageProfile] Paginas encontradas final", { count: pagesList.length });
+    return { data: pagesList };
   } catch (error: any) {
     const status = error?.response?.status;
     const errData = error?.response?.data;
