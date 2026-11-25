@@ -10,11 +10,14 @@ import { assertPromptUniqueInCompany } from "../../helpers/assertPromptUniqueInC
 import { resolvePromptQueueId } from "../../helpers/resolvePromptQueueId";
 import { persistCompiledAttendanceFlow } from "./persistCompiledAttendanceFlow";
 import type { CompileAttendanceFlowIRInput } from "../../helpers/compileAttendanceFlowIR";
+import { isGeminiModelId } from "../../providers/gemini/utils/isGeminiModel";
+import { isClaudeModelId } from "../../providers/anthropic/utils/isClaudeModel";
+import { isGrokModelId } from "../../providers/grok/utils/isGrokModel";
 
 interface PromptData {
     id?: number;
     name: string;
-    apiKey: string;
+    apiKey?: string | null;
     prompt: string;
     model?: string;
     maxTokens?: number | string | null;
@@ -70,14 +73,23 @@ const UpdatePromptService = async ({
     const companyIdNum = Number(companyId);
     const promptTable = await ShowPromptService({ promptId: promptId, companyId });
 
+    const rawModel = String(promptData.model || promptTable.getDataValue("model") || "").trim();
+    const isExternalProvider = isGeminiModelId(rawModel) || isClaudeModelId(rawModel) || isGrokModelId(rawModel);
+
+    let apiKey = String(promptData.apiKey || "").trim();
+    if (!apiKey) {
+      const existingKey = String(promptTable.getDataValue("apiKey") || "").trim();
+      apiKey = existingKey || (isExternalProvider ? "integracao-empresa" : "");
+    }
+
     const promptSchema = Yup.object().shape({
         name: Yup.string().required("ERR_PROMPT_NAME_INVALID"),
         prompt: Yup.string().required("ERR_PROMPT_PROMPT_INVALID"),
-        apiKey: Yup.string().required("ERR_PROMPT_APIKEY_INVALID"),
+        apiKey: isExternalProvider ? Yup.string().nullable().optional() : Yup.string().required("ERR_PROMPT_APIKEY_INVALID"),
         maxMessages: Yup.number().typeError("ERR_PROMPT_MAX_MESSAGES_INVALID").required("ERR_PROMPT_MAX_MESSAGES_INVALID")
     });
 
-    const { name, apiKey, prompt, model, voice, voiceKey, voiceRegion, cargo, cerebro, produtividade, midias, attendanceFlowSteps, attendanceFlowCompilerInput } = promptData;
+    const { name, prompt, model, voice, voiceKey, voiceRegion, cargo, cerebro, produtividade, midias, attendanceFlowSteps, attendanceFlowCompilerInput } = promptData;
 
     const rawMaxMsg = promptData.maxMessages as unknown;
     const maxMessages = rawMaxMsg === "" || rawMaxMsg == null ? 10 : Number(rawMaxMsg);
@@ -132,7 +144,7 @@ const UpdatePromptService = async ({
       await promptTable.update(
         {
           name,
-          apiKey,
+          apiKey: apiKey || (isExternalProvider ? "integracao-empresa" : (promptTable.getDataValue("apiKey") || "")),
           prompt,
           model,
           maxTokens,

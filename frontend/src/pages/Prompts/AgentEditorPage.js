@@ -1311,8 +1311,12 @@ export default function AgentEditorPage() {
     const isClaude = isClaudeModelId(selectedModel);
     const isGemini = isGeminiModelId(selectedModel);
     const isGrok = isGrokModelId(selectedModel);
-    if (!isClaude && !isGemini && !isGrok && !String(payload.integration.apiKey || "").trim()) {
-      payload.integration.apiKey = String(integrationPeek.apiKey || "").trim();
+    if (!isClaude && !isGemini && !isGrok) {
+      if (!String(payload.integration.apiKey || "").trim() || payload.integration.apiKey === "integracao-empresa") {
+        payload.integration.apiKey = String(integrationPeek.apiKey || "").trim();
+      }
+    } else if (!String(payload.integration.apiKey || "").trim()) {
+      payload.integration.apiKey = "integracao-empresa";
     }
     if (isGrok) {
       try {

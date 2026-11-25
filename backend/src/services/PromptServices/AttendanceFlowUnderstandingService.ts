@@ -596,7 +596,8 @@ async function callLlmForUnderstanding(
   stepIds: Set<string>,
   irHash: string
 ): Promise<{ understanding: FlowUnderstanding | null; rawJson: string | null; error?: string }> {
-  const apiKey = String(input.apiKey || process.env.OPENAI_API_KEY || "").trim();
+  const rawKey = String(input.apiKey || process.env.OPENAI_API_KEY || "").trim();
+  const apiKey = rawKey === "integracao-empresa" ? "" : rawKey;
   if (!apiKey) {
     return { understanding: null, rawJson: null, error: "openai_api_key_missing" };
   }

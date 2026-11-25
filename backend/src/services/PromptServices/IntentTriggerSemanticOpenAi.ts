@@ -45,8 +45,9 @@ function readSemanticFlag(): "off" | "auto" | "on" {
 export function shouldRunSemanticOpenAiMatch(apiKey: string | null | undefined): boolean {
   const flag = readSemanticFlag();
   if (flag === "off") return false;
-  if (flag === "on") return !!String(apiKey || "").trim();
-  return !!String(apiKey || "").trim();
+  const key = String(apiKey || "").trim();
+  if (!key || key === "integracao-empresa" || !key.startsWith("sk-")) return false;
+  return true;
 }
 
 /**

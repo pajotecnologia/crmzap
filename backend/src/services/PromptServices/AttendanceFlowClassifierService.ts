@@ -1070,7 +1070,8 @@ async function callLlmClassifier(
   input: ClassifyTurnInput,
   validStepIds: Set<string>
 ): Promise<{ result: ClassifierResult | null; error?: string }> {
-  const apiKey = String(input.apiKey || process.env.OPENAI_API_KEY || "").trim();
+  const rawKey = String(input.apiKey || process.env.OPENAI_API_KEY || "").trim();
+  const apiKey = rawKey === "integracao-empresa" ? "" : rawKey;
   if (!apiKey) return { result: null, error: "openai_api_key_missing" };
   const model = input.model || process.env.ATTENDANCE_FLOW_CLASSIFIER_MODEL || OPENAI_DEFAULT_FAST_MODEL;
   const timeoutMs = Number(input.llmTimeoutMs || 12_000);

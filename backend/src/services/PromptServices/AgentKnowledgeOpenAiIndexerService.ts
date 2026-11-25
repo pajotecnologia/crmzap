@@ -237,8 +237,8 @@ export async function indexAllPromptKnowledgeSourcesForOpenAi(params: {
   });
   if (!prompt) return;
   const apiKey = String((prompt as any).apiKey || "").trim();
-  if (!apiKey) {
-    logger.warn(`[KN-OPENAI] sem apiKey no prompt=${params.promptId}; indexação ignorada`);
+  if (!apiKey || apiKey === "integracao-empresa" || !apiKey.startsWith("sk-")) {
+    logger.warn(`[KN-OPENAI] sem apiKey OpenAI válida no prompt=${params.promptId}; indexação ignorada`);
     return;
   }
 

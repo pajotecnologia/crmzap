@@ -117,4 +117,23 @@ describe("CreatePromptService — persistência v2", () => {
     expect(ShowPromptService).toHaveBeenCalledWith({ promptId: 901, companyId: 1 });
     expect(out?.id).toBe(901);
   });
+
+  it("cria Prompt com modelo Gemini sem apiKey e atribui integracao-empresa", async () => {
+    const v2 = v2Payload();
+    v2.integration = {
+      model: "gemini-flash-lite-latest",
+      apiKey: ""
+    };
+    const expanded = expandPromptV2ToLegacy(v2, { promptId: null });
+    const out = await CreatePromptService({
+      ...(expanded as any),
+      companyId: 1
+    });
+
+    expect(Prompt.create).toHaveBeenCalled();
+    const createArg = (Prompt.create as jest.Mock).mock.calls[1][0];
+    expect(createArg.apiKey).toBe("integracao-empresa");
+    expect(createArg.model).toBe("gemini-flash-lite-latest");
+    expect(out?.id).toBe(901);
+  });
 });

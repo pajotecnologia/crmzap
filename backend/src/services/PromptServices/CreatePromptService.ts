@@ -11,10 +11,13 @@ import { resolvePromptQueueId } from "../../helpers/resolvePromptQueueId";
 import { persistCompiledAttendanceFlow } from "./persistCompiledAttendanceFlow";
 import type { CompileAttendanceFlowIRInput } from "../../helpers/compileAttendanceFlowIR";
 import { OPENAI_DEFAULT_CHAT_MODEL } from "../../config/openAiDefaults";
+import { isGeminiModelId } from "../../providers/gemini/utils/isGeminiModel";
+import { isClaudeModelId } from "../../providers/anthropic/utils/isClaudeModel";
+import { isGrokModelId } from "../../providers/grok/utils/isGrokModel";
 
 interface PromptData {
     name: string;
-    apiKey: string;
+    apiKey?: string | null;
     prompt: string;
     model?: string;
     maxTokens?: number | string | null;
@@ -57,7 +60,15 @@ const asDbJson = <T = any>(value: unknown, fallback: T): T | string => {
 };
 
 const CreatePromptService = async (promptData: PromptData): Promise<Prompt> => {
-    const { name, apiKey, prompt, model, cargo, cerebro, produtividade, midias, attendanceFlowSteps, attendanceFlowCompilerInput } = promptData;
+    const { name, prompt, model, cargo, cerebro, produtividade, midias, attendanceFlowSteps, attendanceFlowCompilerInput } = promptData;
+
+    const rawModel = String(model || "").trim();
+    const isExternalProvider = isGeminiModelId(rawModel) || isClaudeModelId(rawModel) || isGrokModelId(rawModel);
+
+    let apiKey = String(promptData.apiKey || "").trim();
+    if (!apiKey && isExternalProvider) {
+      apiKey = "integracao-empresa";
+    }
 
     const rawMax = promptData.maxMessages as unknown;
     const maxMessages = rawMax === "" || rawMax == null ? 10 : Number(rawMax);
@@ -66,7 +77,7 @@ const CreatePromptService = async (promptData: PromptData): Promise<Prompt> => {
     const promptSchema = Yup.object().shape({
         name: Yup.string().required("ERR_PROMPT_NAME_INVALID"),
         prompt: Yup.string().required("ERR_PROMPT_INTELLIGENCE_INVALID"),
-        apiKey: Yup.string().required("ERR_PROMPT_APIKEY_INVALID"),
+        apiKey: isExternalProvider ? Yup.string().nullable().optional() : Yup.string().required("ERR_PROMPT_APIKEY_INVALID"),
         model: Yup.string().optional(),
         maxMessages: Yup.number().typeError("ERR_PROMPT_MAX_MESSAGES_INVALID").required("ERR_PROMPT_MAX_MESSAGES_INVALID"),
         companyId: Yup.number().typeError("ERR_PROMPT_companyId_INVALID").required("ERR_PROMPT_companyId_INVALID")
@@ -99,7 +110,7 @@ const CreatePromptService = async (promptData: PromptData): Promise<Prompt> => {
       let p = await Prompt.create(
         {
           name,
-          apiKey,
+          apiKey: apiKey || (isExternalProvider ? "integracao-empresa" : ""),
           prompt,
           model: model || OPENAI_DEFAULT_CHAT_MODEL,
           queueId,

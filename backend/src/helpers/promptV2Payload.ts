@@ -5,7 +5,9 @@
  */
 
 import { OPENAI_DEFAULT_CHAT_MODEL } from "../config/openAiDefaults";
-import { normalizeAgentModelId } from "../providers/anthropic/utils/isClaudeModel";
+import { isClaudeModelId, normalizeAgentModelId } from "../providers/anthropic/utils/isClaudeModel";
+import { isGeminiModelId } from "../providers/gemini/utils/isGeminiModel";
+import { isGrokModelId } from "../providers/grok/utils/isGrokModel";
 
 export type PromptV2Integration = {
   apiKey: string;
@@ -610,7 +612,12 @@ export function expandPromptV2ToLegacy(
   const integ = v2.integration || ({} as PromptV2Integration);
   const agent = v2.agent || ({} as PromptV2Agent);
   const name = String(agent.name || "").trim() || "Novo agente";
-  const apiKey = String(integ.apiKey || "").trim();
+  const rawModel = String(integ.model || "").trim();
+  const isExternalProvider = isGeminiModelId(rawModel) || isClaudeModelId(rawModel) || isGrokModelId(rawModel);
+  let apiKey = String(integ.apiKey || "").trim();
+  if (!apiKey && isExternalProvider) {
+    apiKey = "integracao-empresa";
+  }
   const generalRules = String(v2.generalRules || "");
   const script = String(v2.attendance?.script || "");
   const faq = Array.isArray(v2.faq) ? v2.faq : [];
