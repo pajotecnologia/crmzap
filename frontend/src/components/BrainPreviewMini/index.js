@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
+import { useHistory } from "react-router-dom";
 import useScheduleTranslateWhen from "../../hooks/useScheduleTranslateWhen";
 import { useIsMobile } from "../../hooks/useMediaQueryBrain";
 import {
   X,
+  Maximize2,
   ListTodo,
   Users,
   BarChart3,
@@ -103,6 +105,7 @@ function resolveContext(context) {
 
 const BrainPreviewMini = ({ context, iconSize = 32 }) => {
   const isMobile = useIsMobile();
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   useScheduleTranslateWhen(open);
 
@@ -111,6 +114,11 @@ const BrainPreviewMini = ({ context, iconSize = 32 }) => {
     () => CONTEXT_SUGGESTIONS[contextKey] || CONTEXT_SUGGESTIONS.general,
     [contextKey]
   );
+
+  const handleOpenFullScreen = () => {
+    setOpen(false);
+    history.push("/brain-ai");
+  };
 
   return (
     <>
@@ -127,16 +135,31 @@ const BrainPreviewMini = ({ context, iconSize = 32 }) => {
         <SheetContent
           side="right"
           showClose={false}
-          className={isMobile ? "w-full max-w-full" : "w-[460px] max-w-[calc(100vw-24px)] m-3 h-[calc(100%-24px)] rounded-2xl border brain-shell"}
+          className={isMobile ? "w-full max-w-full" : "w-[560px] md:w-[680px] max-w-[calc(100vw-24px)] m-3 h-[calc(100%-24px)] rounded-2xl border brain-shell"}
         >
           <div className="brain-preview-mini__header">
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <BrainFlowerMini size={22} />
               <span className="brain-preview-mini__title">Brain.AI</span>
             </div>
-            <button type="button" className="brain-voice__icon-btn" onClick={() => setOpen(false)}>
-              <X size={14} />
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <button
+                type="button"
+                className="brain-voice__icon-btn"
+                title="Abrir em tela cheia"
+                onClick={handleOpenFullScreen}
+              >
+                <Maximize2 size={14} />
+              </button>
+              <button
+                type="button"
+                className="brain-voice__icon-btn"
+                title="Fechar"
+                onClick={() => setOpen(false)}
+              >
+                <X size={14} />
+              </button>
+            </div>
           </div>
           <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
             <AiBrain

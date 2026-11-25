@@ -1447,6 +1447,9 @@
   color: var(--brain-text);
   margin: 0 0 10px;
   font-family: Georgia, "Times New Roman", serif;
+  word-break: normal;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .brain-pers-hub__landing-sub {
@@ -1540,6 +1543,50 @@
   .brain-pers-hub__split {
     grid-template-columns: 1fr;
   }
+}
+
+/* Modo embutido na gaveta / drawer flutuante */
+.brain-shell__root--embedded .brain-pers-hub {
+  flex-direction: column;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__sidebar {
+  width: 100%;
+  border-right: none;
+  border-bottom: 1px solid var(--brain-border);
+  padding: 10px 14px;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__nav {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__nav-item {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__sidebar-footer {
+  display: none;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__main {
+  padding: 16px 20px 32px;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__landing {
+  padding-top: 12px;
+  max-width: 100%;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__landing-title {
+  font-size: 20px;
+}
+
+.brain-shell__root--embedded .brain-pers-hub__split {
+  grid-template-columns: 1fr;
 }
 
 .brain-pers-hub__skills-list {
