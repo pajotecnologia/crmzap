@@ -116,7 +116,7 @@ function sanitizeExtractedTerm(value: string): string {
     .slice(0, 120);
 }
 
-/** Variantes de busca: frase completa + tokens significativos (ex.: "VBSolution CRM" → "VBSolution", "CRM"). */
+/** Variantes de busca: frase completa + tokens significativos (ex.: "Pajo CRM" → "Pajo", "CRM"). */
 export function expandProductSearchTerms(term: string): string[] {
   const base = sanitizeExtractedTerm(term);
   if (!base) return [];

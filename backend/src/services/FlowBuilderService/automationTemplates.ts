@@ -32,7 +32,7 @@ export const AUTOMATION_TEMPLATES: AutomationTemplateDef[] = [
     id: "ig_comment_dm",
     name: "Comentário no post Instagram → DM",
     defaultMessage:
-      "VBSolution CRM – resposta automática ao comentário GUIA 001.",
+      "Pajo CRM – resposta automática ao comentário GUIA 001.",
     defaultPhrase: "GUIA",
     channels: ["instagram"],
     bind: "ig_comment_dm"

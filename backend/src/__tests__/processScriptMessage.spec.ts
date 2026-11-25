@@ -19,7 +19,7 @@ describe("processScriptMessage — variáveis + travessão", () => {
     },
     ticket: { id: 99 },
     agentName: "Bot Vendas",
-    companyName: "VBSolution",
+    companyName: "Pajo",
     now: new Date("2026-05-09T14:30:00.000-03:00")
   };
 
@@ -58,7 +58,7 @@ describe("processScriptMessage — variáveis + travessão", () => {
     );
     expect(out).toContain("João Silva");
     expect(out).toContain("Bot Vendas");
-    expect(out).toContain("VBSolution");
+    expect(out).toContain("Pajo");
     expect(out).toContain("PED-42");
     expect(out).toContain("São Paulo");
     expect(out).not.toMatch(/\{\{?nome/);

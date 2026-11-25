@@ -1,4 +1,4 @@
-# VBSolution CRM
+# Pajo CRM
 
 ## Register
 

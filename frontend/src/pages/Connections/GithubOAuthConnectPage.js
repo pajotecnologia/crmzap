@@ -125,7 +125,7 @@ export default function GithubOAuthConnectPage() {
       <Typography className={classes.sub}>
         {error
           ? "Esta janela pode ser fechada."
-          : "VBSolution CRM · Autorize o acesso na próxima tela do GitHub. Não feche esta janela até concluir."}
+          : "Pajo CRM · Autorize o acesso na próxima tela do GitHub. Não feche esta janela até concluir."}
       </Typography>
       {error ? (
         <Typography className={classes.error}>{error}</Typography>

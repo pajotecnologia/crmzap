@@ -35,7 +35,7 @@ function getApiContext(req: Request) {
 export const health = async (_req: Request, res: Response): Promise<Response> => {
   return res.json({
     ok: true,
-    service: "VBSolution CRM API",
+    service: "Pajo CRM API",
     version: "1.0.0",
     timestamp: new Date().toISOString()
   });

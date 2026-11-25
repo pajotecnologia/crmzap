@@ -276,7 +276,7 @@ export const CONNECTION_GUIDES = [
     steps: [
       {
         title: "Escopo desta integração",
-        desc: "A API Key cadastrada aqui é exclusiva para Agentes de IA (WhatsApp, Telegram, automações). O Brain.AI não usa esta chave — opera com infraestrutura interna da VBSolution e cobrança via créditos Brain.",
+        desc: "A API Key cadastrada aqui é exclusiva para Agentes de IA (WhatsApp, Telegram, automações). O Brain.AI não usa esta chave — opera com infraestrutura interna da Pajo e cobrança via créditos Brain.",
       },
       {
         title: "Abra o card Open IA",
@@ -372,7 +372,7 @@ export const CONNECTION_GUIDES = [
       },
       {
         title: "Vincule aos canais",
-        desc: "Em Integrações → WhatsApp ou Telegram, selecione o agente Claude na etapa de filas / IA. O Brain.AI usa infraestrutura própria da VBSolution, independente desta chave.",
+        desc: "Em Integrações → WhatsApp ou Telegram, selecione o agente Claude na etapa de filas / IA. O Brain.AI usa infraestrutura própria da Pajo, independente desta chave.",
       },
     ],
     tip: "Documentação Anthropic:",
@@ -387,7 +387,7 @@ export const CONNECTION_GUIDES = [
     steps: [
       {
         title: "Escopo desta integração",
-        desc: "A API Key Gemini é usada pelos Agentes de IA no atendimento e fluxos. O Brain.AI opera com chaves internas da VBSolution — o consumo é debitado dos créditos Brain, sem necessidade de chave nesta conexão.",
+        desc: "A API Key Gemini é usada pelos Agentes de IA no atendimento e fluxos. O Brain.AI opera com chaves internas da Pajo — o consumo é debitado dos créditos Brain, sem necessidade de chave nesta conexão.",
       },
       {
         title: "Abra o card Gemini",

@@ -70,7 +70,7 @@ export function newTemplateId() {
 /** Prévia de texto alinhada ao runtime do agente. */
 export function buildInventoryWhatsAppPreview(reply, productSample = null) {
   const r = { ...INVENTORY_REPLY_DEFAULT, ...(reply || {}) };
-  const name = productSample?.name || "VBSolution CRM";
+  const name = productSample?.name || "Pajo CRM";
   const priceNum = Number(productSample?.price);
   const price = Number.isFinite(priceNum)
     ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(priceNum)

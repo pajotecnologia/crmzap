@@ -162,7 +162,7 @@ export const config = async (req: Request, res: Response): Promise<Response> => 
         docs: "https://docs.cursor.com/context/mcp"
       },
       {
-        name: "Brain.AI (VBSolution)",
+        name: "Brain.AI (Pajo)",
         description:
           "O Brain já acessa leads, contatos e atividades do CRM nativamente. O conector MCP manual do Brain é para servidores HTTP externos — não para o pacote @vbsolution/crm-mcp.",
         docs: null

@@ -278,7 +278,7 @@ function McpManager({ userId, onOpenCatalog, ui }) {
           </h2>
           <p className={s.lead} style={{ marginBottom: 0 }}>
             {ui(
-              "Conecte servidores MCP personalizados ou escolha integrações prontas da biblioteca VBSolution."
+              "Conecte servidores MCP personalizados ou escolha integrações prontas da biblioteca Pajo."
             )}
           </p>
         </div>
@@ -327,7 +327,7 @@ function McpManager({ userId, onOpenCatalog, ui }) {
             />
             <p className="brain-pers-hub__mcp-url-hint">
               {ui(
-                "Somente servidores MCP remotos (HTTP/SSE). Para o CRM VBSolution no Claude Web, use a URL MCP em Mais → API & MCP (termina em /mcp) e cole sua API Key na autorização OAuth."
+                "Somente servidores MCP remotos (HTTP/SSE). Para o CRM Pajo no Claude Web, use a URL MCP em Mais → API & MCP (termina em /mcp) e cole sua API Key na autorização OAuth."
               )}
             </p>
           </div>

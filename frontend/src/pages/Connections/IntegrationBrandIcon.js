@@ -159,7 +159,7 @@ const BRAND_RENDERERS = {
     />
   ),
   "vbsolution-api": ({ size }) => (
-    <BrandImageIcon src={VBSOLUTION_FAVICON} size={size} alt="VBSolution" />
+    <BrandImageIcon src={VBSOLUTION_FAVICON} size={size} alt="Pajo" />
   ),
 };
 

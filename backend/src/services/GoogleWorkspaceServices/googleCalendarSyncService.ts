@@ -58,7 +58,7 @@ function buildGoogleEventDescription(params: {
 }): string {
   const parts = [
     `Tipo: ${params.typeLabel}`,
-    `Origem: VB Solution CRM`,
+    `Origem: Pajo CRM`,
     `[google-calendar-sync:${params.entity}:${params.entityId}]`
   ];
   const clean = stripSyncMarkers(params.body);

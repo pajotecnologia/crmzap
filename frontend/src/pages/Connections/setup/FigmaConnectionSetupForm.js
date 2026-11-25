@@ -385,7 +385,7 @@ export default function FigmaConnectionSetupForm({ onSaved }) {
               }}
             />
             <Typography className={layout.helper}>
-              Utilizada para conectar sua conta Figma ao VBsolution e disponibilizar
+              Utilizada para conectar sua conta Figma ao Pajo e disponibilizar
               contexto para o Brain AI.
             </Typography>
           </div>

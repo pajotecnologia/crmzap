@@ -192,7 +192,7 @@ describe("Roteiro Agente IA — bolhas e quebras de linha", () => {
 
   it("26d2) exemplo Leonardo: - = mesma bolha com espaço entre parágrafos", () => {
     const blocks = splitAgentReplyIntoSmartBlocks(
-      "Opa João! Quem fala é o Leonardo Sena, co-fundador do VBSolution CRM.\n-\nAntes de te passar o material e o link para garantir sua vaga, quero entender uma coisa:\nVocê pretende utilizar a ferramenta para *vender para seus próprios clientes* ou para *usar no seu dia a dia*?",
+      "Opa João! Quem fala é o Leonardo Sena, co-fundador do Pajo CRM.\n-\nAntes de te passar o material e o link para garantir sua vaga, quero entender uma coisa:\nVocê pretende utilizar a ferramenta para *vender para seus próprios clientes* ou para *usar no seu dia a dia*?",
       scriptOpts
     );
     expect(blocks).toHaveLength(1);
@@ -341,7 +341,7 @@ describe("Roteiro Agente IA — regras gerais combinadas", () => {
 
   it("46) NÃO parte URL; lista com — fica 1 bolha", () => {
     const text = [
-      "Você também pode testar o VBSolution CRM gratuitamente:",
+      "Você também pode testar o Pajo CRM gratuitamente:",
       "—",
       "✅ Teste grátis:http://www.example.com/register/teste-grátis",
       "—",

@@ -196,7 +196,7 @@ export function expandPausedSideQuestUserText(
   const k = String(kind || "").trim() || "other_question";
   const map: Record<string, string> = {
     api:
-      "Quero saber mais sobre a API Oficial da Meta no VBSolution: como funciona, diferença do WhatsApp Web via QR Code, o que preciso e como encaixa no atendimento/CRM. Explique de forma clara e completa.",
+      "Quero saber mais sobre a API Oficial da Meta no Pajo: como funciona, diferença do WhatsApp Web via QR Code, o que preciso e como encaixa no atendimento/CRM. Explique de forma clara e completa.",
     support:
       "Quero saber mais sobre o suporte / pós-venda / como vocês acompanham após a compra. Explique de forma clara.",
     pricing:
@@ -208,9 +208,9 @@ export function expandPausedSideQuestUserText(
     hosting:
       "Quero saber mais sobre hospedagem / VPS / requisitos do servidor. Explique de forma clara.",
     features:
-      "Quero saber mais sobre as funcionalidades do VBSolution CRM. Explique o essencial de forma clara.",
+      "Quero saber mais sobre as funcionalidades do Pajo CRM. Explique o essencial de forma clara.",
     system:
-      "Quero saber mais sobre o sistema / plataforma VBSolution. Explique de forma clara.",
+      "Quero saber mais sobre o sistema / plataforma Pajo. Explique de forma clara.",
     technical:
       "Quero um pouco mais de detalhe técnico sobre o que perguntei. Explique com base nas fontes.",
     free_trial:

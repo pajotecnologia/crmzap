@@ -227,7 +227,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
             phoneDigits.length > 0
               ? `${phoneDigits.startsWith("55") ? phoneDigits : `55${phoneDigits}`}@s.whatsapp.net`
               : "";
-          const welcomeBody = `Olá *${name}*! 🎉\n\nSeja muito bem-vindo(a) à *${companyName}* — ficamos extremamente felizes em ter você com a gente nesta jornada!\n\nSomos a equipe VB Solution e estamos *100% à sua disposição*: dúvidas, ideias, ajustes ou um simples “oi” — pode nos chamar quando quiser. Queremos que você aproveite cada recurso, ganhe tempo no atendimento e veja resultados reais no dia a dia.\n\n📱 *Seus dados de acesso rápido:*\n• Empresa: ${companyName}\n• E-mail: ${email}\n• Período grátis até: ${dateToClient(dateFreemium)}\n\nLembre-se: sua senha é pessoal — guarde com carinho. Se precisar de treinamento, dicas ou suporte, é só responder esta mensagem. Vamos juntos! 💙`;
+          const welcomeBody = `Olá *${name}*! 🎉\n\nSeja muito bem-vindo(a) à *${companyName}* — ficamos extremamente felizes em ter você com a gente nesta jornada!\n\nSomos a equipe Pajo e estamos *100% à sua disposição*: dúvidas, ideias, ajustes ou um simples “oi” — pode nos chamar quando quiser. Queremos que você aproveite cada recurso, ganhe tempo no atendimento e veja resultados reais no dia a dia.\n\n📱 *Seus dados de acesso rápido:*\n• Empresa: ${companyName}\n• E-mail: ${email}\n• Período grátis até: ${dateToClient(dateFreemium)}\n\nLembre-se: sua senha é pessoal — guarde com carinho. Se precisar de treinamento, dicas ou suporte, é só responder esta mensagem. Vamos juntos! 💙`;
 
           if (jid) await wbotF.sendMessage(jid, { text: welcomeBody });
         }

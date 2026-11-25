@@ -227,7 +227,7 @@ function buildPreview(reply) {
       ? ` — ${String(r.installmentText).trim()}`
       : "";
   const sample = {
-    nome: "VBSolution CRM",
+    nome: "Pajo CRM",
     preco: "R$ 149,90",
     estoque: "8",
     estoque_status: "8 unidades disponíveis",
@@ -239,9 +239,9 @@ function buildPreview(reply) {
       ? "\n\nSe quiser, você pode realizar a compra por aqui: https://exemplo.com/comprar"
       : "",
     descricao: "CRM completo para atendimento e vendas.",
-    descricao_ou_nome: "CRM completo para atendimento e vendas.\n\n*VBSolution CRM*",
+    descricao_ou_nome: "CRM completo para atendimento e vendas.\n\n*Pajo CRM*",
     sku: "VBS-001",
-    catalogo: "1. *VBSolution CRM* — R$ 149,90 — 8 unidades disponíveis"
+    catalogo: "1. *Pajo CRM* — R$ 149,90 — 8 unidades disponíveis"
   };
   let tpl =
     r.strategyPreset === "custom"

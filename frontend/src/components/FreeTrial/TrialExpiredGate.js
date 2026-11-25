@@ -76,7 +76,7 @@ const TrialExpiredGate = () => {
         </Typography>
         <Typography className={classes.body} component="p">
           O período de 12 horas terminou. Os dados de demonstração permanecem
-          conforme a estratégia do sistema. Para continuar com o VBSolution CRM
+          conforme a estratégia do sistema. Para continuar com o Pajo CRM
           completo, conheça o código fonte.
         </Typography>
         <Button

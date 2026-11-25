@@ -125,7 +125,7 @@ app.get("/", (_req, res) => res.json({ ok: true }));
 app.get("/health", (_req, res) => res.json({ ok: true }));
 app.get("/healthz", (_req, res) => res.json({ ok: true }));
 
-// Favicon / branding VBSolution (Claude, OAuth authorize, browsers)
+// Favicon / branding Pajo (Claude, OAuth authorize, browsers)
 registerMcpBrandRoutes(app);
 
 // MCP HTTP remoto (Claude Web, etc.) — OAuth + /mcp antes das rotas JWT

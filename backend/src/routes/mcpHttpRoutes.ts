@@ -130,7 +130,7 @@ export function registerMcpHttpRoutes(app: Express, reqForUrls?: Request): void 
       issuerUrl: issuer,
       baseUrl: issuer,
       resourceServerUrl: mcpUrl,
-      resourceName: "VBSolution CRM",
+      resourceName: "Pajo CRM",
       scopesSupported: MCP_OAUTH_SCOPES,
       serviceDocumentationUrl: new URL(`${issuer.origin}/platform-api`)
     };

@@ -235,7 +235,7 @@ export async function createGithubRepo(params: {
       "https://api.github.com/user/repos",
       {
         name: repoName,
-        description: params.description || "Projeto gerado no Brain.AI · VB Solution",
+        description: params.description || "Projeto gerado no Brain.AI · Pajo",
         private: params.isPrivate !== false,
         auto_init: false
       },

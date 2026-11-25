@@ -86,8 +86,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-/** Texto para colar no ChatGPT (ou similar) e gerar roteiros compatíveis com o agente VB Solution. */
-export const CHATGPT_SCRIPT_GENERATION_BRIEFING = `Você é especialista em roteiros de atendimento por mensagens para a plataforma VB Solution.
+/** Texto para colar no ChatGPT (ou similar) e gerar roteiros compatíveis com o agente Pajo. */
+export const CHATGPT_SCRIPT_GENERATION_BRIEFING = `Você é especialista em roteiros de atendimento por mensagens para a plataforma Pajo.
 
 TAREFA: Escrever um roteiro em português (Brasil) para um agente de IA conduzir conversas. O sistema VB interpreta o texto por significado, separa etapas por marcadores e sincroniza com o fluxo visual (perguntas aguardam resposta antes de avançar).
 

@@ -5,7 +5,7 @@ const DEFAULT_SKILLS = [
     id: "crm-assistant",
     name: "Assistente CRM",
     description:
-      "Guia criação de leads, tickets, campanhas e atividades no VBSolution com processos da equipe.",
+      "Guia criação de leads, tickets, campanhas e atividades no Pajo com processos da equipe.",
     trigger: "Automático",
     content: `# Assistente CRM
 
@@ -16,7 +16,7 @@ Use este skill quando o usuário pedir ajuda com CRM, leads, tickets ou campanha
 2. Colete dados essenciais antes de criar registros.
 3. Sugira próximos passos após cada ação.`,
     enabled: true,
-    addedBy: "VBSolution",
+    addedBy: "Pajo",
   },
 ];
 

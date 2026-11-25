@@ -184,6 +184,27 @@ export async function geminiGenerateContent(
       latencyMs: Date.now() - started
     };
   } catch (e) {
+    const errStr = String((e as Error)?.message || e).toLowerCase();
+    const isModelOrCapacityError =
+      errStr.includes("not found") ||
+      errStr.includes("404") ||
+      errStr.includes("503") ||
+      errStr.includes("unavailable") ||
+      errStr.includes("high demand") ||
+      errStr.includes("is no longer available");
+
+    if (isModelOrCapacityError && modelId !== "gemini-flash-lite-latest" && !params.parts?.length) {
+      logger.warn({
+        msg: "[GEMINI-RUNTIME] Falha de modelo/capacidade no Gemini, acionando fallback automático para gemini-flash-lite-latest",
+        originalModel: modelId,
+        err: errStr.slice(0, 200)
+      });
+      return geminiGenerateContent({
+        ...params,
+        model: "gemini-flash-lite-latest"
+      });
+    }
+
     logger.warn({
       msg: "[GEMINI-RUNTIME] generate failed",
       model: modelId,

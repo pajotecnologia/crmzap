@@ -389,7 +389,7 @@ const ConnectionsTypePage = () => {
   const handleReconfigureTelegramWebhook = async (connectionId) => {
     try {
       const { data } = await api.post(`/telegram/connection/${connectionId}/webhook`);
-      const bot = data?.botLabel || "@VBSolution_bot";
+      const bot = data?.botLabel || "@Pajo_bot";
       if (data?.webhookConfigured && data?.deliveryMode === "polling") {
         if (Number(data?.syncedUpdates) > 0) {
           toast.success(

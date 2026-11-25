@@ -827,7 +827,7 @@ export const HELP_CONTENT = {
         bullets: [
           "Ver faturas em aberto",
           "Link de pagamento se disponível",
-          "Contato com suporte VB Solution",
+          "Contato com suporte Pajo",
         ],
       },
     ]
@@ -1093,7 +1093,7 @@ export const HELP_CONTENT = {
           "Criar atividades — \"Crie uma tarefa para ligar para o João amanhã às 10h\"",
           "Criar contatos — \"Adicione o contato Maria Silva, email maria@email.com\"",
           "Criar leads — \"Crie um lead para a empresa Tech Solutions\"",
-          "Criar leads de venda — \"Crie um lead de venda para Leonardo, produto VBSolution, 3 unidades\"",
+          "Criar leads de venda — \"Crie um lead de venda para Leonardo, produto Pajo, 3 unidades\"",
           "Consultar dashboard — \"Quais são os dados do meu dashboard?\"",
           "Listar atividades, contatos, tickets, leads e projetos",
           "Resumo do CRM — \"Me dê um resumo geral do meu CRM\"",
@@ -1213,7 +1213,7 @@ export const HELP_CONTENT = {
   connections: { title: "Conexões", special: "connections" },
 
   platform_api: doc(
-    "Gere sua API e MCP do VBSolution CRM",
+    "Gere sua API e MCP do Pajo CRM",
     "Cada organização cria credenciais próprias para extrair dados do CRM (leads, contatos, atividades, tickets, dashboard) e enviar contexto a ferramentas externas via REST API ou servidor MCP.",
     [
       {

@@ -23,7 +23,7 @@ export function downloadMetaHealthReportPdf(data = {}, filename = "relatorio-met
     `App Secret: ${data.facebookAppSecretConfigured ? "OK" : "Faltando no servidor"}`,
     data.tokenError ? `Erro token: ${String(data.tokenError).slice(0, 200)}` : "",
     "",
-    "VBSolution CRM"
+    "Pajo CRM"
   ].filter((l) => l !== undefined);
 
   const pdfBytes = buildSimplePdf(lines);

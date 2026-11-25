@@ -30,14 +30,14 @@ describe("loadRuntimeFlowStepsForAgent", () => {
     expect(steps[1].agentPrompt).toContain("nome");
   });
 
-  it("carrega 16+ etapas do roteiro VB Solution (ETAPA N — sem #)", async () => {
+  it("carrega 16+ etapas do roteiro Pajo (ETAPA N — sem #)", async () => {
     const vbScript = `ETAPA 1 — Boas-vindas
 
 Mensagem:
 
 Fala, tudo bem? 😄
 
-Leonardo Sena VBSolution
+Leonardo Sena Pajo
 
 EXEMPLO DE RESPOSTA DO LEAD: "sim"
 

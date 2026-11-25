@@ -1257,7 +1257,7 @@ const Register = () => {
           <div className={classes.brand}>
             <img
               className={classes.logo}
-              alt="VB Solution"
+              alt="Pajo"
               src={logoSrc}
             />
           </div>

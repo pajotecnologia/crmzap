@@ -163,14 +163,14 @@ describe("resolveRuntimeAttendanceFlowStepRows", () => {
     expect(rows[1].agentPrompt).toContain("Pergunta");
   });
 
-  it("divide roteiro VB Solution (ETAPA N — sem #) em múltiplas etapas", () => {
+  it("divide roteiro Pajo (ETAPA N — sem #) em múltiplas etapas", () => {
     const vbScript = `ETAPA 1 — Boas-vindas e início da conversa
 
 Mensagem:
 
 Fala, tudo bem? 😄
 
-Aqui é o Leonardo Sena, Co-Founder da VBSolution CRM.
+Aqui é o Leonardo Sena, Co-Founder da Pajo CRM.
 
 EXEMPLO DE RESPOSTA DO LEAD: "tráfego pago"
 

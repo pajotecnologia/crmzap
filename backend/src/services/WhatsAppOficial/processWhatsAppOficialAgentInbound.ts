@@ -184,11 +184,11 @@ function buildSalesSideQuestSystemPrompt(params: {
             : kind === "install" || kind === "hosting"
               ? "Pergunta sobre instalação / hospedagem / VPS."
               : kind === "features" || kind === "system"
-                ? "Pergunta sobre o que é o VBSolution / funcionalidades."
+                ? "Pergunta sobre o que é o Pajo / funcionalidades."
                 : "Responda à dúvida do cliente.";
 
   return [
-    "IDENTIDADE NESTE TURNO: você é vendedor especialista da VBSolution CRM no WhatsApp — consultivo, seguro, objetivo e persuasivo. NÃO é robô nem FAQ mecânico.",
+    "IDENTIDADE NESTE TURNO: você é vendedor especialista da Pajo CRM no WhatsApp — consultivo, seguro, objetivo e persuasivo. NÃO é robô nem FAQ mecânico.",
     "Neste turno o cliente fez uma dúvida pontual (ou pediu para aprofundar o tema): interrompa o funil do roteiro, responda com inteligência e depois conduza com UMA pergunta útil (estrutura: RESPOSTA → BENEFÍCIO → PERGUNTA).",
     topicHint,
     "Se o cliente disse apenas 'Sim' / 'quero saber mais' após uma pergunta sua sobre o tema, APROFUNDE esse tema (ex.: API Oficial) — NÃO volte ao pitch de código-fonte, CRM próprio ou pergunta 'vender vs dia a dia'.",
@@ -339,16 +339,16 @@ function buildSideQuestHardFallback(userText: string, hadDocs: boolean): string 
     if (/saber mais|explique|como funciona|diferenca|oficial da meta/i.test(userText)) {
       return "A API Oficial da Meta conecta o WhatsApp Cloud API ao CRM: filas, histórico, templates e atendimento centralizado. O WhatsApp Web via QR Code é a outra opção, mais rápida de conectar.\n\nA aprovação do número depende da Meta — a gente te guia no processo. Quer que eu te explique o caminho de ativação ou como a equipe usa isso no dia a dia?";
     }
-    return "Sim. O VBSolution trabalha com WhatsApp Web via QR Code e também com a API Oficial da Meta, para centralizar os atendimentos no CRM.\n\nVocê quer entender mais a parte da API Oficial ou como encaixa no seu atendimento?";
+    return "Sim. O Pajo trabalha com WhatsApp Web via QR Code e também com a API Oficial da Meta, para centralizar os atendimentos no CRM.\n\nVocê quer entender mais a parte da API Oficial ou como encaixa no seu atendimento?";
   }
   if (kind === "support") {
     return "Sim — a gente acompanha no pós-venda e na implantação. Me conta o que você precisa (instalação, API, uso do CRM ou outra dúvida) que eu te oriento com precisão.";
   }
   if (kind === "source_code") {
-    return "O código-fonte do VBSolution permite instalar, personalizar com a sua marca e evoluir o sistema. Você está pensando em usar internamente ou também revender?";
+    return "O código-fonte do Pajo permite instalar, personalizar com a sua marca e evoluir o sistema. Você está pensando em usar internamente ou também revender?";
   }
   if (kind === "features" || kind === "system") {
-    return "O VBSolution CRM reúne atendimento, vendas, tarefas, campanhas e agentes de IA em um só lugar. O que você mais precisa resolver hoje: WhatsApp, funil de vendas ou automação com IA?";
+    return "O Pajo CRM reúne atendimento, vendas, tarefas, campanhas e agentes de IA em um só lugar. O que você mais precisa resolver hoje: WhatsApp, funil de vendas ou automação com IA?";
   }
   return hadDocs
     ? "Posso te explicar com base no material do produto. Me diga o ponto principal da sua dúvida que eu respondo direto."
@@ -499,7 +499,7 @@ async function runSideQuestKnowledgeReply(params: {
           {
             role: "system",
             content: [
-              "Vendedor VBSolution no WhatsApp. Resposta natural, 3–6 frases.",
+              "Vendedor Pajo no WhatsApp. Resposta natural, 3–6 frases.",
               "Aplique as regras gerais de tom (consultivo + fechamento suave).",
               rulesText ? `Regras:\n${rulesText.slice(0, 6000)}` : "",
               excerptBlock ? `Fatos:\n${excerptBlock.slice(0, 10000)}` : ""

@@ -22,7 +22,7 @@ export async function publishPrototypeFigmaHandoff(params: {
   steps: string[];
   error?: string;
 }> {
-  const title = String(params.title || "Protótipo VB Solution").trim();
+  const title = String(params.title || "Protótipo Pajo").trim();
   const html = String(params.htmlContent || "").trim();
   if (!html) {
     return { success: false, figmaNewFileUrl: "https://www.figma.com", steps: [], error: "HTML do protótipo vazio." };

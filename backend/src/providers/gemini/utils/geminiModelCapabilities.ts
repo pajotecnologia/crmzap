@@ -25,23 +25,27 @@ export function isGeminiChatMultimodalModel(model?: string | null): boolean {
 
 /** IDs de catálogo sem API estável — redireciona para modelo GA equivalente. */
 const MODEL_RUNTIME_ALIASES: Record<string, string> = {
-  "gemini-live": "gemini-2.0-flash",
-  "gemini-video": "gemini-2.5-flash",
-  "gemini-vision": "gemini-2.5-flash",
-  /** Gemini 1.5 desligado na API (404) — mantém ID legado no CRM, roda no sucessor. */
-  "gemini-1.5-flash": "gemini-2.5-flash",
-  "gemini-1.5-flash-latest": "gemini-2.5-flash",
-  "gemini-1.5-flash-001": "gemini-2.5-flash",
-  "gemini-1.5-flash-002": "gemini-2.5-flash",
-  "gemini-1.5-pro": "gemini-2.5-pro",
-  "gemini-1.5-pro-latest": "gemini-2.5-pro",
-  "gemini-1.5-pro-001": "gemini-2.5-pro",
-  "gemini-1.5-pro-002": "gemini-2.5-pro"
+  "gemini-live": "gemini-flash-latest",
+  "gemini-video": "gemini-flash-lite-latest",
+  "gemini-vision": "gemini-flash-lite-latest",
+  /** Modelos descontinuados pela Google para novas chaves — redireciona para sucessor estável */
+  "gemini-2.5-flash": "gemini-flash-lite-latest",
+  "gemini-2.5-pro": "gemini-flash-lite-latest",
+  "gemini-2.0-flash": "gemini-flash-lite-latest",
+  "gemini-2.0-flash-001": "gemini-flash-lite-latest",
+  "gemini-1.5-flash": "gemini-flash-lite-latest",
+  "gemini-1.5-flash-latest": "gemini-flash-lite-latest",
+  "gemini-1.5-flash-001": "gemini-flash-lite-latest",
+  "gemini-1.5-flash-002": "gemini-flash-lite-latest",
+  "gemini-1.5-pro": "gemini-flash-lite-latest",
+  "gemini-1.5-pro-latest": "gemini-flash-lite-latest",
+  "gemini-1.5-pro-001": "gemini-flash-lite-latest",
+  "gemini-1.5-pro-002": "gemini-flash-lite-latest"
 };
 
 export function resolveGeminiRuntimeModelId(model?: string | null): string {
   const raw = String(model || "").trim();
-  if (!raw) return "gemini-2.5-flash";
+  if (!raw) return "gemini-flash-lite-latest";
   const normalized = raw.startsWith("gemini:") ? raw.slice(7) : raw;
   if (MODEL_RUNTIME_ALIASES[normalized]) {
     return MODEL_RUNTIME_ALIASES[normalized];
@@ -52,7 +56,7 @@ export function resolveGeminiRuntimeModelId(model?: string | null): string {
   if (/^gemini/i.test(normalized)) {
     return normalized;
   }
-  return "gemini-2.5-flash";
+  return "gemini-flash-lite-latest";
 }
 
 export type GeminiModelUiCapability = {

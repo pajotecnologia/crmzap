@@ -124,7 +124,7 @@ export default function GoogleOAuthConnectPage() {
       <Typography className={classes.sub}>
         {error
           ? "Esta janela pode ser fechada."
-          : "VBSolution · Autorize o acesso na próxima tela. Não feche esta janela até concluir."}
+          : "Pajo · Autorize o acesso na próxima tela. Não feche esta janela até concluir."}
       </Typography>
       {error ? (
         <Typography className={classes.error}>{error}</Typography>

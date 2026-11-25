@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import AiProviderSetupPanel from "../AiProviderSetupPanel";
 import useGeminiIntegration from "../../../hooks/useGeminiIntegration";
 
-const HIDDEN_DEFAULT_MODEL = "gemini-2.5-flash";
+const HIDDEN_DEFAULT_MODEL = "gemini-flash-lite-latest";
 
 const DEFAULT_STATE = {
   enabled: false,

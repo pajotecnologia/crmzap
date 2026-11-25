@@ -1,6 +1,6 @@
 /**
  * Política de integrações para contas FREE_TRIAL.
- * Bloqueados: Google*, API VBSolution.
+ * Bloqueados: Google*, API Pajo.
  * Permitidos (canais demo): WhatsApp Web, WhatsApp Oficial, Telegram, Facebook, Instagram
  * + provedores de IA (GPT/Claude/Gemini/Grok) para o onboarding.
  */

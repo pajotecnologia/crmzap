@@ -167,7 +167,7 @@ const messages = {
         passwordRequired: "Ingresa la contraseña",
         passwordMismatch: "Las contraseñas no coinciden",
         passwordConfirmRequired: "Repite la contraseña",
-        success: "Cuenta creada. Bienvenido a VBSolution CRM.",
+        success: "Cuenta creada. Bienvenido a Pajo CRM.",
         fail: "No se pudo crear la cuenta.",
         emailTaken: "Este correo ya está registrado",
         phoneTaken: "Teléfono ya registrado o inválido"
@@ -182,7 +182,7 @@ const messages = {
         taglineMid: "del",
         taglineWord2: "Futuro",
         quote:
-          "Mientras muchos aún toman notas, otros ya están escalando. VBSolution CRM es la diferencia entre intentar vender y construir una máquina de ventas.",
+          "Mientras muchos aún toman notas, otros ya están escalando. Pajo CRM es la diferencia entre intentar vender y construir una máquina de ventas.",
         author: "Leonardo Sena",
         form: {
           email: "Correo Electrónico",

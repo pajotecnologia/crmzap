@@ -1,7 +1,7 @@
 {
   "name": "@vbsolution/crm-mcp",
   "version": "1.0.0",
-  "description": "MCP server for VBSolution CRM — connect Claude, Cursor, VS Code and other AI tools to your CRM data",
+  "description": "MCP server for Pajo CRM — connect Claude, Cursor, VS Code and other AI tools to your CRM data",
   "type": "module",
   "bin": {
     "vbsolution-crm-mcp": "./dist/index.js"

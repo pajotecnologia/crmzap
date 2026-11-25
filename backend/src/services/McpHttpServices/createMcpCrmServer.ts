@@ -127,7 +127,7 @@ export function createMcpCrmServer(auth?: AuthInfo): McpServer {
     {},
     async () => ({
       ok: true,
-      service: "VBSolution CRM MCP",
+      service: "Pajo CRM MCP",
       companyId: ctx?.companyId
     })
   );

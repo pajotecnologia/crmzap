@@ -86,7 +86,7 @@ const TUTORIAL_STEPS = [
   },
   {
     title: "Brain.AI",
-    body: "O conector manual do Brain pede URL de servidores MCP remotos (HTTP/SSE). O CRM VBSolution usa pacote local (@vbsolution/crm-mcp) — não há URL HTTP para colar ali. O Brain já acessa o CRM nativamente no chat; use esta página para integrar Claude, Cursor ou VS Code."
+    body: "O conector manual do Brain pede URL de servidores MCP remotos (HTTP/SSE). O CRM Pajo usa pacote local (@vbsolution/crm-mcp) — não há URL HTTP para colar ali. O Brain já acessa o CRM nativamente no chat; use esta página para integrar Claude, Cursor ou VS Code."
   },
   {
     title: "Revogar",
@@ -561,7 +561,7 @@ export default function PlatformApiHubPanel({ createDialogOpen, onCreateDialogCh
             </Box>
             <Box>
               <Typography className={classes.heroTitle}>
-                API & MCP — VBSolution CRM
+                API & MCP — Pajo CRM
               </Typography>
               <Typography className={classes.heroSub}>
                 Gere credenciais REST API e MCP da sua organização para extrair leads,
@@ -886,7 +886,7 @@ export default function PlatformApiHubPanel({ createDialogOpen, onCreateDialogCh
           ) : (
             <>
               <Typography className={classes.statusDesc} style={{ marginBottom: 12 }}>
-                Esta chave acessa somente os dados da sua organização no VBSolution CRM.
+                Esta chave acessa somente os dados da sua organização no Pajo CRM.
               </Typography>
               <TextField
                 fullWidth

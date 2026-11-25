@@ -1,6 +1,6 @@
-# 🚀 Manual de Instalação no Coolify — VBSolution CRM
+# 🚀 Manual de Instalação no Coolify — Pajo CRM
 
-Este é o guia definitivo com o **caminho mais rápido e à prova de falhas** para colocar o **VBSolution CRM** em produção no **Coolify**, com **PostgreSQL**, **Redis**, backend e frontend integrados.
+Este é o guia definitivo com o **caminho mais rápido e à prova de falhas** para colocar o **Pajo CRM** em produção no **Coolify**, com **PostgreSQL**, **Redis**, backend e frontend integrados.
 
 ---
 

@@ -1,5 +1,9 @@
 /** IDs Gemini aceitos — alinhado ao catálogo do frontend. */
 export const GEMINI_ALLOWED_MODEL_IDS = [
+  "gemini-flash-lite-latest",
+  "gemini-flash-latest",
+  "gemini-3.8-flash",
+  "gemini-3.1-pro-preview",
   "gemini-2.5-pro",
   "gemini-2.5-flash",
   "gemini-2.5-flash-lite",
@@ -20,4 +24,4 @@ export const GEMINI_ALLOWED_MODEL_IDS = [
 
 export type GeminiAllowedModelId = (typeof GEMINI_ALLOWED_MODEL_IDS)[number];
 
-export const GEMINI_DEFAULT_MODEL = "gemini-2.5-flash";
+export const GEMINI_DEFAULT_MODEL = "gemini-flash-lite-latest";

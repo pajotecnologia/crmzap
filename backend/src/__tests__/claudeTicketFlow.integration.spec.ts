@@ -57,7 +57,7 @@ describe("Claude ticket flow (integration mock)", () => {
 
     const promptRow = {
       id: 11,
-      name: "VBSolution Vendas",
+      name: "Pajo Vendas",
       model: "claude-sonnet-4-6",
       prompt: "Você é assistente de vendas.",
       attendanceScript: "",

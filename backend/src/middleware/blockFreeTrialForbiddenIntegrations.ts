@@ -6,7 +6,7 @@ import { isIntegrationBlockedForFreeTrial } from "../helpers/trialIntegrationPol
 
 /**
  * Bloqueia no backend integrações proibidas para FREE_TRIAL
- * (Google, API VBSolution).
+ * (Google, API Pajo).
  */
 export const blockFreeTrialForbiddenIntegrations = async (
   req: Request,

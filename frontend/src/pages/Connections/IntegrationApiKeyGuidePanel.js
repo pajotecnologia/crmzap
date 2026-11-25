@@ -23,7 +23,7 @@ const OPENAI_STEPS = [
     body: (
       <>
         A API Key aqui é usada pelos <strong>Agentes de IA</strong> no atendimento (WhatsApp, Telegram e
-        automações). O <strong>Brain.AI</strong> usa infraestrutura interna da VBSolution — não precisa de
+        automações). O <strong>Brain.AI</strong> usa infraestrutura interna da Pajo — não precisa de
         chave cadastrada nesta tela; o consumo é debitado dos créditos Brain.
       </>
     )
@@ -171,7 +171,7 @@ const FIGMA_STEPS = [
         >
           Personal access tokens
         </Link>
-        , clique em &quot;Generate new token&quot;, defina um nome (ex.: VBsolution) e
+        , clique em &quot;Generate new token&quot;, defina um nome (ex.: Pajo) e
         confirme.
       </>
     )
@@ -196,7 +196,7 @@ const GITHUB_STEPS = [
     body: (
       <>
         No formulário à esquerda, use o botão{" "}
-        <strong>Conectar com GitHub</strong>. Uma janela do VBSolution abrirá e
+        <strong>Conectar com GitHub</strong>. Uma janela do Pajo abrirá e
         redirecionará para a autorização oficial do GitHub.
       </>
     )
@@ -215,7 +215,7 @@ const GITHUB_STEPS = [
     )
   },
   {
-    title: "Autorize o VBSolution",
+    title: "Autorize o Pajo",
     body: (
       <>
         Revise as permissões solicitadas (repositórios, leitura e escrita) e
@@ -251,7 +251,7 @@ const GITHUB_STEPS = [
       <>
         O Brain AI pode listar repositórios, ler arquivos e pull requests, e
         publicar código gerado no Brain para um repo GitHub. Cada organização
-        conecta a própria conta — o VBSolution não acessa repos de outras contas.
+        conecta a própria conta — o Pajo não acessa repos de outras contas.
       </>
     )
   }
@@ -263,7 +263,7 @@ const GEMINI_STEPS = [
     body: (
       <>
         A API Key Gemini é usada pelos <strong>Agentes de IA</strong> no atendimento (WhatsApp, Telegram e
-        fluxos). O <strong>Brain.AI</strong> utiliza chaves internas da VBSolution — você não precisa
+        fluxos). O <strong>Brain.AI</strong> utiliza chaves internas da Pajo — você não precisa
         cadastrar chave aqui para conversar no Brain; o consumo segue o plano de créditos Brain.
       </>
     )

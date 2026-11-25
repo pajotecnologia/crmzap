@@ -28,7 +28,7 @@ function makePrompt(overrides: Record<string, any> = {}) {
   return {
     id: 10,
     companyId: 1,
-    name: "VB Solution",
+    name: "Pajo",
     apiKey: "sk-test",
     model: "gpt-test",
     maxTokens: 900,
@@ -132,7 +132,7 @@ describe("AgentOrchestratorService", () => {
         userIntent: "criar lead",
         currentObjective: "coletar dados",
         currentStage: "qualificação",
-        collectedData: [{ key: "empresa", value: "VB Solution" }],
+        collectedData: [{ key: "empresa", value: "Pajo" }],
         missingData: []
       },
       decision: {
@@ -145,7 +145,7 @@ describe("AgentOrchestratorService", () => {
       reply: "Perfeito, vou seguir com esses dados."
     });
 
-    expect(decision?.understanding.collectedData.empresa).toBe("VB Solution");
+    expect(decision?.understanding.collectedData.empresa).toBe("Pajo");
     expect(decision?.decision.actionVariables.nome).toBe("Leonardo");
   });
 
@@ -225,7 +225,7 @@ describe("AgentOrchestratorService", () => {
     const reply = applyAgentOrchestratorGuardrails(
       [
         "Olá!",
-        "Sou o consultor virtual da VB Solution.",
+        "Sou o consultor virtual da Pajo.",
         "Posso fazer algumas perguntas rápidas para entender melhor o que você precisa?",
         "Qual é o nome da sua empresa?"
       ].join("\n\n"),
@@ -259,7 +259,7 @@ describe("AgentOrchestratorService", () => {
     const blocks = splitAgentReplyIntoSmartBlocks(
       [
         "Olá!",
-        "Sou o consultor virtual da VB Solution CRM White Label.",
+        "Sou o consultor virtual da Pajo CRM White Label.",
         "Nós ajudamos empresas a organizar vendas e automatizar atendimentos.",
         "Qual é o nome da sua empresa?"
       ].join("\n\n"),
@@ -267,7 +267,7 @@ describe("AgentOrchestratorService", () => {
     );
     expect(blocks).toEqual([
       "Olá!",
-      "Sou o consultor virtual da VB Solution CRM White Label.",
+      "Sou o consultor virtual da Pajo CRM White Label.",
       "Nós ajudamos empresas a organizar vendas e automatizar atendimentos.",
       "Qual é o nome da sua empresa?"
     ]);

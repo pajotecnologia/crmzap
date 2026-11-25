@@ -1,5 +1,5 @@
 /**
- * Abre popup OAuth GitHub via página branded do VBSolution (evita erros DNS crus no popup).
+ * Abre popup OAuth GitHub via página branded do Pajo (evita erros DNS crus no popup).
  */
 export function openGithubOAuthPopup({ mode = "org" } = {}) {
   const params = new URLSearchParams({ mode });

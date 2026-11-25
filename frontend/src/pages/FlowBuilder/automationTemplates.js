@@ -23,7 +23,7 @@ export const AUTOMATION_TEMPLATES = [
     channels: ["instagram"],
     bind: "ig_comment_dm",
     defaultMessage:
-      "VBSolution CRM – resposta automática ao comentário GUIA 001.",
+      "Pajo CRM – resposta automática ao comentário GUIA 001.",
     defaultPhrase: "GUIA",
     needsCommentsPermission: true
   },

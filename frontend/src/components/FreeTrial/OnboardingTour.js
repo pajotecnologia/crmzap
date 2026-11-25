@@ -95,7 +95,7 @@ const STEPS = [
     title: "Conclusão",
     route: "/",
     body:
-      "Você conheceu os principais recursos do VBSolution CRM: atendimento, integrações, agentes de IA, leads, vendas, atividades, projetos, inventário e calendário.",
+      "Você conheceu os principais recursos do Pajo CRM: atendimento, integrações, agentes de IA, leads, vendas, atividades, projetos, inventário e calendário.",
     conclusion: true
   }
 ];

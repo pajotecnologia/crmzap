@@ -9,7 +9,9 @@ function buildProbeModelChain(preferredModel?: string): string[] {
     preferred,
     ANTHROPIC_DEFAULT_MODEL,
     "claude-haiku-4-5-20251001",
-    "claude-3-5-sonnet-20241022"
+    "claude-3-5-sonnet-20241022",
+    "claude-3-haiku-20240307",
+    "claude-3-7-sonnet-latest"
   ].filter(Boolean);
   return [...new Set(chain)];
 }

@@ -21,7 +21,7 @@ async function loadAnthropicApiKey(companyId: number): Promise<string> {
 function buildTestSystemPrompt(compiled: ReturnType<typeof compileAnthropicAgentFromProfile>): string {
   const meta = (compiled.cerebro as any)?.agentMeta || {};
   const parts: string[] = [
-    `Você é o agente "${compiled.name}" no CRM VB Solution.`,
+    `Você é o agente "${compiled.name}" no CRM Pajo.`,
     compiled.role ? `Papel: ${compiled.role}.` : "",
     compiled.description ? `Objetivo: ${compiled.description}.` : "",
     meta.language ? `Idioma: ${meta.language}.` : "",

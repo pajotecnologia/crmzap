@@ -176,7 +176,7 @@ export async function testLinkedInConnection({
       accessToken: accessToken.trim(),
       senderUrn: senderUrn.trim(),
       recipientUrn: testRecipientUrn.trim(),
-      body: "Teste de conexão LinkedIn - VBSolution"
+      body: "Teste de conexão LinkedIn - Pajo"
     });
     return {
       ok: true,

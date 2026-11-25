@@ -31,7 +31,7 @@ function headHasCustomerSpeech(head: string): boolean {
 /**
  * Texto do roteiro a enviar ao cliente ao apresentar a etapa:
  * - Com "Mensagem:" antes do EXEMPLO → só a abertura (RESPOSTA fica para depois da resposta do lead).
- * - Etapa-ramo (só EXEMPLO + RESPOSTA, ex. ETAPA 2 do VBSolution) → corpo da RESPOSTA intacto
+ * - Etapa-ramo (só EXEMPLO + RESPOSTA, ex. ETAPA 2 do Pajo) → corpo da RESPOSTA intacto
  *   (URLs, quebras de linha, /mídia).
  */
 export function sliceAgentStepTextForInitialSend(stepText: string): string {

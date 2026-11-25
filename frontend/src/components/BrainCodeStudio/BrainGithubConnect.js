@@ -349,7 +349,7 @@ export default function BrainGithubPublishDialog({
         repoFullName: publishMode === "existing" ? selectedRepo : undefined,
         repoName: publishMode === "new" ? repoName.trim() : undefined,
         files: projectFiles,
-        description: `Projeto ${projectTitle || "Brain AI"} · VB Solution`,
+        description: `Projeto ${projectTitle || "Brain AI"} · Pajo`,
         isPrivate: publishMode === "new" ? isPrivate : undefined
       });
       toast.success(

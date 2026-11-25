@@ -29,7 +29,7 @@ const OFFLINE_LINES = [
     type: "info",
     text:
       "Terminal LOCAL desligado.\n\n" +
-      "No seu PC, abra um terminal na pasta do projeto VB Solution e rode:\n\n" +
+      "No seu PC, abra um terminal na pasta do projeto Pajo e rode:\n\n" +
       "  npm run brain:terminal\n\n" +
       "Deixe essa janela aberta. Os comandos rodam na SUA máquina — não no servidor.\n"
   }
@@ -48,7 +48,7 @@ function defaultConnectedLines(info, workspacePath) {
       type: "info",
       text:
         "Dica: npm install / npm run dev rodam na pasta acima. " +
-        "npm run brain:terminal só funciona na raiz do VB Solution (fora daqui).\n"
+        "npm run brain:terminal só funciona na raiz do Pajo (fora daqui).\n"
     }
   ];
 }
@@ -229,7 +229,7 @@ export default function useBrainCodeTerminal(
           type: "err",
           text:
             "Este comando não roda aqui dentro.\n\n" +
-            "npm run brain:terminal inicia o agente local e deve ser executado na pasta raiz do VB Solution " +
+            "npm run brain:terminal inicia o agente local e deve ser executado na pasta raiz do Pajo " +
             "(onde está o package.json principal), em um terminal do Windows — não nesta pasta do projeto IDE.\n\n" +
             "Se o terminal já está verde/conectado, você não precisa rodar isso de novo.\n"
         });
@@ -245,7 +245,7 @@ export default function useBrainCodeTerminal(
         appendLine({
           type: "err",
           text:
-            "Terminal local offline. No PowerShell, na pasta do VB Solution:\n  npm run brain:terminal\n"
+            "Terminal local offline. No PowerShell, na pasta do Pajo:\n  npm run brain:terminal\n"
         });
         return;
       }
@@ -287,7 +287,7 @@ export default function useBrainCodeTerminal(
           connectedOnce.current = false;
           appendLine({
             type: "err",
-            text: "Conexão com terminal local perdida. Rode npm run brain:terminal na raiz do VB Solution.\n"
+            text: "Conexão com terminal local perdida. Rode npm run brain:terminal na raiz do Pajo.\n"
           });
         } else {
           appendLine({

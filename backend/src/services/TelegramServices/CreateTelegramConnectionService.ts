@@ -152,7 +152,7 @@ export async function testTelegramConnection({
     await sendTelegramMessage(
       temp,
       testChatId,
-      "Teste de conexão Telegram - VBSolution"
+      "Teste de conexão Telegram - Pajo"
     );
     return {
       ok: true,

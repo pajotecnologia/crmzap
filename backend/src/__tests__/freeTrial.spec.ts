@@ -198,7 +198,7 @@ describe("FREE_TRIAL — integrações bloqueadas e permitidas", () => {
     expect(isIntegrationBlockedForFreeTrial("google-oauth")).toBe(true);
   });
 
-  it("29. bloqueia API VBSolution", () => {
+  it("29. bloqueia API Pajo", () => {
     expect(isIntegrationBlockedForFreeTrial("vbsolution-api")).toBe(true);
   });
 

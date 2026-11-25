@@ -410,7 +410,7 @@ const RegisterTesteGratis = () => {
             Opa, você já passou por aqui! 👀
           </Typography>
           <Typography className={classes.noticeText}>
-            Esse e-mail já foi utilizado para acessar o VB Solution CRM. Que tal
+            Esse e-mail já foi utilizado para acessar o Pajo CRM. Que tal
             dar o próximo passo e instalar o código-fonte para ter sua própria
             versão do sistema?
           </Typography>
@@ -439,7 +439,7 @@ const RegisterTesteGratis = () => {
             Esse número já está cadastrado! 📱
           </Typography>
           <Typography className={classes.noticeText}>
-            Boa! Esse telefone já está vinculado a uma conta no VB Solution CRM.
+            Boa! Esse telefone já está vinculado a uma conta no Pajo CRM.
             Confira o número informado ou tente usar outro telefone.
           </Typography>
           <div className={classes.noticeActions}>
@@ -505,7 +505,7 @@ const RegisterTesteGratis = () => {
                 <Box className={classes.logoWrap}>
                   <img
                     src={logoVBBlack}
-                    alt="VB Solution CRM"
+                    alt="Pajo CRM"
                     className={classes.logo}
                   />
                 </Box>
@@ -513,7 +513,7 @@ const RegisterTesteGratis = () => {
                   Seu próximo nível começa aqui.
                 </Typography>
                 <Typography className={classes.subtitle} component="p">
-                  Crie sua conta e descubra tudo o que o VB Solution CRM pode
+                  Crie sua conta e descubra tudo o que o Pajo CRM pode
                   fazer pelo seu negócio.
                 </Typography>
 

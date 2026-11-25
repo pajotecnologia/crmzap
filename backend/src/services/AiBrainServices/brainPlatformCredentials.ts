@@ -1,5 +1,5 @@
 /**
- * Chaves fixas da plataforma VB Solution para Brain.AI.
+ * Chaves fixas da plataforma Pajo para Brain.AI.
  * Não usa chaves das integrações por organização (WhatsApp/Prompts continuam com chave do user),
  * exceto Grok, que pode cair na integração da empresa se a chave da plataforma não existir.
  */

@@ -79,7 +79,7 @@ const TesteGratis = () => {
       <Container maxWidth="md">
         <Box className={classes.card}>
           <Typography className={classes.brand} component="p">
-            VBSolution CRM
+            Pajo CRM
           </Typography>
           <Typography className={classes.title} component="h1" variant="h3">
             Experimente grátis por 12 horas
@@ -99,7 +99,7 @@ const TesteGratis = () => {
           </Button>
           <Typography className={classes.note} component="p">
             Ao finalizar o período, você poderá conhecer o código-fonte completo
-            do VBSolution CRM.
+            do Pajo CRM.
           </Typography>
         </Box>
       </Container>

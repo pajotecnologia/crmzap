@@ -256,7 +256,7 @@ export default function AiProviderSetupPanel({
           {isGemini ? (
             <Typography variant="body2" color="textSecondary" style={{ fontSize: "0.8125rem", lineHeight: 1.5 }}>
               Esta API Key é usada pelos <strong>Agentes de IA</strong> no atendimento. O Brain.AI utiliza
-              infraestrutura interna da VBSolution (créditos Brain) — não depende da chave cadastrada aqui.
+              infraestrutura interna da Pajo (créditos Brain) — não depende da chave cadastrada aqui.
               O modelo Gemini é escolhido em Agente IA → Integração e no seletor do Brain.AI.
             </Typography>
           ) : isGrok ? (
@@ -274,7 +274,7 @@ export default function AiProviderSetupPanel({
           ) : !isGemini && !isOpenAi && !isGrok ? (
             <Typography variant="body2" color="textSecondary" style={{ fontSize: "0.8125rem", lineHeight: 1.5 }}>
               Esta API Key Anthropic é usada pelos <strong>Agentes de IA Claude</strong> no atendimento. O
-              Brain.AI opera com infraestrutura interna da VBSolution e cobrança via créditos Brain.
+              Brain.AI opera com infraestrutura interna da Pajo e cobrança via créditos Brain.
             </Typography>
           ) : null}
 

@@ -100,7 +100,7 @@ function renderAuthorizePage(params: {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conectar VBSolution CRM</title>
+  <title>Conectar Pajo CRM</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -185,11 +185,11 @@ function renderAuthorizePage(params: {
 <body>
   <div class="card">
     <div class="brand">
-      <img src="/favicon.png" alt="VBSolution" width="40" height="40" />
-      <div class="badge">VBSolution CRM</div>
+      <img src="/favicon.png" alt="Pajo" width="40" height="40" />
+      <div class="badge">Pajo CRM</div>
     </div>
     <h1>Autorizar ${params.clientName}</h1>
-    <p>Cole sua <strong>API Key</strong> gerada em Mais → API &amp; MCP no painel VBSolution para permitir que este assistente acesse os dados da sua organização.</p>
+    <p>Cole sua <strong>API Key</strong> gerada em Mais → API &amp; MCP no painel Pajo para permitir que este assistente acesse os dados da sua organização.</p>
     ${params.error ? `<div class="error">${params.error}</div>` : ""}
     <form method="POST" action="/authorize">
       ${hidden}

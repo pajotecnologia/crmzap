@@ -152,7 +152,7 @@ const AI_MODELS = [
 ];
 
 const BRAIN_PROVIDER_LABELS = {
-  smart: "VBSolution",
+  smart: "Pajo",
   openai: "OpenAI",
   anthropic: "Anthropic Claude",
   gemini: "Google Gemini",
@@ -184,9 +184,9 @@ function brainPlatformKeyUserMessage(issue, provider) {
   switch (issue) {
     case "missing_platform_key":
       return (
-        `O **Brain.AI** utiliza infraestrutura interna da VBSolution para modelos ${label}. ` +
+        `O **Brain.AI** utiliza infraestrutura interna da Pajo para modelos ${label}. ` +
         "Não é necessário cadastrar API Key em Integrações para conversar aqui — o consumo é debitado dos seus **créditos Brain**. " +
-        "No momento, a chave da plataforma não está disponível no servidor. Entre em contato com o suporte da VBSolution."
+        "No momento, a chave da plataforma não está disponível no servidor. Entre em contato com o suporte da Pajo."
       );
     default:
       return `Não foi possível validar o provedor ${label} no Brain.AI. Tente novamente ou contate o suporte.`;
@@ -1601,7 +1601,7 @@ export default function AiBrain({ embedded = false, onClose, contextSuggestions,
       <div className={`${b.modelPickerSection} brain-shell__model-picker-smart`}>
         <div className={b.modelPickerProviderRow}>
           <ModelProviderIcon provider="smart" size={16} />
-          <span className={b.modelPickerProviderLabel}>VBSolution</span>
+          <span className={b.modelPickerProviderLabel}>Pajo</span>
         </div>
         {BRAIN_SMART_MODELS.map((m) => (
           <button

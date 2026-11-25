@@ -1,6 +1,6 @@
-# VBSolution CRM MCP Server
+# Pajo CRM MCP Server
 
-Connect Claude Desktop, Claude Code, Cursor, VS Code and other MCP-compatible tools to your VBSolution CRM.
+Connect Claude Desktop, Claude Code, Cursor, VS Code and other MCP-compatible tools to your Pajo CRM.
 
 ## Setup
 
@@ -25,7 +25,7 @@ Add to your MCP config (`.cursor/mcp.json`, Claude Desktop config, etc.):
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `VBSOLUTION_API_KEY` | Yes | API key from VBSolution CRM admin panel |
+| `VBSOLUTION_API_KEY` | Yes | API key from Pajo CRM admin panel |
 | `VBSOLUTION_API_URL` | No | Base URL (default: `http://localhost:3000/api/v1/crm`) |
 
 ## Available Tools

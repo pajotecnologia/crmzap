@@ -99,7 +99,7 @@ export default function GithubOAuthCallbackPage() {
         {isSuccess
           ? done
             ? "Pode fechar esta janela."
-            : "VBSolution CRM · Finalizando…"
+            : "Pajo CRM · Finalizando…"
           : "Verifique em Integrações → GitHub e tente novamente."}
       </Typography>
     </Box>

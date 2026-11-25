@@ -38,7 +38,7 @@ async function markDemo(
 const DEMO_AVATAR = (seed: string) =>
   `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(seed)}`;
 
-const SALES_AGENT_PROMPT = `Você é o Agente de Vendas do VBSolution CRM (demonstração).
+const SALES_AGENT_PROMPT = `Você é o Agente de Vendas do Pajo CRM (demonstração).
 Objetivo: Atender clientes, identificar necessidades, apresentar produtos e serviços, responder dúvidas, qualificar leads e conduzir o cliente para uma oportunidade de venda.
 Use apenas informações disponíveis no inventário, FAQ e roteiro. Não invente preços ou condições.`;
 
@@ -264,7 +264,7 @@ const SeedFreeTrialDemoDataService = async ({
     const faqs = [
       [
         "O que é o sistema?",
-        "O VBSolution CRM é uma plataforma completa de atendimento, vendas e automação com IA."
+        "O Pajo CRM é uma plataforma completa de atendimento, vendas e automação com IA."
       ],
       [
         "Como funciona?",
@@ -365,7 +365,7 @@ const SeedFreeTrialDemoDataService = async ({
         ...p,
         currency: "BRL",
         status: "active",
-        brand: "VBSolution Demo",
+        brand: "Pajo Demo",
         companyId,
         source: "demo"
       } as any);

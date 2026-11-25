@@ -2361,7 +2361,7 @@ export default function AgentEditorPage() {
                   maxRows={12}
                   label="Prompt de contexto"
                   placeholder={
-                    "Ex.: Este roteiro qualifica leads comerciais do VBSolution. Use as etapas só quando o contato " +
+                    "Ex.: Este roteiro qualifica leads comerciais do Pajo. Use as etapas só quando o contato " +
                     "já mostrou interesse em conhecer/comprar o CRM. Se a pessoa pedir ajuda genérica, pergunte " +
                     "primeiro o que ela precisa — não despeje a etapa 1 automaticamente."
                   }
