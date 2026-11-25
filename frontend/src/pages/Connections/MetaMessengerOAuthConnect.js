@@ -347,20 +347,9 @@ export default function MetaMessengerOAuthConnect({
         await repairMetaConnection(isInstagram ? "instagram" : "facebook");
       })
       .catch((error) => {
-        const msg = String(
-          error?.response?.data?.error || error?.message || ""
-        ).toLowerCase();
-        if (
-          msg.includes("página") ||
-          msg.includes("page") ||
-          msg.includes("instagram")
-        ) {
-          toast.error(
-            isInstagram
-              ? "Vincule o Instagram Business a uma Página do Facebook e tente novamente."
-              : noPageMessage(),
-            { autoClose: 7000 }
-          );
+        const backendError = error?.response?.data?.error;
+        if (backendError) {
+          toast.error(backendError, { autoClose: 9000 });
         } else {
           toastError(error);
         }

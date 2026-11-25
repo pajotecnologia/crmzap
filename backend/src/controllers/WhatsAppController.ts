@@ -363,7 +363,8 @@ export const storeFacebook = async (
 
     const pages = [];
     for await (const page of data) {
-      const { name, access_token, id, instagram_business_account } = page;
+      const { name, access_token, id, instagram_business_account, connected_instagram_account } = page;
+      let instagramBusinessAccount = instagram_business_account || connected_instagram_account;
 
       logger.info("[storeFacebook][Page]", {
         companyId,
@@ -371,7 +372,9 @@ export const storeFacebook = async (
         pageName: name,
         addInstagram,
         hasInstagramBusinessAccountInList: !!instagram_business_account,
-        instagramBusinessAccountIdInList: instagram_business_account?.id || null
+        instagramBusinessAccountIdInList: instagram_business_account?.id || null,
+        hasConnectedInstagramAccountInList: !!connected_instagram_account,
+        connectedInstagramAccountIdInList: connected_instagram_account?.id || null
       });
 
       // A troca de token para "long-lived" pode falhar se o app credentials estiverem
@@ -389,19 +392,19 @@ export const storeFacebook = async (
         });
       }
 
-      // Se o list endpoint não retornar instagram_business_account, tentamos recuperar via endpoint do próprio Page.
-      // IMPORTANTE: para não depender de um formato/endpoint específico do Graph,
-      // quando `addInstagram` estiver ativo tentamos resolver novamente via Page token.
-      let instagramBusinessAccount = instagram_business_account;
+      // Se o list endpoint não retornar instagram_business_account ou connected_instagram_account,
+      // tentamos recuperar via endpoint do próprio Page.
       if (addInstagram) {
-        // 1) Tenta com o token da página (long-lived, se possível)
-        const resolvedWithPageToken = await getInstagramBusinessAccountFromPage(id, acessTokenPage);
-        if (resolvedWithPageToken?.id) instagramBusinessAccount = resolvedWithPageToken;
-        else {
-          // 2) Fallback: tenta com o token original do usuário
-          // (alguns apps/escopos deixam a leitura do vínculo IG apenas no token do usuário)
-          const resolvedWithUserToken = await getInstagramBusinessAccountFromPage(id, facebookUserToken);
-          if (resolvedWithUserToken?.id) instagramBusinessAccount = resolvedWithUserToken;
+        if (!instagramBusinessAccount?.id) {
+          // 1) Tenta com o token da página (long-lived, se possível)
+          const resolvedWithPageToken = await getInstagramBusinessAccountFromPage(id, acessTokenPage);
+          if (resolvedWithPageToken?.id) instagramBusinessAccount = resolvedWithPageToken;
+          else {
+            // 2) Fallback: tenta com o token original do usuário
+            // (alguns apps/escopos deixam a leitura do vínculo IG apenas no token do usuário)
+            const resolvedWithUserToken = await getInstagramBusinessAccountFromPage(id, facebookUserToken);
+            if (resolvedWithUserToken?.id) instagramBusinessAccount = resolvedWithUserToken;
+          }
         }
 
         // 3) Sempre tenta completar username/name (evita "Insta undefined" no CRM)
@@ -519,6 +522,7 @@ export const storeFacebook = async (
     }
 
     if (addInstagram && !pages.some((p) => p.channel === "instagram")) {
+      const pageNames = pages.filter((p) => p.channel === "facebook").map((p) => p.name).join(", ");
       logger.warn("[storeFacebook] Pedido Instagram sem conta Business na Página", {
         companyId,
         facebookUserId,
@@ -526,7 +530,7 @@ export const storeFacebook = async (
       });
       return res.status(400).json({
         error:
-          "Nenhuma conta Instagram Business vinculada à Página do Facebook. Vincule o Instagram à Página em facebook.com e tente novamente."
+          `A Página '${pageNames || "do Facebook"}' foi conectada, mas a Meta não identificou uma conta Instagram Business vinculada a ela. Verifique no app do Instagram se sua conta está configurada como Conta Profissional (Comercial ou Criador de Conteúdo) e com permissão de mensagens ativada.`
       });
     }
 

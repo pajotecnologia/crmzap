@@ -312,11 +312,12 @@ export const getPageProfile = async (
   try {
     logger.info("[getPageProfile] Chamando Graph API", { userId: id, tokenLength: token?.length ?? 0 });
     const endpoints = [
-      // mais simples (geralmente funciona em mais casos)
+      `${id}/accounts?fields=name,access_token,instagram_business_account{id,username,name},connected_instagram_account{id,username,name}`,
+      `${id}/accounts?fields=name,access_token,instagram_business_account,connected_instagram_account`,
       `${id}/accounts?fields=name,access_token,instagram_business_account{id}`,
-      `${id}/accounts?fields=name,access_token,instagram_business_account`,
-      // variação comum em alguns casos
-      `${id}/accounts?fields=name,access_token,instagram_business_accounts{id}`
+      `${id}/accounts?fields=name,access_token,connected_instagram_account{id}`,
+      `${id}/accounts?fields=name,access_token,instagram_business_accounts{id}`,
+      `${id}/accounts?fields=name,access_token`
     ];
 
     let response: any = null;
@@ -411,14 +412,22 @@ export const getInstagramBusinessAccountFromPage = async (
   const extract = (payload: any): any => {
     if (!payload) return null;
 
-    // Caso 1: /{pageId}?fields=instagram_business_account{...}
+    // Caso 1: /{pageId}?fields=instagram_business_account{...} ou connected_instagram_account{...}
     if (payload?.instagram_business_account?.id) return payload.instagram_business_account;
     if (Array.isArray(payload?.instagram_business_account) && payload.instagram_business_account?.[0]?.id) {
       return payload.instagram_business_account[0];
     }
+    if (payload?.connected_instagram_account?.id) return payload.connected_instagram_account;
+    if (Array.isArray(payload?.connected_instagram_account) && payload.connected_instagram_account?.[0]?.id) {
+      return payload.connected_instagram_account[0];
+    }
     if (payload?.data?.instagram_business_account?.id) return payload.data.instagram_business_account;
     if (Array.isArray(payload?.data?.instagram_business_account) && payload.data.instagram_business_account?.[0]?.id) {
       return payload.data.instagram_business_account[0];
+    }
+    if (payload?.data?.connected_instagram_account?.id) return payload.data.connected_instagram_account;
+    if (Array.isArray(payload?.data?.connected_instagram_account) && payload.data.connected_instagram_account?.[0]?.id) {
+      return payload.data.connected_instagram_account[0];
     }
 
     // Caso 2: /{pageId}/instagram_business_account?fields=...
@@ -443,7 +452,7 @@ export const getInstagramBusinessAccountFromPage = async (
   for (const fields of fieldSets) {
     attempts.push(async () => {
       const response = await apiBase(pageToken).get(
-        `${pageId}?fields=instagram_business_account{${fields}}`
+        `${pageId}?fields=instagram_business_account{${fields}},connected_instagram_account{${fields}}`
       );
       return extract(response?.data);
     });
@@ -452,12 +461,12 @@ export const getInstagramBusinessAccountFromPage = async (
   // Fallback sem nested fields (só id) — depois enrichInstagramBusinessAccount completa
   attempts.push(async () => {
     const response = await apiBase(pageToken).get(
-      `${pageId}?fields=instagram_business_account`
+      `${pageId}?fields=instagram_business_account,connected_instagram_account`
     );
     return extract(response?.data);
   });
 
-  // 2) Tentativas via sub-recurso: /{pageId}/instagram_business_account(s)?fields=...
+  // 2) Tentativas via sub-recurso: /{pageId}/instagram_business_account(s) ou connected_instagram_account?fields=...
   for (const fields of fieldSets) {
     attempts.push(async () => {
       const response = await apiBase(pageToken).get(
@@ -472,7 +481,21 @@ export const getInstagramBusinessAccountFromPage = async (
       );
       return extract(response?.data);
     });
+    attempts.push(async () => {
+      const response = await apiBase(pageToken).get(
+        `${pageId}/connected_instagram_account?fields=${fields}`
+      );
+      return extract(response?.data);
+    });
   }
+
+  // Fallback direto sub-recurso sem fields
+  attempts.push(async () => {
+    const response = await apiBase(pageToken).get(
+      `${pageId}/connected_instagram_account`
+    );
+    return extract(response?.data);
+  });
 
   let best: any = null;
   for (const attempt of attempts) {
