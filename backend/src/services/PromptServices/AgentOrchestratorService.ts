@@ -1802,7 +1802,9 @@ export async function runAgentOrchestrator(
       extractProductSearchTermFromUserText,
       preferredInventoryActionSlug
     } = await import("../../helpers/inventoryInboundIntent");
-    if (userMessageLooksLikeInventoryQuery(params.userText)) {
+    const { getAgentInventoryConfig } = await import("../InventoryServices/inventoryAgentHelpers");
+    const invCfg = getAgentInventoryConfig(params.prompt);
+    if (invCfg.enabled !== false && userMessageLooksLikeInventoryQuery(params.userText)) {
       const kind = classifyInventoryInboundKind(params.userText);
       const preferredSlug = preferredInventoryActionSlug(kind);
       const currentSlug = String(decision.decision.actionSlug || "").toLowerCase();

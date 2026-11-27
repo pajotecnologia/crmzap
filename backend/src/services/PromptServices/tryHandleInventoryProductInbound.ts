@@ -57,10 +57,8 @@ export async function tryHandleInventoryProductInbound(params: {
 
   if (cfg.enabled === false) {
     return {
-      handled: true,
-      reply: agentReplyCfg.resumeHint
-        ? `O inventário deste agente está desativado no momento. Posso seguir com o atendimento ou transferir para um humano.\n\n${agentReplyCfg.resumeHintText}`
-        : "O inventário deste agente está desativado no momento. Posso seguir com o atendimento ou transferir para um humano.",
+      handled: false,
+      reply: "",
       reason: "inventory_disabled"
     };
   }

@@ -10,6 +10,8 @@ import axios from "axios";
 import PromptFaqItem from "../models/PromptFaqItem";
 import PromptKnowledgeSource from "../models/PromptKnowledgeSource";
 import Inventory from "../models/Inventory";
+import Prompt from "../models/Prompt";
+import { getAgentInventoryConfig } from "../services/InventoryServices/inventoryAgentHelpers";
 import logger from "../utils/logger";
 
 function fold(s: string): string {
@@ -445,35 +447,44 @@ export async function loadPromptKnowledgeContext(params: {
     logger.warn(`[KNOWLEDGE-CTX] sources prompt=${params.promptId}: ${e?.message || e}`);
   }
 
-  // 4) Inventário (resumo) — preços/produtos reais
+  // 4) Inventário (resumo) — preços/produtos reais (só inclui se o inventário do agente estiver habilitado)
   try {
-    const products = await Inventory.findAll({
-      where: { companyId: params.companyId },
-      order: [["id", "ASC"]],
-      limit: 40
-    });
-    if (products.length) {
+    let inventoryAllowed = true;
+    if (params.promptId) {
+      const promptRecord = await Prompt.findByPk(params.promptId);
+      const invConfig = getAgentInventoryConfig(promptRecord);
+      inventoryAllowed = invConfig.enabled !== false;
+    }
+
+    if (inventoryAllowed) {
+      const products = await Inventory.findAll({
+        where: { companyId: params.companyId },
+        order: [["id", "ASC"]],
+        limit: 40
+      });
+      if (products.length) {
         const lines = products.map((p: any) => {
-        const name = String(p.name || `item-${p.id}`).trim();
-        const price = p.price != null ? Number(p.price) : null;
-        const stock = p.quantity != null ? p.quantity : null;
-        const desc = String(p.description || "").trim().slice(0, 120);
-        const priceStr =
-          price != null && !Number.isNaN(price)
-            ? `R$ ${price.toFixed(2)}`
-            : "preço sob consulta";
-        const stockStr = stock != null ? ` | estoque: ${stock}` : "";
-        const descStr = desc ? ` — ${desc}` : "";
-        return `- ${name}: ${priceStr}${stockStr}${descStr}`;
-      });
-      push(
-        `INVENTÁRIO / PRODUTOS DA EMPRESA (fatos reais — não invente preço):\n${lines.join("\n")}`
-      );
-      materialsForExcerpts.push({
-        title: "Inventário",
-        text: lines.join("\n"),
-        source: "inventory"
-      });
+          const name = String(p.name || `item-${p.id}`).trim();
+          const price = p.price != null ? Number(p.price) : null;
+          const stock = p.quantity != null ? p.quantity : null;
+          const desc = String(p.description || "").trim().slice(0, 120);
+          const priceStr =
+            price != null && !Number.isNaN(price)
+              ? `R$ ${price.toFixed(2)}`
+              : "preço sob consulta";
+          const stockStr = stock != null ? ` | estoque: ${stock}` : "";
+          const descStr = desc ? ` — ${desc}` : "";
+          return `- ${name}: ${priceStr}${stockStr}${descStr}`;
+        });
+        push(
+          `INVENTÁRIO / PRODUTOS DA EMPRESA (fatos reais — não invente preço):\n${lines.join("\n")}`
+        );
+        materialsForExcerpts.push({
+          title: "Inventário",
+          text: lines.join("\n"),
+          source: "inventory"
+        });
+      }
     }
   } catch (e: any) {
     logger.warn(

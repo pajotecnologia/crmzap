@@ -181,8 +181,20 @@ export async function listPromptSmartActionTools(
     order: [["id", "ASC"]]
   });
 
+  const invConfig = getAgentInventoryConfig(prompt);
+  const isInventoryDisabled = invConfig.enabled === false;
+
   return actions
     .filter((action) => action.enabled !== false)
+    .filter((action) => {
+      if (isInventoryDisabled) {
+        const slug = String(action.slug || action.type || "").toLowerCase().replace(/[_-]/g, "");
+        if (/consultarproduto|passarpreco|consultarestoque|enviarlinkproduto|registrarintencaocompra|preco/.test(slug)) {
+          return false;
+        }
+      }
+      return true;
+    })
     .map((action) => {
       const variables =
         action.variables && typeof action.variables === "object"
